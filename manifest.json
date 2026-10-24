@@ -1,0 +1,19 @@
+{
+  "name": "AeroSense - Dual Sensor Air Quality Monitor",
+  "short_name": "AeroSense",
+  "description": "Real-time MQ-135 Gas & Sharp GP2Y PM2.5 Optical Dust Air Quality Monitor with 3D Visualizer and Historical Telemetry",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#070a12",
+  "theme_color": "#070a12",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

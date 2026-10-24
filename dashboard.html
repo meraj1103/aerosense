@@ -1,0 +1,2567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>AeroSense | Mobile App &amp; Dual-Sensor Air Quality Monitor</title>
+  
+  <!-- PWA & Mobile Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AeroSense">
+  <meta name="theme-color" content="#070a12">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon.svg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Three.js for 3D Atmospheric Particle Experience -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #070a12;
+      --card-bg: rgba(18, 24, 40, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.16);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --purple: #c084fc;
+      --clean: #10b981;
+      --moderate: #f59e0b;
+      --poor: #f97316;
+      --hazardous: #ef4444;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      padding: 16px 14px 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Three.js 3D Background Canvas */
+    #webgl-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 4px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-icon svg { width: 24px; height: 24px; fill: white; }
+
+    .brand-title h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-title p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      backdrop-filter: blur(12px);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #64748b;
+      transition: background 0.3s;
+    }
+
+    .pulse-dot.active {
+      background: var(--clean);
+      box-shadow: 0 0 10px var(--clean);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.22s ease;
+      font-family: inherit;
+      user-select: none;
+    }
+
+    .btn-bluetooth {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      box-shadow: 0 0 18px rgba(37, 99, 235, 0.35);
+    }
+    .btn-bluetooth:hover { transform: translateY(-1px); box-shadow: 0 0 25px rgba(37, 99, 235, 0.55); }
+
+    .btn-disconnect {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      display: none;
+    }
+
+    .btn-serial {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+    }
+    .btn-serial:hover { background: rgba(255, 255, 255, 0.14); }
+
+    .btn-demo {
+      background: rgba(168, 85, 247, 0.12);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+    .btn-demo:hover { background: rgba(168, 85, 247, 0.22); }
+    .btn-demo.demo-active {
+      background: linear-gradient(135deg, #9333ea, #a855f7);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+    }
+
+    .btn-install {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+      display: none;
+    }
+
+    /* Main Navigation Tabs (Live vs History) */
+    .nav-tabs-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 36px;
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-tab-btn {
+      padding: 9px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .nav-tab-btn.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(168, 85, 247, 0.2));
+      color: #fff;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .db-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      color: var(--accent);
+      font-family: 'JetBrains Mono', monospace;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    /* Sub-header Controls Bar */
+    .options-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .options-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .toggle-label input[type="checkbox"] { cursor: pointer; accent-color: var(--accent); }
+
+    .baud-select {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Composite Air Quality Banner */
+    .composite-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(56, 189, 248, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 30px -10px rgba(16, 185, 129, 0.25);
+      transition: all 0.4s ease;
+    }
+
+    .composite-info { display: flex; align-items: center; gap: 12px; }
+    .composite-icon { font-size: 1.7rem; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); }
+    .composite-text h3 { font-size: 1rem; font-weight: 700; color: #fff; }
+    .composite-text p { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+    .composite-badge {
+      padding: 5px 14px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--clean);
+      border: 1px solid var(--clean);
+      white-space: nowrap;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.45);
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .card:hover { border-color: var(--card-hover); }
+
+    /* Dual Hero Section */
+    .hero-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 820px) { .hero-dual-grid { grid-template-columns: 1fr; } }
+
+    .hero-gauge-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 24px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-gauge-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+    .hero-gas::before { background: var(--accent); left: 10%; }
+    .hero-dust::before { background: var(--purple); right: 10%; }
+
+    .sensor-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      margin-bottom: 14px;
+      z-index: 1;
+    }
+    .sensor-tag.tag-gas { color: var(--accent); border-color: rgba(56, 189, 248, 0.3); }
+    .sensor-tag.tag-dust { color: var(--purple); border-color: rgba(168, 85, 247, 0.3); }
+
+    .gauge-wrapper {
+      position: relative;
+      width: 195px;
+      height: 195px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+    .gauge-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+    .gauge-bg { fill: none; stroke: rgba(255, 255, 255, 0.07); stroke-width: 13; }
+    .gauge-progress {
+      fill: none;
+      stroke-width: 13;
+      stroke-linecap: round;
+      stroke-dasharray: 565.48;
+      stroke-dashoffset: 565.48;
+      transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease;
+    }
+    .gauge-progress-gas { stroke: var(--clean); filter: drop-shadow(0 0 10px currentColor); }
+    .gauge-progress-dust { stroke: #a855f7; filter: drop-shadow(0 0 10px currentColor); }
+
+    .gauge-center-text {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gauge-primary-val {
+      font-size: 2.1rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1;
+    }
+    .gauge-primary-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    .status-badge {
+      margin-top: 16px;
+      padding: 6px 18px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.98rem;
+      letter-spacing: 0.3px;
+      background: rgba(100, 116, 139, 0.15);
+      color: #94a3b8;
+      border: 1px solid currentColor;
+      transition: all 0.4s ease;
+      z-index: 1;
+    }
+
+    .status-desc {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      max-width: 300px;
+      line-height: 1.4;
+      z-index: 1;
+    }
+
+    .hero-substats {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      z-index: 1;
+    }
+    .hero-substats span strong { color: #fff; }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 950px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .metrics-grid { grid-template-columns: 1fr; } }
+
+    .metric-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 16px;
+    }
+
+    .metric-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      font-size: 1.55rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff;
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+    }
+    .metric-value .unit { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+
+    .metric-footer {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .metric-bar-bg {
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+    .metric-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 4px;
+      background: var(--accent);
+      transition: width 0.5s ease;
+    }
+
+    /* Live & History Chart Cards */
+    .chart-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chart-title h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chart-title p { font-size: 0.76rem; color: var(--text-muted); margin-top: 2px; }
+
+    .chart-tabs {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .chart-tab {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chart-tab.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      height: 250px;
+    }
+
+    canvas { width: 100%; height: 100%; display: block; }
+
+    .chart-legend {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+    /* ==========================================
+       History & Analytics View Specific Styles
+       ========================================== */
+    #view-history {
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .history-controls-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 16px 20px;
+    }
+
+    .history-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-export {
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
+      color: white;
+      box-shadow: 0 0 16px rgba(14, 165, 233, 0.35);
+    }
+
+    .btn-clear-db {
+      background: rgba(239, 68, 68, 0.12);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .btn-clear-db:hover { background: rgba(239, 68, 68, 0.22); }
+
+    .analytics-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 860px) { .analytics-stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .analytics-stats-grid { grid-template-columns: 1fr; } }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .stat-label { font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+    .stat-val { font-size: 1.45rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+    .stat-sub { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* Diagnostics Log Drawer */
+    .diag-card {
+      border-radius: var(--radius);
+      background: rgba(12, 17, 30, 0.75);
+      border: 1px solid var(--card-border);
+      padding: 16px 20px;
+    }
+
+    .diag-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    .diag-header h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .diag-content {
+      margin-top: 12px;
+      max-height: 150px;
+      overflow-y: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.73rem;
+      color: #cbd5e1;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .diag-line { word-break: break-all; line-height: 1.4; }
+    .diag-line.info { color: #38bdf8; }
+    .diag-line.success { color: #10b981; }
+    .diag-line.warn { color: #fbbf24; }
+    .diag-line.error { color: #f87171; }
+
+    /* Mobile Bottom Navigation Bar */
+    .mobile-bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      background: rgba(7, 10, 18, 0.92);
+      border-top: 1px solid var(--card-border);
+      backdrop-filter: blur(18px);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+      z-index: 99;
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 14px;
+      border-radius: 16px;
+      transition: all 0.2s;
+    }
+    .bottom-nav-item span.icon { font-size: 1.25rem; }
+    .bottom-nav-item.active {
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.12);
+    }
+
+    /* Modal for Mobile QR / Connection */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal-card {
+      background: #0f1627;
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 24px;
+      max-width: 440px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; }
+    .modal-header h3 { font-size: 1.15rem; font-weight: 700; color: #fff; }
+    .modal-close { background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer; }
+    .modal-body { font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; display: flex; flex-direction: column; gap: 12px; }
+    .code-pill { background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--accent); border: 1px solid rgba(255,255,255,0.08); word-break: break-all; }
+
+    footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #475569;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Three.js 3D Atmospheric Particle Experience -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/></svg>
+        </div>
+        <div class="brand-title">
+          <h1>AeroSense</h1>
+          <p>Dual Sensor (MQ-135 + Sharp GP2Y) Mobile App</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="status-pill">
+          <span class="pulse-dot" id="pulseDot"></span>
+          <span id="connStatus">Not Connected</span>
+        </div>
+        <button class="btn btn-bluetooth" id="btnConnectBle" onclick="connectBluetooth()">
+          <span>📡</span> Connect Bluetooth
+        </button>
+        <button class="btn btn-serial" id="btnConnectSerial" onclick="connectSerial()">
+          <span>🔌</span> USB / COM
+        </button>
+        <button class="btn btn-demo" id="btnDemo" onclick="toggleDemo()">
+          <span>🧪</span> Demo Mode
+        </button>
+        <button class="btn btn-install" id="btnInstallPwa" onclick="promptPwaInstall()">
+          <span>📲</span> Install App
+        </button>
+        <button class="btn btn-disconnect" id="btnDisconnect" onclick="disconnectDevice()">
+          Disconnect
+        </button>
+      </div>
+    </header>
+
+    <!-- Top View Switcher & Database Status -->
+    <div class="nav-tabs-bar">
+      <div class="nav-tabs">
+        <button class="nav-tab-btn active" id="tabNavLive" onclick="switchMainView('live')">
+          <span>📊</span> Live Dashboard
+        </button>
+        <button class="nav-tab-btn" id="tabNavHistory" onclick="switchMainView('history')">
+          <span>📈</span> History &amp; Analytics
+        </button>
+      </div>
+      <div class="db-status-badge" title="Historical readings persistently stored in IndexedDB">
+        <span>💾</span> <span id="dbCounter">0 saved</span>
+      </div>
+    </div>
+
+    <!-- Sub-header Controls Bar -->
+    <div class="options-bar">
+      <div class="options-group">
+        <label class="toggle-label" title="Enable this if AeroSense-BLE does not appear in the Bluetooth scan on Windows">
+          <input type="checkbox" id="scanAllToggle">
+          <span>Scan all BLE devices</span>
+        </label>
+        <label class="toggle-label" title="Toggle Three.js 3D atmospheric particle simulation">
+          <input type="checkbox" id="threeToggle" checked onchange="toggle3dFX(this.checked)">
+          <span>✨ 3D FX: ON</span>
+        </label>
+      </div>
+      <div class="options-group">
+        <button class="btn" style="padding:4px 10px; font-size:0.75rem; background:rgba(255,255,255,0.08);" onclick="openPhoneModal()">
+          <span>📱</span> Phone Setup Guide
+        </button>
+        <select class="baud-select" id="baudSelect">
+          <option value="115200" selected>115200 Baud</option>
+          <option value="9600">9600 Baud</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         VIEW 1: LIVE DASHBOARD
+         ======================================================== -->
+    <div id="view-live" style="display:flex; flex-direction:column; gap:18px;">
+      <!-- Composite Integrated Air Quality Bar -->
+      <div class="composite-banner" id="compositeBanner">
+        <div class="composite-info">
+          <div class="composite-icon" id="compositeIcon">🌱</div>
+          <div class="composite-text">
+            <h3 id="compositeTitle">Atmosphere Status: Ready to Connect</h3>
+            <p id="compositeAdvice">Connect via Bluetooth or USB to stream real-time gas and PM2.5 particle density.</p>
+          </div>
+        </div>
+        <div class="composite-badge" id="compositeBadge">STANDBY</div>
+      </div>
+
+      <!-- Dual Hero Gauges: Gas & PM2.5 Dust -->
+      <div class="hero-dual-grid">
+        <!-- Gas Sensor (MQ-135) -->
+        <div class="card hero-gauge-card hero-gas">
+          <div class="sensor-tag tag-gas">
+            <span>💨</span> MQ-135 Gas &amp; VOCs
+          </div>
+          <div class="gauge-wrapper">
+            <svg class="gauge-svg" viewBox="0 0 200 200">
+              <circle class="gauge-bg" cx="100" cy="100" r="90" />
+              <circle class="gauge-progress gauge-progress-gas" id="gaugeGasArc" cx="100" cy="100" r="90" />
+            </svg>
+            <div class="gauge-center-text">
+              <div class="gauge-primary-val" id="valGasRaw">---</div>
+              <div class="gauge-primary-label">ADC Index</div>
+            </div>
+          </div>
+          <div class="status-badge" id="badgeGas">Click Connect</div>
+          <p class="status-desc" id="descGas">Monitors indoor air pollution, CO2, smoke, ammonia, benzene, and alcohol vapors.</p>
+          <div class="hero-substats">
+            <span>Voltage: <strong id="subGasVolt">0.00V</strong></span>
+            <span>•</span>
+            <span>Threshold: <strong id="subGasAlert">NORMAL</strong></span>
+          </div>
+        </div>
+
+        <!-- Optical Dust Sensor (Sharp GP2Y1014AU0F) -->
+        <div class="card hero-gauge-card hero-dust">
+          <div class="sensor-tag tag-dust">
+            <span>🌫️</span> Sharp GP2Y1014AU0F PM2.5
+          </div>
+          <div class="gauge-wrapper">
+            <svg class="gauge-svg" viewBox="0 0 200 200">
+              <circle class="gauge-bg" cx="100" cy="100" r="90" />
+              <circle class="gauge-progress gauge-progress-dust" id="gaugeDustArc" cx="100" cy="100" r="90" />
+            </svg>
+            <div class="gauge-center-text">
+              <div class="gauge-primary-val" id="valDustUg">0.0</div>
+              <div class="gauge-primary-label">µg/m³ PM2.5</div>
+            </div>
+          </div>
+          <div class="status-badge" id="badgeDust">Sensor Active</div>
+          <p class="status-desc" id="descDust">Infrared optical chamber measuring fine particulate matter and respirable dust.</p>
+          <div class="hero-substats">
+            <span>Vo: <strong id="subDustVolt">0.00V</strong></span>
+            <span>•</span>
+            <span>Density: <strong id="subDustMg">0.000 mg/m³</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Troubleshooting helper box -->
+      <div id="heroTroubleshoot" style="display:none; font-size:0.82rem; background:rgba(245, 158, 11, 0.12); border:1px solid rgba(245, 158, 11, 0.35); padding:12px 16px; border-radius:14px; color:#fde68a;"></div>
+
+      <!-- Expanded 4-Column Key Metrics Grid -->
+      <div class="metrics-grid">
+        <!-- Gas Voltage -->
+        <div class="card metric-card">
+          <div class="metric-header">
+            <span>Gas Analog Voltage</span>
+            <span>⚡</span>
+          </div>
+          <div class="metric-value"><span id="valGasVoltCard">0.00</span> <span class="unit">V</span></div>
+          <div>
+            <div class="metric-footer"><span>0V to 3.3V ADC Range</span></div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill" id="barGasVolt" style="background:#38bdf8"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dust Vo Voltage -->
+        <div class="card metric-card">
+          <div class="metric-header">
+            <span>Dust Vo Signal</span>
+            <span>🔬</span>
+          </div>
+          <div class="metric-value"><span id="valDustVoltCard">0.00</span> <span class="unit">V</span></div>
+          <div>
+            <div class="metric-footer"><span>Baseline: ~0.6V - 0.9V</span></div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill" id="barDustVolt" style="background:#a855f7"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MQ-135 Preheating -->
+        <div class="card metric-card">
+          <div class="metric-header">
+            <span>MQ-135 Core Heat</span>
+            <span>🔥</span>
+          </div>
+          <div class="metric-value" id="valPreheat" style="font-size:1.35rem">---</div>
+          <div>
+            <div class="metric-footer"><span id="preheatDesc">3 min stabilization</span></div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill" id="barPreheat" style="background:#10b981"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Continuous Monitoring Uptime -->
+        <div class="card metric-card">
+          <div class="metric-header">
+            <span>Continuous Uptime</span>
+            <span>⏱️</span>
+          </div>
+          <div class="metric-value" id="valUptime" style="font-size:1.35rem">0s</div>
+          <div>
+            <div class="metric-footer"><span>ESP32 Live Stream</span></div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill" style="width:100%; background:rgba(255,255,255,0.2)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Stream Chart Card -->
+      <div class="card chart-card">
+        <div class="chart-header">
+          <div class="chart-title">
+            <h3><span>📈</span> Live Rolling Trend</h3>
+            <p>Real-time rolling timeline tracking environmental dynamics</p>
+          </div>
+          <div class="chart-tabs">
+            <button class="chart-tab active" id="tabDual" onclick="setChartMode('dual')">🔀 Dual View</button>
+            <button class="chart-tab" id="tabGas" onclick="setChartMode('gas')">💨 Gas ADC</button>
+            <button class="chart-tab" id="tabDust" onclick="setChartMode('dust')">🌫️ PM2.5</button>
+          </div>
+        </div>
+        <div class="canvas-container">
+          <canvas id="liveChart"></canvas>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#38bdf8; box-shadow:0 0 8px #38bdf8"></span>
+            <span>Gas ADC: <strong id="legendGasVal">---</strong></span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#c084fc; box-shadow:0 0 8px #c084fc"></span>
+            <span>Sharp PM2.5: <strong id="legendDustVal">0.0 µg/m³</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         VIEW 2: HISTORY & ANALYTICS (Persistent IndexedDB)
+         ======================================================== -->
+    <div id="view-history">
+      <!-- History Header & Controls Card -->
+      <div class="card history-controls-card">
+        <div>
+          <h2 style="font-size:1.25rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>📚</span> Persistent Air Quality History
+          </h2>
+          <p style="font-size:0.78rem; color:var(--text-muted); margin-top:2px;">
+            Telemetry saved in phone/browser IndexedDB storage across reboots and restarts.
+          </p>
+        </div>
+        <div class="history-actions">
+          <button class="btn btn-export" onclick="exportHistoryCsv()">
+            <span>📥</span> Export CSV
+          </button>
+          <button class="btn btn-clear-db" onclick="clearHistoryDb()">
+            <span>🗑️</span> Clear History
+          </button>
+        </div>
+      </div>
+
+      <!-- Time Range Filters & Analytics Summary -->
+      <div class="card" style="display:flex; flex-direction:column; gap:16px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Filter Time Horizon:</span>
+          <div class="chart-tabs">
+            <button class="chart-tab active" id="hrange-1h" onclick="setHistoryRange('1h')">1 Hour</button>
+            <button class="chart-tab" id="hrange-6h" onclick="setHistoryRange('6h')">6 Hours</button>
+            <button class="chart-tab" id="hrange-24h" onclick="setHistoryRange('24h')">24 Hours</button>
+            <button class="chart-tab" id="hrange-7d" onclick="setHistoryRange('7d')">7 Days</button>
+            <button class="chart-tab" id="hrange-all" onclick="setHistoryRange('all')">All Time</button>
+          </div>
+        </div>
+
+        <div class="analytics-stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">Total Readings</div>
+            <div class="stat-val" id="statTotalPoints">0</div>
+            <div class="stat-sub" id="statTimeSpan">No history recorded yet</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Peak PM2.5 Dust</div>
+            <div class="stat-val" style="color:var(--purple);" id="statPeakDust">0.0 <span style="font-size:0.8rem">µg/m³</span></div>
+            <div class="stat-sub">Average: <span id="statAvgDust">0.0</span> µg/m³</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Peak Gas Index</div>
+            <div class="stat-val" style="color:var(--accent);" id="statPeakGas">0</div>
+            <div class="stat-sub">Average ADC: <span id="statAvgGas">0</span></div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Clean Air Ratio</div>
+            <div class="stat-val" style="color:var(--clean);" id="statCleanRatio">100%</div>
+            <div class="stat-sub" id="statExposureDesc">Optimal breathing exposure</div>
+          </div>
+        </div>
+
+        <!-- Historical Graph Canvas -->
+        <div style="position:relative; width:100%; height:280px; margin-top:8px;">
+          <canvas id="historyChart"></canvas>
+        </div>
+
+        <div class="chart-legend">
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#38bdf8; box-shadow:0 0 8px #38bdf8"></span>
+            <span>Historical Gas ADC</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#c084fc; box-shadow:0 0 8px #c084fc"></span>
+            <span>Historical PM2.5 (µg/m³)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Activity & Diagnostics Console -->
+    <div class="diag-card">
+      <div class="diag-header" onclick="toggleDiagnostics()">
+        <h4><span>📋</span> System Activity &amp; Diagnostics <span id="diagToggleIcon" style="font-size:0.75rem; color:var(--accent);">[hide]</span></h4>
+        <span style="font-size:0.75rem; color:var(--text-muted);">Real-time log</span>
+      </div>
+      <div class="diag-content" id="diagLog">
+        <div class="diag-line info">[System] AeroSense Mobile App &amp; Dual Sensor Engine initialized.</div>
+      </div>
+    </div>
+
+    <footer>
+      AeroSense App • Persistent IndexedDB • Three.js 3D Engine • Bluetooth LE &amp; USB
+    </footer>
+  </div>
+
+  <!-- Mobile Bottom Quick Navigation Bar -->
+  <div class="mobile-bottom-nav">
+    <button class="bottom-nav-item active" id="bnavLive" onclick="switchMainView('live')">
+      <span class="icon">📊</span>
+      <span>Live Air</span>
+    </button>
+    <button class="bottom-nav-item" id="bnavHistory" onclick="switchMainView('history')">
+      <span class="icon">📈</span>
+      <span>History</span>
+    </button>
+    <button class="bottom-nav-item" onclick="connectBluetooth()">
+      <span class="icon">📡</span>
+      <span>Bluetooth</span>
+    </button>
+    <button class="bottom-nav-item" onclick="openPhoneModal()">
+      <span class="icon">📱</span>
+      <span>Phone URL</span>
+    </button>
+  </div>
+
+  <!-- Modal for Phone Setup Guide -->
+  <div class="modal-overlay" id="phoneModal" onclick="closePhoneModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>📱 Open AeroSense On Your Phone</h3>
+        <button class="modal-close" onclick="closePhoneModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>You can use this app on any mobile phone (Android or iPhone) with full graph history and Bluetooth streaming:</p>
+        <div>
+          <strong>Step 1: Connect your phone to the same Wi-Fi network as this PC</strong>
+        </div>
+        <div>
+          <strong>Step 2: On your phone browser, open:</strong>
+          <div class="code-pill" id="phoneUrlHint">http://&lt;PC-LOCAL-IP&gt;:8000/dashboard.html</div>
+        </div>
+        <div>
+          <strong>Step 3: Install as an App (Add to Home Screen)</strong>
+          <p style="font-size:0.78rem; color:var(--text-muted); margin-top:3px;">
+            • <strong>Android (Chrome):</strong> Tap the 3 dots menu &rarr; <em>"Install App"</em> or <em>"Add to Home screen"</em>.<br>
+            • <strong>iPhone (Safari / Bluefy):</strong> Tap Share &rarr; <em>"Add to Home Screen"</em>.<br>
+            <em>(On iPhone, use the free <strong>Bluefy</strong> browser for Web Bluetooth support).</em>
+          </p>
+        </div>
+        <div>
+          <strong>Step 4: Offline History is Saved Automatically</strong>
+          <p style="font-size:0.78rem; color:var(--text-muted); margin-top:3px;">
+            Every sensor reading is saved to your phone's internal storage so you can review trends and export CSV anytime!
+          </p>
+        </div>
+      </div>
+      <button class="btn btn-bluetooth" style="justify-content:center; width:100%; margin-top:6px;" onclick="closePhoneModal()">Got it!</button>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // Register PWA Service Worker
+    // ==========================================
+    let deferredPwaPrompt = null;
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+          logMsg("PWA Service Worker registered successfully.", "success");
+        }).catch((err) => {
+          logMsg("Service Worker registration notice: " + err.message, "info");
+        });
+      });
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPwaPrompt = e;
+      const btn = document.getElementById('btnInstallPwa');
+      if (btn) btn.style.display = 'inline-flex';
+      logMsg("PWA install available on this device.", "info");
+    });
+
+    function promptPwaInstall() {
+      if (deferredPwaPrompt) {
+        deferredPwaPrompt.prompt();
+        deferredPwaPrompt.userChoice.then((choice) => {
+          if (choice.outcome === 'accepted') {
+            logMsg("User installed AeroSense PWA app to home screen!", "success");
+          }
+          deferredPwaPrompt = null;
+          document.getElementById('btnInstallPwa').style.display = 'none';
+        });
+      } else {
+        alert("To install on your phone:\n- Android Chrome: Tap menu (⋮) -> 'Install App' or 'Add to Home Screen'\n- iPhone: Tap Share -> 'Add to Home Screen'");
+      }
+    }
+
+    // ==========================================
+    // IndexedDB Persistent History Engine
+    // ==========================================
+    const DB_NAME = 'AeroSenseDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'readings';
+    let dbInstance = null;
+    let totalDbRecords = 0;
+    let lastSavedTime = 0;
+    const SAVE_THROTTLE_MS = 3000; // Save record every 3 seconds
+
+    function initIndexedDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            const store = db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+            store.createIndex('timestamp', 'timestamp', { unique: false });
+          }
+        };
+        req.onsuccess = (e) => {
+          dbInstance = e.target.result;
+          logMsg("IndexedDB persistent history storage active.", "success");
+          updateDbCounter();
+          resolve(dbInstance);
+        };
+        req.onerror = (e) => {
+          console.error("IndexedDB error:", e);
+          logMsg("IndexedDB initialization warning.", "warn");
+          resolve(null);
+        };
+      });
+    }
+
+    function saveReadingToDb(reading) {
+      if (!dbInstance) return;
+      const now = Date.now();
+      if (now - lastSavedTime < SAVE_THROTTLE_MS) return; // Throttle to prevent DB bloat
+      lastSavedTime = now;
+
+      try {
+        const tx = dbInstance.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        const record = {
+          timestamp: now,
+          dateStr: new Date(now).toISOString(),
+          gasRaw: reading.raw,
+          gasVoltage: Number(reading.voltage),
+          gasQuality: reading.quality,
+          dustUgM3: Number(reading.dustUgM3 || 0),
+          dustVoltage: Number(reading.dustVoltage || 0),
+          dustQuality: reading.dustQuality || 'Clean',
+          combinedQuality: reading.combinedQuality || 'Clean Air',
+          status: reading.status || 'NORMAL'
+        };
+        store.add(record);
+        tx.oncomplete = () => {
+          totalDbRecords++;
+          updateDbCounterText();
+        };
+      } catch (err) {
+        console.warn("DB save err:", err);
+      }
+    }
+
+    function updateDbCounter() {
+      if (!dbInstance) return;
+      try {
+        const tx = dbInstance.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const countReq = store.count();
+        countReq.onsuccess = () => {
+          totalDbRecords = countReq.result || 0;
+          updateDbCounterText();
+        };
+      } catch (e) {}
+    }
+
+    function updateDbCounterText() {
+      const el = document.getElementById('dbCounter');
+      if (el) el.textContent = `${totalDbRecords} saved`;
+    }
+
+    function getHistoryRecords(sinceTimestamp) {
+      return new Promise((resolve) => {
+        if (!dbInstance) return resolve([]);
+        try {
+          const tx = dbInstance.transaction(STORE_NAME, 'readonly');
+          const store = tx.objectStore(STORE_NAME);
+          const idx = store.index('timestamp');
+          const range = sinceTimestamp > 0 ? IDBKeyRange.lowerBound(sinceTimestamp) : null;
+          const req = idx.getAll(range);
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => resolve([]);
+        } catch (e) {
+          resolve([]);
+        }
+      });
+    }
+
+    async function clearHistoryDb() {
+      if (!confirm("Are you sure you want to clear all saved air quality history from this phone/device?")) return;
+      if (!dbInstance) return;
+      try {
+        const tx = dbInstance.transaction(STORE_NAME, 'readwrite');
+        tx.objectStore(STORE_NAME).clear();
+        tx.oncomplete = () => {
+          totalDbRecords = 0;
+          updateDbCounterText();
+          loadAndRenderHistory();
+          logMsg("IndexedDB history database cleared.", "warn");
+          alert("All saved history has been deleted.");
+        };
+      } catch (e) {
+        alert("Error clearing database: " + e.message);
+      }
+    }
+
+    async function exportHistoryCsv() {
+      const records = await getHistoryRecords(0);
+      if (records.length === 0) {
+        alert("No history records saved yet! Let the sensor run or turn on Demo Mode to record data.");
+        return;
+      }
+
+      let csv = "ID,Timestamp_MS,DateTime_ISO,Gas_Raw_ADC,Gas_Voltage_V,Gas_Air_Quality,Dust_PM25_ug_m3,Dust_Voltage_V,Dust_Quality,Combined_Quality,Hardware_Status\n";
+      records.forEach(r => {
+        csv += `${r.id},${r.timestamp},"${r.dateStr}",${r.gasRaw},${r.gasVoltage},"${r.gasQuality}",${r.dustUgM3},${r.dustVoltage},"${r.dustQuality}","${r.combinedQuality}","${r.status}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const filename = `AeroSense_History_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      logMsg(`Exported ${records.length} history records to ${filename}`, "success");
+    }
+
+    // ==========================================
+    // View Switcher (Live vs History)
+    // ==========================================
+    let currentMainView = 'live';
+    function switchMainView(view) {
+      currentMainView = view;
+      const viewLive = document.getElementById('view-live');
+      const viewHistory = document.getElementById('view-history');
+      const tabLive = document.getElementById('tabNavLive');
+      const tabHist = document.getElementById('tabNavHistory');
+      const bnavLive = document.getElementById('bnavLive');
+      const bnavHist = document.getElementById('bnavHistory');
+
+      if (view === 'live') {
+        viewLive.style.display = 'flex';
+        viewHistory.style.display = 'none';
+        tabLive.classList.add('active');
+        tabHist.classList.remove('active');
+        if (bnavLive) bnavLive.classList.add('active');
+        if (bnavHist) bnavHist.classList.remove('active');
+        setTimeout(resizeLiveCanvas, 50);
+      } else {
+        viewLive.style.display = 'none';
+        viewHistory.style.display = 'flex';
+        tabHist.classList.add('active');
+        tabLive.classList.remove('active');
+        if (bnavHist) bnavHist.classList.add('active');
+        if (bnavLive) bnavLive.classList.remove('active');
+        setTimeout(() => {
+          resizeHistoryCanvas();
+          loadAndRenderHistory();
+        }, 50);
+      }
+    }
+
+    // ==========================================
+    // History Analytics & Chart
+    // ==========================================
+    let currentHistoryRange = '1h'; // '1h', '6h', '24h', '7d', 'all'
+    const hCanvas = document.getElementById('historyChart');
+    const hCtx = hCanvas.getContext('2d');
+    let loadedHistoryData = [];
+
+    function setHistoryRange(range) {
+      currentHistoryRange = range;
+      ['1h', '6h', '24h', '7d', 'all'].forEach(r => {
+        const btn = document.getElementById(`hrange-${r}`);
+        if (btn) btn.className = `chart-tab ${r === range ? 'active' : ''}`;
+      });
+      loadAndRenderHistory();
+    }
+
+    async function loadAndRenderHistory() {
+      const now = Date.now();
+      let since = 0;
+      if (currentHistoryRange === '1h') since = now - (60 * 60 * 1000);
+      else if (currentHistoryRange === '6h') since = now - (6 * 60 * 60 * 1000);
+      else if (currentHistoryRange === '24h') since = now - (24 * 60 * 60 * 1000);
+      else if (currentHistoryRange === '7d') since = now - (7 * 24 * 60 * 60 * 1000);
+
+      loadedHistoryData = await getHistoryRecords(since);
+      renderHistoryAnalytics(loadedHistoryData);
+      renderHistoryChart(loadedHistoryData);
+    }
+
+    function renderHistoryAnalytics(records) {
+      document.getElementById('statTotalPoints').textContent = records.length;
+      if (records.length === 0) {
+        document.getElementById('statTimeSpan').textContent = 'No records in range';
+        document.getElementById('statPeakDust').textContent = '0.0';
+        document.getElementById('statAvgDust').textContent = '0.0';
+        document.getElementById('statPeakGas').textContent = '0';
+        document.getElementById('statAvgGas').textContent = '0';
+        document.getElementById('statCleanRatio').textContent = '100%';
+        return;
+      }
+
+      const firstTime = new Date(records[0].timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      const lastTime = new Date(records[records.length - 1].timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      document.getElementById('statTimeSpan').textContent = `${firstTime} - ${lastTime}`;
+
+      let maxDust = 0, sumDust = 0;
+      let maxGas = 0, sumGas = 0;
+      let cleanCount = 0;
+
+      records.forEach(r => {
+        if (r.dustUgM3 > maxDust) maxDust = r.dustUgM3;
+        sumDust += r.dustUgM3;
+
+        if (r.gasRaw > maxGas) maxGas = r.gasRaw;
+        sumGas += r.gasRaw;
+
+        if (r.gasRaw < 2100 && r.dustUgM3 < 35) cleanCount++;
+      });
+
+      document.getElementById('statPeakDust').innerHTML = `${maxDust.toFixed(1)} <span style="font-size:0.8rem">µg/m³</span>`;
+      document.getElementById('statAvgDust').textContent = (sumDust / records.length).toFixed(1);
+
+      document.getElementById('statPeakGas').textContent = maxGas;
+      document.getElementById('statAvgGas').textContent = Math.round(sumGas / records.length);
+
+      const cleanRatio = Math.round((cleanCount / records.length) * 100);
+      document.getElementById('statCleanRatio').textContent = `${cleanRatio}%`;
+    }
+
+    function resizeHistoryCanvas() {
+      const rect = hCanvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      hCanvas.width = rect.width * dpr;
+      hCanvas.height = rect.height * dpr;
+      hCtx.scale(dpr, dpr);
+    }
+
+    function renderHistoryChart(records) {
+      const rect = hCanvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      hCtx.clearRect(0, 0, w, h);
+
+      const paddingLeft = 50;
+      const paddingRight = 50;
+      const paddingTop = 20;
+      const paddingBottom = 30;
+      const graphW = w - paddingLeft - paddingRight;
+      const graphH = h - paddingTop - paddingBottom;
+
+      if (!records || records.length < 2) {
+        hCtx.save();
+        hCtx.fillStyle = '#64748b';
+        hCtx.textAlign = 'center';
+        hCtx.font = '12px "Plus Jakarta Sans", sans-serif';
+        hCtx.fillText('No historical readings in this time window.', paddingLeft + graphW / 2, paddingTop + graphH / 2 - 8);
+        hCtx.font = '11px "JetBrains Mono", monospace';
+        hCtx.fillStyle = '#475569';
+        hCtx.fillText('Readings are auto-saved to IndexedDB every 3 seconds while streaming or in Demo Mode.', paddingLeft + graphW / 2, paddingTop + graphH / 2 + 14);
+        hCtx.restore();
+        return;
+      }
+
+      // Downsample if dataset is very large (> 200 points) for buttery 60 FPS mobile rendering
+      let displayRecords = records;
+      if (records.length > 200) {
+        const step = Math.ceil(records.length / 200);
+        displayRecords = [];
+        for (let i = 0; i < records.length; i += step) {
+          displayRecords.push(records[i]);
+        }
+        if (displayRecords[displayRecords.length - 1] !== records[records.length - 1]) {
+          displayRecords.push(records[records.length - 1]);
+        }
+      }
+
+      let minGas = Math.min(...displayRecords.map(r => r.gasRaw));
+      let maxGas = Math.max(...displayRecords.map(r => r.gasRaw));
+      minGas = Math.max(0, Math.floor((minGas - 100) / 200) * 200);
+      maxGas = Math.ceil((maxGas + 200) / 400) * 400;
+      if (maxGas - minGas < 400) maxGas = minGas + 400;
+
+      let minDust = 0;
+      let maxDust = Math.max(50, Math.ceil(Math.max(...displayRecords.map(r => r.dustUgM3)) * 1.3));
+
+      // Grid lines
+      hCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      hCtx.lineWidth = 1;
+      hCtx.font = '10px "JetBrains Mono", monospace';
+
+      const gridSteps = 4;
+      for (let i = 0; i <= gridSteps; i++) {
+        const yPos = paddingTop + graphH - (i / gridSteps) * graphH;
+        hCtx.beginPath();
+        hCtx.moveTo(paddingLeft, yPos);
+        hCtx.lineTo(w - paddingRight, yPos);
+        hCtx.stroke();
+
+        const gasVal = Math.round(minGas + ((maxGas - minGas) / gridSteps) * i);
+        hCtx.fillStyle = '#38bdf8';
+        hCtx.textAlign = 'right';
+        hCtx.fillText(gasVal, paddingLeft - 8, yPos + 3);
+
+        const dustVal = Math.round(minDust + ((maxDust - minDust) / gridSteps) * i);
+        hCtx.fillStyle = '#c084fc';
+        hCtx.textAlign = 'left';
+        hCtx.fillText(`${dustVal}µg`, w - paddingRight + 8, yPos + 3);
+      }
+
+      // X-Axis Timestamp labels
+      const timeSteps = 4;
+      hCtx.fillStyle = '#64748b';
+      hCtx.textAlign = 'center';
+      for (let i = 0; i <= timeSteps; i++) {
+        const idx = Math.floor((i / timeSteps) * (displayRecords.length - 1));
+        const x = paddingLeft + (i / timeSteps) * graphW;
+        const d = new Date(displayRecords[idx].timestamp);
+        const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        hCtx.fillText(timeStr, x, h - 8);
+      }
+
+      // Draw Gas Line
+      const gasPoints = displayRecords.map((r, idx) => {
+        const x = paddingLeft + (idx / (displayRecords.length - 1)) * graphW;
+        const yPct = (r.gasRaw - minGas) / (maxGas - minGas);
+        const y = paddingTop + graphH - (yPct * graphH);
+        return { x, y };
+      });
+
+      hCtx.beginPath();
+      hCtx.strokeStyle = '#38bdf8';
+      hCtx.lineWidth = 2.2;
+      hCtx.lineJoin = 'round';
+      gasPoints.forEach((p, idx) => {
+        if (idx === 0) hCtx.moveTo(p.x, p.y);
+        else hCtx.lineTo(p.x, p.y);
+      });
+      hCtx.stroke();
+
+      // Draw Dust Line
+      const dustPoints = displayRecords.map((r, idx) => {
+        const x = paddingLeft + (idx / (displayRecords.length - 1)) * graphW;
+        const yPct = (r.dustUgM3 - minDust) / (maxDust - minDust);
+        const y = paddingTop + graphH - (yPct * graphH);
+        return { x, y };
+      });
+
+      hCtx.beginPath();
+      hCtx.strokeStyle = '#c084fc';
+      hCtx.lineWidth = 2.2;
+      hCtx.lineJoin = 'round';
+      dustPoints.forEach((p, idx) => {
+        if (idx === 0) hCtx.moveTo(p.x, p.y);
+        else hCtx.lineTo(p.x, p.y);
+      });
+      hCtx.stroke();
+    }
+
+    // ==========================================
+    // Three.js 3D Atmospheric Particle Scene
+    // ==========================================
+    let threeScene, threeCamera, threeRenderer, particleSystem;
+    let particlePositions, particleColors, particleVelocities;
+    let particleCount = 1000;
+    let is3dFXEnabled = true;
+    let targetCameraX = 0, targetCameraY = 0;
+    let currentParticleSpeed = 0.4;
+    let targetParticleColor = new THREE.Color(0x10b981);
+    let currentParticleColor = new THREE.Color(0x10b981);
+
+    function init3DScene() {
+      const canvas = document.getElementById('webgl-canvas');
+      if (!canvas || typeof THREE === 'undefined') return;
+
+      threeScene = new THREE.Scene();
+      threeCamera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      threeCamera.position.z = 85;
+
+      threeRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      threeRenderer.setSize(window.innerWidth, window.innerHeight);
+      threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Circular particle texture
+      const pCanvas = document.createElement('canvas');
+      pCanvas.width = 32;
+      pCanvas.height = 32;
+      const pCtx = pCanvas.getContext('2d');
+      const grad = pCtx.createRadialGradient(16, 16, 0, 16, 16, 16);
+      grad.addColorStop(0, 'rgba(255,255,255,1)');
+      grad.addColorStop(0.3, 'rgba(255,255,255,0.7)');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      pCtx.fillStyle = grad;
+      pCtx.fillRect(0, 0, 32, 32);
+
+      const pTexture = new THREE.CanvasTexture(pCanvas);
+      const geometry = new THREE.BufferGeometry();
+      particlePositions = new Float32Array(particleCount * 3);
+      particleColors = new Float32Array(particleCount * 3);
+      particleVelocities = [];
+
+      for (let i = 0; i < particleCount; i++) {
+        particlePositions[i * 3]     = (Math.random() - 0.5) * 160;
+        particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 110;
+        particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 120;
+
+        particleColors[i * 3]     = 0.1;
+        particleColors[i * 3 + 1] = 0.72;
+        particleColors[i * 3 + 2] = 0.55;
+
+        particleVelocities.push({
+          x: (Math.random() - 0.5) * 0.12,
+          y: (Math.random() * 0.2) + 0.05,
+          z: (Math.random() - 0.5) * 0.12
+        });
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+
+      const material = new THREE.PointsMaterial({
+        size: 3.2,
+        map: pTexture,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.65,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      particleSystem = new THREE.Points(geometry, material);
+      threeScene.add(particleSystem);
+
+      window.addEventListener('resize', onThreeResize);
+      window.addEventListener('mousemove', onThreeMouseMove);
+      animate3D();
+    }
+
+    function onThreeResize() {
+      if (!threeCamera || !threeRenderer) return;
+      threeCamera.aspect = window.innerWidth / window.innerHeight;
+      threeCamera.updateProjectionMatrix();
+      threeRenderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function onThreeMouseMove(e) {
+      targetCameraX = ((e.clientX / window.innerWidth) - 0.5) * 20;
+      targetCameraY = -((e.clientY / window.innerHeight) - 0.5) * 15;
+    }
+
+    function toggle3dFX(enabled) {
+      is3dFXEnabled = enabled;
+      const canvas = document.getElementById('webgl-canvas');
+      if (canvas) canvas.style.display = enabled ? 'block' : 'none';
+      logMsg(`3D Particle Cloud: ${enabled ? 'ENABLED' : 'PAUSED'}`);
+    }
+
+    function update3DAtmosphere(colorHex, turbulenceScale) {
+      if (!particleSystem) return;
+      targetParticleColor.set(colorHex);
+      currentParticleSpeed = 0.3 + (turbulenceScale * 0.9);
+    }
+
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+      if (!is3dFXEnabled || !particleSystem) return;
+
+      threeCamera.position.x += (targetCameraX - threeCamera.position.x) * 0.04;
+      threeCamera.position.y += (targetCameraY - threeCamera.position.y) * 0.04;
+      threeCamera.lookAt(0, 0, 0);
+
+      currentParticleColor.lerp(targetParticleColor, 0.05);
+
+      const positions = particleSystem.geometry.attributes.position.array;
+      const colors = particleSystem.geometry.attributes.color.array;
+
+      for (let i = 0; i < particleCount; i++) {
+        const vel = particleVelocities[i];
+        positions[i * 3 + 1] += vel.y * currentParticleSpeed;
+        positions[i * 3]     += vel.x * currentParticleSpeed;
+        positions[i * 3 + 2] += vel.z * currentParticleSpeed;
+
+        if (positions[i * 3 + 1] > 55) positions[i * 3 + 1] = -55;
+        if (positions[i * 3] > 80) positions[i * 3] = -80;
+        if (positions[i * 3] < -80) positions[i * 3] = 80;
+        if (positions[i * 3 + 2] > 60) positions[i * 3 + 2] = -60;
+        if (positions[i * 3 + 2] < -60) positions[i * 3 + 2] = 60;
+
+        colors[i * 3]     = currentParticleColor.r;
+        colors[i * 3 + 1] = currentParticleColor.g;
+        colors[i * 3 + 2] = currentParticleColor.b;
+      }
+
+      particleSystem.geometry.attributes.position.needsUpdate = true;
+      particleSystem.geometry.attributes.color.needsUpdate = true;
+      particleSystem.rotation.y += 0.0006 * currentParticleSpeed;
+
+      threeRenderer.render(threeScene, threeCamera);
+    }
+
+    // ==========================================
+    // State & Transports
+    // ==========================================
+    const NORDIC_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
+    const NORDIC_TX_UUID      = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+
+    let bleDevice = null;
+    let bleCharacteristic = null;
+    let serialPort = null;
+    let serialReader = null;
+    let rxBuffer = '';
+    let demoInterval = null;
+
+    const historyGas = [];
+    const historyDust = [];
+    const MAX_LIVE_POINTS = 45;
+    let chartMode = 'dual';
+
+    const liveCanvas = document.getElementById('liveChart');
+    const liveCtx = liveCanvas.getContext('2d');
+
+    function logMsg(msg, type = 'info') {
+      const container = document.getElementById('diagLog');
+      if (!container) return;
+      const time = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = `diag-line ${type}`;
+      div.textContent = `[${time}] ${msg}`;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function toggleDiagnostics() {
+      const box = document.getElementById('diagLog');
+      const icon = document.getElementById('diagToggleIcon');
+      if (box.style.display === 'none') {
+        box.style.display = 'flex';
+        icon.textContent = '[hide]';
+      } else {
+        box.style.display = 'none';
+        icon.textContent = '[show]';
+      }
+    }
+
+    function setChartMode(mode) {
+      chartMode = mode;
+      document.getElementById('tabDual').className = `chart-tab ${mode === 'dual' ? 'active' : ''}`;
+      document.getElementById('tabGas').className = `chart-tab ${mode === 'gas' ? 'active' : ''}`;
+      document.getElementById('tabDust').className = `chart-tab ${mode === 'dust' ? 'active' : ''}`;
+      renderLiveChart();
+    }
+
+    function resizeLiveCanvas() {
+      const rect = liveCanvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      liveCanvas.width = rect.width * dpr;
+      liveCanvas.height = rect.height * dpr;
+      liveCtx.scale(dpr, dpr);
+      renderLiveChart();
+    }
+    window.addEventListener('resize', () => {
+      resizeLiveCanvas();
+      if (currentMainView === 'history') {
+        resizeHistoryCanvas();
+        renderHistoryChart(loadedHistoryData);
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      init3DScene();
+      initIndexedDB();
+      setTimeout(resizeLiveCanvas, 60);
+
+      // Phone URL Hint
+      const host = window.location.hostname || 'localhost';
+      const port = window.location.port || '8000';
+      const urlText = `http://${host}:${port}/dashboard.html`;
+      const hintEl = document.getElementById('phoneUrlHint');
+      if (hintEl) hintEl.textContent = urlText;
+
+      renderLiveChart();
+    });
+
+    function openPhoneModal() {
+      document.getElementById('phoneModal').style.display = 'flex';
+    }
+    function closePhoneModal(e) {
+      document.getElementById('phoneModal').style.display = 'none';
+    }
+
+    // ==========================================
+    // Bluetooth (BLE) Connection
+    // ==========================================
+    async function connectBluetooth() {
+      if (demoInterval) stopDemo();
+
+      if (!navigator.bluetooth) {
+        if (window.location.protocol === 'file:') {
+          alert("Chrome blocks Bluetooth on local file:// files!\n\nTo fix:\n1. Run start_dashboard.bat in your project folder.\n2. Open http://localhost:8000/dashboard.html where Bluetooth is enabled!\n\nOr click 'USB / COM' to connect right now.");
+        } else {
+          alert("Web Bluetooth is not supported on this browser.\nPlease use Google Chrome or Microsoft Edge on Windows/Android, or Bluefy on iOS.");
+        }
+        logMsg("Web Bluetooth API not available in this context.", "error");
+        return;
+      }
+
+      try {
+        setConnectingState("Scanning for AeroSense-BLE...");
+        logMsg("Opening Web Bluetooth device scanner...");
+
+        const scanAll = document.getElementById('scanAllToggle')?.checked;
+        let requestOptions = {
+          optionalServices: [NORDIC_SERVICE_UUID]
+        };
+
+        if (scanAll) {
+          logMsg("Scan mode: acceptAllDevices = true (Troubleshooting mode)");
+          requestOptions.acceptAllDevices = true;
+        } else {
+          logMsg("Scan mode: filtering for AeroSense name & Nordic UART service");
+          requestOptions.filters = [
+            { namePrefix: 'AeroSense' },
+            { name: 'AeroSense-BLE' },
+            { services: [NORDIC_SERVICE_UUID] }
+          ];
+        }
+
+        bleDevice = await navigator.bluetooth.requestDevice(requestOptions);
+        logMsg(`Device selected: "${bleDevice.name || 'Unnamed'}" (${bleDevice.id})`, "success");
+
+        bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
+
+        setConnectingState("Connecting to GATT server...");
+        logMsg("Connecting to GATT server...");
+        const server = await bleDevice.gatt.connect();
+        logMsg("Connected to GATT server.", "success");
+
+        setConnectingState("Discovering Nordic UART Service...");
+        const service = await server.getPrimaryService(NORDIC_SERVICE_UUID);
+        logMsg("Nordic UART Service discovered.");
+
+        bleCharacteristic = await service.getCharacteristic(NORDIC_TX_UUID);
+        logMsg("TX Characteristic located. Subscribing to notifications...");
+
+        await bleCharacteristic.startNotifications();
+        bleCharacteristic.addEventListener('characteristicvaluechanged', handleBleNotification);
+        logMsg("Subscribed to BLE notifications! Streaming live dual sensors...", "success");
+
+        setConnectedState("Bluetooth: " + (bleDevice.name || "AeroSense-BLE"));
+      } catch (err) {
+        console.error("Bluetooth error:", err);
+        setDisconnectedState();
+        if (err.name === 'NotFoundError') {
+          logMsg("Bluetooth pairing cancelled by user.", "warn");
+        } else {
+          logMsg("Bluetooth connection error: " + err.message, "error");
+          alert("Could not connect to Bluetooth: " + err.message + "\n\nTip: Make sure ESP32 is powered on.");
+        }
+      }
+    }
+
+    function handleBleNotification(event) {
+      const chunk = new TextDecoder().decode(event.target.value);
+      processIncomingText(chunk);
+    }
+
+    // ==========================================
+    // Web Serial (USB / COM) Fallback
+    // ==========================================
+    async function connectSerial() {
+      if (demoInterval) stopDemo();
+
+      if (!navigator.serial) {
+        alert("Web Serial is not supported on this browser. Use Google Chrome or Microsoft Edge.");
+        logMsg("Web Serial API not available on this browser.", "error");
+        return;
+      }
+
+      try {
+        const baudRate = parseInt(document.getElementById('baudSelect')?.value || '115200', 10);
+        logMsg(`Requesting USB COM port at ${baudRate} baud...`);
+        
+        serialPort = await navigator.serial.requestPort();
+        await serialPort.open({ baudRate: baudRate });
+        
+        setConnectedState(`Serial COM (${baudRate} baud)`);
+        logMsg(`Serial COM port opened at ${baudRate} baud!`, "success");
+
+        const decoder = new TextDecoder();
+        serialReader = serialPort.readable.getReader();
+
+        let totalBytes = 0;
+        const helperBox = document.getElementById('heroTroubleshoot');
+
+        const noDataWatchdog = setTimeout(() => {
+          if (totalBytes === 0 && helperBox) {
+            helperBox.style.display = 'block';
+            helperBox.innerHTML = `⚠️ <strong>Connected, but 0 bytes received yet.</strong><br>Try pressing the <strong>EN / RST</strong> button on your ESP32 board to reboot it and start output.`;
+          }
+        }, 4000);
+
+        while (true) {
+          const { value, done } = await serialReader.read();
+          if (done) break;
+          if (value && value.length > 0) {
+            totalBytes += value.length;
+            const text = decoder.decode(value);
+
+            if (/[\x00-\x08\x0E-\x1F\x80-\xFF]/.test(text)) {
+              logMsg(`[RX ${value.length} B (Scrambled)]: ${text.replace(/\r?\n/g, ' ').substring(0, 30)}...`, "warn");
+              const altBaud = baudRate === 115200 ? 9600 : 115200;
+              if (helperBox) {
+                helperBox.style.display = 'block';
+                helperBox.innerHTML = `⚠️ <strong>Scrambled data received!</strong><br>Your ESP32 is running at <strong>${altBaud} baud</strong>.<br><button onclick="quickSwitchBaud(${altBaud})" class="btn" style="background:#f59e0b; color:#000; font-size:0.78rem; padding:6px 14px; margin-top:8px; font-weight:700;">⚡ Switch to ${altBaud} Baud Now</button>`;
+              }
+            } else {
+              logMsg(`[RX ${value.length} B]: ${text.replace(/\r?\n/g, ' ').substring(0, 45)}`);
+            }
+
+            processIncomingText(text);
+          }
+        }
+        clearTimeout(noDataWatchdog);
+      } catch (err) {
+        console.error("Serial error:", err);
+        setDisconnectedState();
+        if (err.name === 'NotFoundError') {
+          logMsg("Serial port selection cancelled by user.", "warn");
+        } else {
+          logMsg("Serial error: " + err.message, "error");
+          if (err.message && err.message.toLowerCase().includes('failed to open')) {
+            alert("Could not open serial COM port!\n\nIf Arduino IDE Serial Monitor is running, please CLOSE it and try again.");
+          } else {
+            alert("Serial error: " + err.message);
+          }
+        }
+      }
+    }
+
+    async function quickSwitchBaud(newBaud) {
+      const sel = document.getElementById('baudSelect');
+      if (sel) sel.value = String(newBaud);
+      await disconnectDevice();
+      setTimeout(connectSerial, 350);
+    }
+
+    // ==========================================
+    // Parser for Incoming Bluetooth & Serial Data
+    // ==========================================
+    function processIncomingText(text) {
+      rxBuffer += text;
+      let newlineIndex;
+      while ((newlineIndex = rxBuffer.indexOf('\n')) !== -1) {
+        const line = rxBuffer.slice(0, newlineIndex).trim();
+        rxBuffer = rxBuffer.slice(newlineIndex + 1);
+        if (!line) continue;
+
+        if (line.startsWith('[LOG]')) {
+          logMsg(line, "info");
+          continue;
+        }
+
+        // 1. JSON Parser
+        const jsonStart = line.indexOf('{');
+        const jsonEnd = line.lastIndexOf('}');
+        if (jsonStart !== -1 && jsonEnd > jsonStart) {
+          try {
+            const jsonStr = line.substring(jsonStart, jsonEnd + 1);
+            const data = JSON.parse(jsonStr);
+            if (data.raw !== undefined) {
+              updateDashboard(data);
+              saveReadingToDb(data);
+              continue;
+            }
+          } catch (e) {
+            console.warn("JSON Parse Error:", line);
+          }
+        }
+
+        // 2. Fallback Plain Text Parser
+        const adcMatch = line.match(/(?:Raw\s*ADC|Gas\s*ADC|ADC)[:\s]+(\d+)/i);
+        const voltMatch = line.match(/(?:Voltage|Volts)[:\s]+([\d.]+)/i);
+        const dustMatch = line.match(/(?:Dust|PM2\.5)[:\s]+([\d.]+)/i);
+
+        if (adcMatch) {
+          const raw = parseInt(adcMatch[1], 10);
+          const voltage = voltMatch ? parseFloat(voltMatch[1]) : ((raw / 4095.0) * 3.3);
+          const dustUg = dustMatch ? parseFloat(dustMatch[1]) : 15.0;
+
+          let gasQuality = "Moderate", gasColor = "#f59e0b", gasCode = 1;
+          if (raw < 2100) { gasQuality = "Clean Air"; gasColor = "#10b981"; gasCode = 0; }
+          else if (raw < 2700) { gasQuality = "Moderate"; gasColor = "#f59e0b"; gasCode = 1; }
+          else if (raw < 3300) { gasQuality = "Poor Air"; gasColor = "#f97316"; gasCode = 2; }
+          else { gasQuality = "Hazardous"; gasColor = "#ef4444"; gasCode = 3; }
+
+          let dustQuality = "Clean", dustCode = 0;
+          if (dustUg < 35) { dustQuality = "Clean"; dustCode = 0; }
+          else if (dustUg < 75) { dustQuality = "Moderate"; dustCode = 1; }
+          else if (dustUg < 150) { dustQuality = "Poor"; dustCode = 2; }
+          else { dustQuality = "Hazardous"; dustCode = 3; }
+
+          const readingObj = {
+            raw: raw,
+            voltage: voltage,
+            status: /ALERT/i.test(line) ? "ALERT" : "NORMAL",
+            quality: gasQuality,
+            color: gasColor,
+            qualityCode: gasCode,
+            dustUgM3: dustUg,
+            dustMgM3: dustUg / 1000.0,
+            dustVoltage: (dustUg / 1000.0 + 0.1) / 0.17,
+            dustQuality: dustQuality,
+            dustQualityCode: dustCode,
+            dustEnabled: true,
+            combinedQuality: gasCode >= dustCode ? gasQuality : dustQuality,
+            combinedColor: gasColor,
+            uptimeSec: Math.floor(performance.now() / 1000),
+            preheatSecRemaining: 0
+          };
+          updateDashboard(readingObj);
+          saveReadingToDb(readingObj);
+        }
+      }
+    }
+
+    // ==========================================
+    // Update Dashboard UI
+    // ==========================================
+    function updateDashboard(data) {
+      const helperBox = document.getElementById('heroTroubleshoot');
+      if (helperBox) helperBox.style.display = 'none';
+
+      historyGas.push(data.raw);
+      if (historyGas.length > MAX_LIVE_POINTS) historyGas.shift();
+
+      const dustUg = data.dustUgM3 !== undefined ? Number(data.dustUgM3) : 0.0;
+      historyDust.push(dustUg);
+      if (historyDust.length > MAX_LIVE_POINTS) historyDust.shift();
+
+      document.getElementById('legendGasVal').textContent = data.raw;
+      document.getElementById('legendDustVal').textContent = `${dustUg.toFixed(1)} µg/m³`;
+
+      // 1. Gas Gauge (MQ-135)
+      document.getElementById('valGasRaw').textContent = data.raw;
+      const badgeGas = document.getElementById('badgeGas');
+      badgeGas.textContent = data.quality;
+      badgeGas.style.color = data.color;
+      badgeGas.style.borderColor = data.color;
+      badgeGas.style.background = data.color + '22';
+      badgeGas.style.boxShadow = '0 0 20px ' + data.color + '33';
+
+      const circ = 565.48;
+      const progressGas = Math.min(1, Math.max(0, data.raw / 4095));
+      const offsetGas = circ - (progressGas * circ);
+      const gaugeGasArc = document.getElementById('gaugeGasArc');
+      gaugeGasArc.style.strokeDashoffset = offsetGas;
+      gaugeGasArc.style.stroke = data.color;
+
+      document.getElementById('subGasVolt').textContent = Number(data.voltage).toFixed(2) + 'V';
+      document.getElementById('subGasAlert').textContent = data.status;
+      document.getElementById('subGasAlert').style.color = data.status === 'ALERT' ? 'var(--hazardous)' : 'var(--clean)';
+
+      const descGas = document.getElementById('descGas');
+      if (data.qualityCode === 0) descGas.textContent = "Gas concentration normal. Pristine indoor air quality.";
+      else if (data.qualityCode === 1) descGas.textContent = "Moderate gas levels. Minor ambient smoke or chemical vapors.";
+      else if (data.qualityCode === 2) descGas.textContent = "Poor air quality! Consider opening windows or turning on exhaust.";
+      else descGas.textContent = "Hazardous gas levels detected! Ventilate area immediately.";
+
+      // 2. Optical Dust Gauge (Sharp GP2Y1014AU0F)
+      const valDustUg = document.getElementById('valDustUg');
+      const badgeDust = document.getElementById('badgeDust');
+      const gaugeDustArc = document.getElementById('gaugeDustArc');
+      const subDustVolt = document.getElementById('subDustVolt');
+      const subDustMg = document.getElementById('subDustMg');
+      const descDust = document.getElementById('descDust');
+
+      valDustUg.textContent = dustUg.toFixed(1);
+      const dustColor = dustUg < 35 ? '#10b981' : (dustUg < 75 ? '#f59e0b' : (dustUg < 150 ? '#f97316' : '#ef4444'));
+
+      badgeDust.textContent = data.dustQuality || (dustUg < 35 ? 'Clean' : 'Moderate');
+      badgeDust.style.color = dustColor;
+      badgeDust.style.borderColor = dustColor;
+      badgeDust.style.background = dustColor + '22';
+      badgeDust.style.boxShadow = '0 0 20px ' + dustColor + '33';
+
+      const progressDust = Math.min(1, Math.max(0, dustUg / 200));
+      const offsetDust = circ - (progressDust * circ);
+      gaugeDustArc.style.strokeDashoffset = offsetDust;
+      gaugeDustArc.style.stroke = dustColor;
+
+      const dVolt = Number(data.dustVoltage || 0).toFixed(2);
+      const dMg = Number(data.dustMgM3 || (dustUg / 1000)).toFixed(3);
+      subDustVolt.textContent = dVolt + 'V';
+      subDustMg.textContent = dMg + ' mg/m³';
+
+      if (dustUg < 35) descDust.textContent = "PM2.5 particulate count is low. Clean optical baseline.";
+      else if (dustUg < 75) descDust.textContent = "Moderate particulate count. Light dust, pollen, or haze present.";
+      else if (dustUg < 150) descDust.textContent = "High PM2.5 particulate density! Close windows, activate air purifier.";
+      else descDust.textContent = "Hazardous particle storm! Heavy smoke or direct dust detected.";
+
+      // 3. Composite Banner
+      const compBanner = document.getElementById('compositeBanner');
+      const compIcon = document.getElementById('compositeIcon');
+      const compTitle = document.getElementById('compositeTitle');
+      const compAdvice = document.getElementById('compositeAdvice');
+      const compBadge = document.getElementById('compositeBadge');
+
+      const isWorstHazard = data.qualityCode >= 3 || (data.dustQualityCode && data.dustQualityCode >= 3) || dustUg >= 150;
+      const isWorstPoor = data.qualityCode >= 2 || (data.dustQualityCode && data.dustQualityCode >= 2) || dustUg >= 75;
+      const isWorstMod = data.qualityCode >= 1 || (data.dustQualityCode && data.dustQualityCode >= 1) || dustUg >= 35;
+
+      if (isWorstHazard) {
+        compBanner.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.16), rgba(249, 115, 22, 0.12))';
+        compBanner.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+        compBanner.style.boxShadow = '0 8px 30px -10px rgba(239, 68, 68, 0.4)';
+        compIcon.textContent = '🚨';
+        compTitle.textContent = 'Atmosphere Status: Hazardous Contamination';
+        compAdvice.textContent = 'Critical airborne hazard! Immediate high-speed ventilation or evacuation advised.';
+        compBadge.textContent = 'HAZARDOUS';
+        compBadge.style.color = 'var(--hazardous)';
+        compBadge.style.borderColor = 'var(--hazardous)';
+        compBadge.style.background = 'rgba(239, 68, 68, 0.2)';
+        update3DAtmosphere(0xef4444, 2.0);
+      } else if (isWorstPoor) {
+        compBanner.style.background = 'linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(245, 158, 11, 0.1))';
+        compBanner.style.borderColor = 'rgba(249, 115, 22, 0.35)';
+        compBanner.style.boxShadow = '0 8px 30px -10px rgba(249, 115, 22, 0.35)';
+        compIcon.textContent = '⚠️';
+        compTitle.textContent = 'Atmosphere Status: Unhealthy / Poor';
+        compAdvice.textContent = 'Elevated contaminants detected. Run air filtration and open windows for fresh circulation.';
+        compBadge.textContent = 'POOR AIR';
+        compBadge.style.color = 'var(--poor)';
+        compBadge.style.borderColor = 'var(--poor)';
+        compBadge.style.background = 'rgba(249, 115, 22, 0.2)';
+        update3DAtmosphere(0xf97316, 1.4);
+      } else if (isWorstMod) {
+        compBanner.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.14), rgba(56, 189, 248, 0.08))';
+        compBanner.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+        compBanner.style.boxShadow = '0 8px 30px -10px rgba(245, 158, 11, 0.25)';
+        compIcon.textContent = '🌤️';
+        compTitle.textContent = 'Atmosphere Status: Moderate Atmosphere';
+        compAdvice.textContent = 'Standard indoor air. Sensitive individuals may experience mild allergy or throat irritation.';
+        compBadge.textContent = 'MODERATE';
+        compBadge.style.color = 'var(--moderate)';
+        compBadge.style.borderColor = 'var(--moderate)';
+        compBadge.style.background = 'rgba(245, 158, 11, 0.2)';
+        update3DAtmosphere(0xf59e0b, 0.8);
+      } else {
+        compBanner.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(56, 189, 248, 0.08))';
+        compBanner.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+        compBanner.style.boxShadow = '0 8px 30px -10px rgba(16, 185, 129, 0.25)';
+        compIcon.textContent = '🌿';
+        compTitle.textContent = 'Atmosphere Status: Clean & Healthy';
+        compAdvice.textContent = 'Both MQ-135 and Sharp GP2Y indicate fresh, optimal indoor breathing conditions.';
+        compBadge.textContent = 'CLEAN';
+        compBadge.style.color = 'var(--clean)';
+        compBadge.style.borderColor = 'var(--clean)';
+        compBadge.style.background = 'rgba(16, 185, 129, 0.2)';
+        update3DAtmosphere(0x10b981, 0.3);
+      }
+
+      // 4. Metric Cards
+      document.getElementById('valGasVoltCard').textContent = Number(data.voltage).toFixed(2);
+      const voltPct = Math.min(100, Math.max(0, (data.voltage / 3.3) * 100));
+      document.getElementById('barGasVolt').style.width = voltPct + '%';
+
+      document.getElementById('valDustVoltCard').textContent = dVolt;
+      const dustVoltPct = Math.min(100, Math.max(0, (parseFloat(dVolt) / 3.3) * 100));
+      document.getElementById('barDustVolt').style.width = dustVoltPct + '%';
+
+      // Preheating
+      const preheatVal = document.getElementById('valPreheat');
+      const preheatBar = document.getElementById('barPreheat');
+      const preheatDesc = document.getElementById('preheatDesc');
+      if (data.preheatSecRemaining > 0) {
+        const pMins = Math.floor(data.preheatSecRemaining / 60);
+        const pSecs = data.preheatSecRemaining % 60;
+        preheatVal.textContent = `${pMins}m ${pSecs}s left`;
+        preheatVal.style.color = 'var(--moderate)';
+        preheatDesc.textContent = "Sensor heater stabilizing...";
+        const heatPct = Math.min(100, Math.max(0, ((180 - data.preheatSecRemaining) / 180) * 100));
+        preheatBar.style.width = heatPct + '%';
+        preheatBar.style.background = 'var(--moderate)';
+      } else {
+        preheatVal.textContent = 'Heated & Ready';
+        preheatVal.style.color = 'var(--clean)';
+        preheatDesc.textContent = "Thermal baseline reached";
+        preheatBar.style.width = '100%';
+        preheatBar.style.background = 'var(--clean)';
+      }
+
+      // Uptime
+      const mins = Math.floor(data.uptimeSec / 60);
+      const secs = data.uptimeSec % 60;
+      document.getElementById('valUptime').textContent = `${mins}m ${secs}s`;
+
+      if (currentMainView === 'live') {
+        renderLiveChart();
+      }
+    }
+
+    // ==========================================
+    // Multi-Stream Live Chart
+    // ==========================================
+    function renderLiveChart() {
+      const rect = liveCanvas.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      liveCtx.clearRect(0, 0, w, h);
+
+      const paddingLeft = 50;
+      const paddingRight = 50;
+      const paddingTop = 20;
+      const paddingBottom = 30;
+      const graphW = w - paddingLeft - paddingRight;
+      const graphH = h - paddingTop - paddingBottom;
+
+      if (historyGas.length < 2) {
+        liveCtx.save();
+        liveCtx.fillStyle = '#64748b';
+        liveCtx.textAlign = 'center';
+        liveCtx.font = '12px "Plus Jakarta Sans", sans-serif';
+        liveCtx.fillText('Awaiting sensor data streams...', paddingLeft + graphW / 2, paddingTop + graphH / 2 - 8);
+        liveCtx.font = '11px "JetBrains Mono", monospace';
+        liveCtx.fillStyle = '#475569';
+        liveCtx.fillText('Connect Bluetooth, USB / COM, or launch 🧪 Demo Mode', paddingLeft + graphW / 2, paddingTop + graphH / 2 + 14);
+        liveCtx.restore();
+        return;
+      }
+
+      let minGas = Math.min(...historyGas);
+      let maxGas = Math.max(...historyGas);
+      minGas = Math.max(0, Math.floor((minGas - 100) / 200) * 200);
+      maxGas = Math.ceil((maxGas + 200) / 400) * 400;
+      if (maxGas - minGas < 400) maxGas = minGas + 400;
+
+      let minDust = 0;
+      let maxDust = Math.max(50, Math.ceil(Math.max(...historyDust) * 1.3));
+
+      // Grid Lines
+      liveCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      liveCtx.lineWidth = 1;
+      liveCtx.font = '10px "JetBrains Mono", monospace';
+
+      const gridSteps = 4;
+      for (let i = 0; i <= gridSteps; i++) {
+        const yPos = paddingTop + graphH - (i / gridSteps) * graphH;
+        liveCtx.beginPath();
+        liveCtx.moveTo(paddingLeft, yPos);
+        liveCtx.lineTo(w - paddingRight, yPos);
+        liveCtx.stroke();
+
+        if (chartMode === 'dual' || chartMode === 'gas') {
+          const gasVal = Math.round(minGas + ((maxGas - minGas) / gridSteps) * i);
+          liveCtx.fillStyle = '#38bdf8';
+          liveCtx.textAlign = 'right';
+          liveCtx.fillText(gasVal, paddingLeft - 8, yPos + 3);
+        }
+
+        if (chartMode === 'dual' || chartMode === 'dust') {
+          const dustVal = Math.round(minDust + ((maxDust - minDust) / gridSteps) * i);
+          liveCtx.fillStyle = '#c084fc';
+          liveCtx.textAlign = 'left';
+          liveCtx.fillText(`${dustVal}µg`, w - paddingRight + 8, yPos + 3);
+        }
+      }
+
+      // Draw Gas Line
+      if (chartMode === 'dual' || chartMode === 'gas') {
+        const gasPoints = historyGas.map((val, idx) => {
+          const x = paddingLeft + (idx / (MAX_LIVE_POINTS - 1)) * graphW;
+          const yPct = (val - minGas) / (maxGas - minGas);
+          const y = paddingTop + graphH - (yPct * graphH);
+          return { x, y };
+        });
+
+        const gradGas = liveCtx.createLinearGradient(0, paddingTop, 0, paddingTop + graphH);
+        gradGas.addColorStop(0, 'rgba(56, 189, 248, 0.25)');
+        gradGas.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+
+        liveCtx.beginPath();
+        liveCtx.moveTo(gasPoints[0].x, paddingTop + graphH);
+        gasPoints.forEach(p => liveCtx.lineTo(p.x, p.y));
+        liveCtx.lineTo(gasPoints[gasPoints.length - 1].x, paddingTop + graphH);
+        liveCtx.closePath();
+        liveCtx.fillStyle = gradGas;
+        liveCtx.fill();
+
+        liveCtx.beginPath();
+        liveCtx.strokeStyle = '#38bdf8';
+        liveCtx.lineWidth = 2.5;
+        liveCtx.lineJoin = 'round';
+        gasPoints.forEach((p, idx) => {
+          if (idx === 0) liveCtx.moveTo(p.x, p.y);
+          else liveCtx.lineTo(p.x, p.y);
+        });
+        liveCtx.stroke();
+
+        const lastGas = gasPoints[gasPoints.length - 1];
+        liveCtx.beginPath();
+        liveCtx.arc(lastGas.x, lastGas.y, 4.5, 0, 2 * Math.PI);
+        liveCtx.fillStyle = '#38bdf8';
+        liveCtx.shadowColor = '#38bdf8';
+        liveCtx.shadowBlur = 8;
+        liveCtx.fill();
+        liveCtx.shadowBlur = 0;
+      }
+
+      // Draw Dust Line
+      if (chartMode === 'dual' || chartMode === 'dust') {
+        const dustPoints = historyDust.map((val, idx) => {
+          const x = paddingLeft + (idx / (MAX_LIVE_POINTS - 1)) * graphW;
+          const yPct = (val - minDust) / (maxDust - minDust);
+          const y = paddingTop + graphH - (yPct * graphH);
+          return { x, y };
+        });
+
+        if (chartMode === 'dust') {
+          const gradDust = liveCtx.createLinearGradient(0, paddingTop, 0, paddingTop + graphH);
+          gradDust.addColorStop(0, 'rgba(168, 85, 247, 0.28)');
+          gradDust.addColorStop(1, 'rgba(168, 85, 247, 0.0)');
+
+          liveCtx.beginPath();
+          liveCtx.moveTo(dustPoints[0].x, paddingTop + graphH);
+          dustPoints.forEach(p => liveCtx.lineTo(p.x, p.y));
+          liveCtx.lineTo(dustPoints[dustPoints.length - 1].x, paddingTop + graphH);
+          liveCtx.closePath();
+          liveCtx.fillStyle = gradDust;
+          liveCtx.fill();
+        }
+
+        liveCtx.beginPath();
+        liveCtx.strokeStyle = '#c084fc';
+        liveCtx.lineWidth = 2.5;
+        liveCtx.lineJoin = 'round';
+        dustPoints.forEach((p, idx) => {
+          if (idx === 0) liveCtx.moveTo(p.x, p.y);
+          else liveCtx.lineTo(p.x, p.y);
+        });
+        liveCtx.stroke();
+
+        const lastDust = dustPoints[dustPoints.length - 1];
+        liveCtx.beginPath();
+        liveCtx.arc(lastDust.x, lastDust.y, 4.5, 0, 2 * Math.PI);
+        liveCtx.fillStyle = '#c084fc';
+        liveCtx.shadowColor = '#c084fc';
+        liveCtx.shadowBlur = 8;
+        liveCtx.fill();
+        liveCtx.shadowBlur = 0;
+      }
+    }
+
+    // ==========================================
+    // Simulation Demo Mode
+    // ==========================================
+    function toggleDemo() {
+      if (demoInterval) {
+        stopDemo();
+      } else {
+        startDemo();
+      }
+    }
+
+    function startDemo() {
+      disconnectDevice();
+      setConnectedState("🧪 Simulation Demo Mode Active");
+      logMsg("Simulation Demo Mode started with persistent DB logging...", "success");
+
+      const btn = document.getElementById('btnDemo');
+      btn.innerHTML = '<span>⏹️</span> Stop Demo';
+      btn.classList.add('demo-active');
+
+      let step = 0;
+      let currentGas = 1750;
+      let currentDust = 14.0;
+      let uptime = 0;
+
+      demoInterval = setInterval(() => {
+        uptime += 1.5;
+        step = (step + 1) % 80;
+
+        if (step < 20) {
+          currentGas = 1650 + Math.floor(Math.sin(step) * 120);
+          currentDust = 12.0 + Math.random() * 8.0;
+        } else if (step < 38) {
+          currentGas = 2200 + Math.floor(Math.sin(step) * 200);
+          currentDust = 75.0 + Math.random() * 45.0;
+        } else if (step < 55) {
+          currentGas = 3300 + Math.floor(Math.sin(step) * 350);
+          currentDust = 165.0 + Math.random() * 40.0;
+        } else {
+          currentGas = Math.max(1600, currentGas - 240);
+          currentDust = Math.max(12.0, currentDust - 18.0);
+        }
+
+        const gasVolt = (currentGas / 4095.0) * 3.3;
+        const dustVolt = (currentDust / 1000.0 + 0.1) / 0.17;
+
+        let gasQuality = "Clean Air", gasColor = "#10b981", gasCode = 0;
+        if (currentGas < 2100) { gasQuality = "Clean Air"; gasColor = "#10b981"; gasCode = 0; }
+        else if (currentGas < 2700) { gasQuality = "Moderate"; gasColor = "#f59e0b"; gasCode = 1; }
+        else if (currentGas < 3300) { gasQuality = "Poor Air"; gasColor = "#f97316"; gasCode = 2; }
+        else { gasQuality = "Hazardous"; gasColor = "#ef4444"; gasCode = 3; }
+
+        let dustQuality = "Clean", dustCode = 0;
+        if (currentDust < 35) { dustQuality = "Clean"; dustCode = 0; }
+        else if (currentDust < 75) { dustQuality = "Moderate"; dustCode = 1; }
+        else if (currentDust < 150) { dustQuality = "Poor"; dustCode = 2; }
+        else { dustQuality = "Hazardous"; dustCode = 3; }
+
+        const readingData = {
+          raw: currentGas,
+          voltage: gasVolt,
+          status: (currentGas > 2800 || currentDust > 120) ? "ALERT" : "NORMAL",
+          quality: gasQuality,
+          color: gasColor,
+          qualityCode: gasCode,
+          dustUgM3: currentDust,
+          dustMgM3: currentDust / 1000.0,
+          dustVoltage: dustVolt,
+          dustQuality: dustQuality,
+          dustQualityCode: dustCode,
+          dustEnabled: true,
+          combinedQuality: gasCode >= dustCode ? gasQuality : dustQuality,
+          combinedColor: gasColor,
+          uptimeSec: Math.floor(uptime),
+          preheatSecRemaining: Math.max(0, 30 - Math.floor(uptime))
+        };
+
+        updateDashboard(readingData);
+        saveReadingToDb(readingData);
+      }, 1300);
+    }
+
+    function stopDemo() {
+      if (demoInterval) {
+        clearInterval(demoInterval);
+        demoInterval = null;
+      }
+      const btn = document.getElementById('btnDemo');
+      btn.innerHTML = '<span>🧪</span> Demo Mode';
+      btn.classList.remove('demo-active');
+      logMsg("Simulation Demo Mode stopped.");
+      setDisconnectedState();
+    }
+
+    // ==========================================
+    // UI State Helpers
+    // ==========================================
+    function setConnectingState(msg) {
+      document.getElementById('connStatus').textContent = msg;
+      const dot = document.getElementById('pulseDot');
+      dot.className = 'pulse-dot active';
+      dot.style.background = '#f59e0b';
+    }
+
+    function setConnectedState(label) {
+      document.getElementById('connStatus').textContent = label;
+      const dot = document.getElementById('pulseDot');
+      dot.className = 'pulse-dot active';
+      dot.style.background = 'var(--clean)';
+      document.getElementById('btnConnectBle').style.display = 'none';
+      document.getElementById('btnConnectSerial').style.display = 'none';
+      document.getElementById('btnDisconnect').style.display = 'inline-flex';
+    }
+
+    function setDisconnectedState() {
+      document.getElementById('connStatus').textContent = 'Disconnected';
+      const dot = document.getElementById('pulseDot');
+      dot.className = 'pulse-dot';
+      dot.style.background = '#64748b';
+      document.getElementById('btnConnectBle').style.display = 'inline-flex';
+      document.getElementById('btnConnectSerial').style.display = 'inline-flex';
+      document.getElementById('btnDisconnect').style.display = 'none';
+    }
+
+    function onDisconnected() {
+      logMsg("Device disconnected.", "warn");
+      setDisconnectedState();
+    }
+
+    async function disconnectDevice() {
+      if (demoInterval) stopDemo();
+
+      try {
+        if (bleDevice && bleDevice.gatt && bleDevice.gatt.connected) {
+          bleDevice.gatt.disconnect();
+          logMsg("Bluetooth disconnected.");
+        }
+      } catch (e) {
+        console.warn("BLE disconnect err:", e);
+      }
+
+      try {
+        if (serialReader) {
+          await serialReader.cancel();
+          serialReader.releaseLock();
+          serialReader = null;
+        }
+        if (serialPort) {
+          await serialPort.close();
+          serialPort = null;
+          logMsg("Serial COM port closed.");
+        }
+      } catch (e) {
+        console.warn("Serial close err:", e);
+      }
+
+      setDisconnectedState();
+    }
+  </script>
+</body>
+</html>
