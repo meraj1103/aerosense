@@ -1619,6 +1619,8 @@
       font-size: 0.85rem;
       line-height: 1.5;
       position: relative;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
     .msg-bot .msg-bubble {
       background: rgba(255, 255, 255, 0.04);
@@ -4168,7 +4170,18 @@
       audioCtx: null,
       speechRecognizer: null,
       isListening: false,
-      currentReading: { raw: 1750, voltage: 1.4, dustUg: 15.0, aqi: 25, catIndex: 0, name: "Good" },
+      currentReading: {
+        raw: 1750,
+        voltage: 1.40,
+        dustUg: 15.0,
+        dustVoltage: 0.60,
+        aqi: 25,
+        catIndex: 0,
+        name: "Good",
+        color: "#10b981",
+        status: "Baseline Ready",
+        uptimeSec: 0
+      },
 
       motivationalQuotes: [
         {
@@ -4530,6 +4543,7 @@
       logChatAlert(title, text, color) {
         const container = document.getElementById('chatMessagesContainer');
         if (!container) return;
+        const typing = document.getElementById('chatTypingIndicator');
         const msgDiv = document.createElement('div');
         msgDiv.className = 'chat-msg msg-bot';
         msgDiv.innerHTML = `
@@ -4543,13 +4557,18 @@
             <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
           </div>
         `;
-        container.appendChild(msgDiv);
+        if (typing && typing.parentNode === container) {
+          container.insertBefore(msgDiv, typing);
+        } else {
+          container.appendChild(msgDiv);
+        }
         container.scrollTop = container.scrollHeight;
       },
 
       logChatMotivation(title, text) {
         const container = document.getElementById('chatMessagesContainer');
         if (!container) return;
+        const typing = document.getElementById('chatTypingIndicator');
         const msgDiv = document.createElement('div');
         msgDiv.className = 'chat-msg msg-bot';
         msgDiv.innerHTML = `
@@ -4560,7 +4579,11 @@
             <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
           </div>
         `;
-        container.appendChild(msgDiv);
+        if (typing && typing.parentNode === container) {
+          container.insertBefore(msgDiv, typing);
+        } else {
+          container.appendChild(msgDiv);
+        }
         container.scrollTop = container.scrollHeight;
       },
 
@@ -4585,8 +4608,8 @@
 Current Live Sensor Telemetry:
 - National AQI: ${cur.aqi} (${cur.name} - 0 to 500 scale)
 - Sharp Optical PM2.5: ${Number(cur.dustUg).toFixed(1)} µg/m³ (Voltage: ${Number(cur.dustVoltage || 0).toFixed(2)}V)
-- MQ-135 Gas ADC: ${cur.raw} (Voltage: ${Number(cur.voltage).toFixed(2)}V, Status: ${cur.status})
-- Continuous Uptime: ${cur.uptimeSec} seconds
+- MQ-135 Gas ADC: ${cur.raw} (Voltage: ${Number(cur.voltage || 0).toFixed(2)}V, Status: ${cur.status || 'Active'})
+- Continuous Uptime: ${cur.uptimeSec || 0} seconds
 Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3-4 paragraphs, formatted cleanly with emojis and bullet points. Always motivate the user and prioritize their health.`;
 
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
@@ -4613,12 +4636,63 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!text) throw new Error("Empty response from Gemini");
 
-        return text + `<br><div class="msg-card-block" style="font-size:0.75rem; color:#38bdf8; border-color:rgba(56,189,248,0.3); margin-top:10px;">✨ <em>Powered by Google Gemini AI Studio</em></div>`;
+        const formattedHtml = formatChatMarkdown(text);
+        return formattedHtml + `<br><div class="msg-card-block" style="font-size:0.75rem; color:#38bdf8; border-color:rgba(56,189,248,0.3); margin-top:10px;">✨ <em>Powered by Google Gemini AI Studio</em></div>`;
       },
 
       localExpertKnowledge(query) {
         const q = query.toLowerCase();
         const cur = this.currentReading;
+
+        // 0. Greetings & Friendly Small Talk
+        if (q.match(/\b(hi|hello|hey|greetings|good morning|good afternoon|good evening|sup|yo)\b/)) {
+          return `
+            👋 <strong>Hello there! I'm AeroBot, your environmental wellness coach.</strong><br><br>
+            I'm constantly watching your air quality in real time! Currently, your indoor air is rated 
+            <strong style="color:${cur.color}; font-weight:800;">${cur.aqi} (${cur.name})</strong> with PM2.5 at <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong>.<br><br>
+            How can I assist you today? You can ask me anything about:
+            <br>• 🏃 <em>"Is it safe to run or exercise?"</em>
+            <br>• ⚠️ <em>"What immediate precautions should I take?"</em>
+            <br>• 🌱 <em>"Best indoor plants to purify my room?"</em>
+            <br>• 🔬 <em>"How does my MQ-135 or Sharp dust sensor work?"</em>
+            <br>• 🧘 <em>"Guide me through a 4-7-8 breathing exercise"</em>
+          `;
+        }
+
+        // 0.1 Who are you / Bot capabilities / Help
+        if (q.includes('who are you') || q.includes('what are you') || q.includes('what can you do') || q.includes('help') || q.includes('features')) {
+          return `
+            🤖 <strong>About AeroBot AI:</strong><br><br>
+            I am the intelligent companion built into your <strong>AeroSense ESP32</strong> air monitor!<br><br>
+            <strong>What I do for you:</strong><br>
+            • <strong>Real-Time Alerts:</strong> I immediately warn you if toxic gases (MQ-135) or fine dust (Sharp GP2Y) spike into unhealthy zones.<br>
+            • <strong>Health &amp; Cardio Guidance:</strong> I tell you when it's safe to exercise outdoors and when to train indoors.<br>
+            • <strong>Plant &amp; Purification Tips:</strong> NASA-studied flora recommendations and HEPA filtration protocols.<br>
+            • <strong>Mindful Respiration:</strong> Built-in 4-7-8 breathing circle to lower stress and improve oxygen uptake.<br>
+            • <strong>Optional Gemini Studio LLM:</strong> Tap the ⚙️ icon in the header to connect your free Google Gemini API key for open-ended conversational intelligence!
+          `;
+        }
+
+        // 0.2 Gas, VOCs, Smoke, Fire, Toxic odors
+        if (q.includes('smoke') || q.includes('gas') || q.includes('fire') || q.includes('voc') || q.includes('smell') || q.includes('odor') || q.includes('leak') || q.includes('carbon monoxide') || q.includes('co') || q.includes('toxic')) {
+          return `
+            🔥 <strong>Gas, Smoke &amp; VOC Protocol:</strong><br><br>
+            Your onboard <strong>MQ-135 semiconductor sensor</strong> is currently reading raw ADC: <strong>${cur.raw}</strong> (${Number(cur.voltage).toFixed(2)}V).<br><br>
+            • <strong>Target Gases:</strong> The MQ-135 is sensitive to Carbon Monoxide (CO), Ammonia (NH3), Alcohol, Smoke, and aromatic hydrocarbons (Benzene).<br>
+            • <strong>If Smoke or Gas Detected:</strong> Immediately ventilate the area, check kitchen gas stoves, extinguish any smoldering materials, and evacuate if levels remain persistently elevated.<br>
+            • <strong>Filtration Note:</strong> Standard particulate HEPA filters do NOT capture gases. Use an <strong>Activated Carbon filter</strong> to adsorb chemical molecules and foul odors.
+          `;
+        }
+
+        // 0.3 Connectivity, Bluetooth, WiFi, Hardware setup
+        if (q.includes('connect') || q.includes('bluetooth') || q.includes('ble') || q.includes('pairing') || q.includes('serial') || q.includes('usb') || q.includes('offline')) {
+          return `
+            📶 <strong>AeroSense Connectivity &amp; Hardware Guide:</strong><br><br>
+            • <strong>Bluetooth BLE:</strong> Tap the 🔵 <em>Connect Bluetooth</em> button in the header. Select 'AeroSense-AirMonitor' from the Web Bluetooth popup in Chrome or Edge.<br>
+            • <strong>Web Serial / USB:</strong> Connect your ESP32 via micro-USB/Type-C and click <em>Connect USB Serial</em> at 115200 baud.<br>
+            • <strong>100% Offline PWA:</strong> This dashboard and my expert intelligence work entirely offline without needing an active internet connection!
+          `;
+        }
 
         // 1. Current Air Status & Audit
         if (q.includes('air right now') || q.includes('how is my air') || q.includes('audit') || q.includes('status') || q.includes('current reading') || q.includes('what is the aqi')) {
@@ -4747,6 +4821,23 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
       }
     };
 
+    // Lightweight markdown formatter for AI responses
+    function formatChatMarkdown(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/^### (.*$)/gim, '<h4 style="margin:8px 0 4px; color:#38bdf8;">$1</h4>')
+        .replace(/^## (.*$)/gim, '<h3 style="margin:10px 0 4px; color:#38bdf8;">$1</h3>')
+        .replace(/^\s*[-*]\s+(.*)$/gim, '• $1<br>')
+        .replace(/^\s*(\d+)\.\s+(.*)$/gim, '$1. $2<br>')
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n/g, '<br>');
+    }
+
     // ==========================================
     // UI Drawer, Chat, and Modal Controllers
     // ==========================================
@@ -4804,7 +4895,7 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
       const container = document.getElementById('chatMessagesContainer');
       const typing = document.getElementById('chatTypingIndicator');
 
-      // Append user bubble
+      // Append user bubble strictly before typing indicator
       const userDiv = document.createElement('div');
       userDiv.className = 'chat-msg msg-user';
       userDiv.innerHTML = `
@@ -4814,56 +4905,95 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
           <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
         </div>
       `;
-      if (container && typing) {
-        container.insertBefore(userDiv, typing);
-        typing.style.display = 'flex';
+      if (container) {
+        if (typing && typing.parentNode === container) {
+          container.insertBefore(userDiv, typing);
+          typing.style.display = 'flex';
+        } else {
+          container.appendChild(userDiv);
+        }
         container.scrollTop = container.scrollHeight;
       }
 
       window.AeroBotEngine.playAudioTone('bell');
 
-      // Generate bot response
-      const answerHtml = await window.AeroBotEngine.generateResponse(text);
+      try {
+        // Generate bot response
+        const answerHtml = await window.AeroBotEngine.generateResponse(text);
 
-      if (typing) typing.style.display = 'none';
+        // Append bot bubble strictly before typing indicator so typing always remains at the bottom
+        const botDiv = document.createElement('div');
+        botDiv.className = 'chat-msg msg-bot';
+        botDiv.innerHTML = `
+          <div class="msg-avatar">🤖</div>
+          <div class="msg-bubble">
+            ${answerHtml}
+            <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+          </div>
+        `;
+        if (container) {
+          if (typing && typing.parentNode === container) {
+            container.insertBefore(botDiv, typing);
+          } else {
+            container.appendChild(botDiv);
+          }
+          container.scrollTop = container.scrollHeight;
+        }
 
-      // Append bot bubble
-      const botDiv = document.createElement('div');
-      botDiv.className = 'chat-msg msg-bot';
-      botDiv.innerHTML = `
-        <div class="msg-avatar">🤖</div>
-        <div class="msg-bubble">
-          ${answerHtml}
-          <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
-        </div>
-      `;
-      if (container) {
-        container.appendChild(botDiv);
-        container.scrollTop = container.scrollHeight;
-      }
-
-      // Read aloud if voice enabled
-      if (window.AeroBotEngine.voiceEnabled) {
-        const plainText = answerHtml.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-        window.AeroBotEngine.speak(plainText);
+        // Read aloud with high priority if voice enabled
+        if (window.AeroBotEngine.voiceEnabled) {
+          const plainText = answerHtml.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+          window.AeroBotEngine.speak(plainText, true);
+        }
+      } catch (err) {
+        console.error("AeroBot chat error:", err);
+        const errDiv = document.createElement('div');
+        errDiv.className = 'chat-msg msg-bot';
+        errDiv.innerHTML = `
+          <div class="msg-avatar">🤖</div>
+          <div class="msg-bubble" style="border-color:rgba(239,68,68,0.4);">
+            ⚠️ <em>I encountered a temporary issue generating a response. Please try again!</em>
+            <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+          </div>
+        `;
+        if (container) {
+          if (typing && typing.parentNode === container) {
+            container.insertBefore(errDiv, typing);
+          } else {
+            container.appendChild(errDiv);
+          }
+        }
+      } finally {
+        if (typing) typing.style.display = 'none';
+        if (container) container.scrollTop = container.scrollHeight;
       }
     }
 
     function clearAeroBotChat() {
       const container = document.getElementById('chatMessagesContainer');
       const typing = document.getElementById('chatTypingIndicator');
-      if (container) {
-        container.innerHTML = `
-          <div class="chat-msg msg-bot">
-            <div class="msg-avatar">🤖</div>
-            <div class="msg-bubble">
-              Chat history cleared. AeroBot is actively monitoring your air in real time! Ask me anything or tap a prompt below. 🌿
-              <span class="msg-time">Just now</span>
-            </div>
-          </div>
-        `;
-        if (typing) container.appendChild(typing);
+      if (!container) return;
+
+      // Clear only message divs, preserving the typing indicator
+      const msgs = container.querySelectorAll('.chat-msg');
+      msgs.forEach(m => m.remove());
+
+      const welcomeDiv = document.createElement('div');
+      welcomeDiv.className = 'chat-msg msg-bot';
+      welcomeDiv.innerHTML = `
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-bubble">
+          Chat history cleared. AeroBot is actively monitoring your air in real time! Ask me anything or tap a prompt below. 🌿
+          <span class="msg-time">Just now</span>
+        </div>
+      `;
+
+      if (typing && typing.parentNode === container) {
+        container.insertBefore(welcomeDiv, typing);
+      } else {
+        container.appendChild(welcomeDiv);
       }
+      container.scrollTop = 0;
     }
 
     function toggleAeroVoice() {
@@ -4875,10 +5005,14 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
         alert("Speech Recognition is not supported by this browser. Try Google Chrome on PC or Android.");
         return;
       }
-      if (window.AeroBotEngine.isListening) {
-        window.AeroBotEngine.speechRecognizer.stop();
-      } else {
-        window.AeroBotEngine.speechRecognizer.start();
+      try {
+        if (window.AeroBotEngine.isListening) {
+          window.AeroBotEngine.speechRecognizer.stop();
+        } else {
+          window.AeroBotEngine.speechRecognizer.start();
+        }
+      } catch (err) {
+        console.warn("Speech recognition toggle error:", err);
       }
     }
 
