@@ -70,11 +70,17 @@ All sensor readings are automatically saved to your phone or computer's internal
 
 ---
 
-## Key Dashboard & App Capabilities
-
+* **🤖 AeroBot AI Companion & Real-Time Motivation Engine:**
+  * **Live Motivational Coaching:** Automatically boosts morale, focus, and energy when air is pristine, delivering actionable tips for workouts and productivity.
+  * **Proactive Pollution Alerts:** Instantly triggers audio alarms, speech synthesis voice alerts, and push notifications when PM2.5 or VOCs reach unhealthy thresholds.
+  * **Interactive Glassmorphic AI Chat:** Ask AeroBot about outdoor running safety, mask precautions, indoor air-purifying plants (NASA study), sensor physics, or breathing exercises.
+  * **Zero-Setup Offline Intelligence + Gemini Support:** Built-in expert medical/air-quality reasoning engine runs 100% locally offline, with optional Google Gemini 1.5/2.0 Flash API support.
+  * **🧘 Guided 4-7-8 Mindful Breathing Tool:** Animated visual circle with gentle audio tones to expand lung capacity and lower stress.
+  * **🔊 Speech-to-Text & Text-to-Speech:** Talk to AeroBot using your microphone and hear spoken alerts while measuring pollution hands-free.
 * **Dual Hero Gauges:** Dedicated real-time radial gauges for both **MQ-135 Gas & VOCs** (ADC & Volts) and **Sharp GP2Y PM2.5 Dust** ($\mu\text{g/m}^3$ & $V_o$).
 * **Interactive 3D Particle Cloud (Three.js):** Ambient atmospheric simulation behind the glassmorphism UI. Particle density, turbulence, speed, and glow color react dynamically to live air quality in real time!
+* **Official CPCB / MPCB National AQI Scale:** Real-time 0–500 spectrum bar with sliding needle and 6 breakpoint category cards (Good, Satisfactory, Moderate, Poor, Very Poor, Severe).
 * **Multi-Stream Real-Time Chart:** Toggle between **Dual Mode (Gas + PM2.5)**, **Gas ADC**, or **PM2.5 Dust ($\mu\text{g/m}^3$)**.
 * **Composite Environmental Index:** Aggregates both gas contamination and particulate matter to deliver immediate health recommendations.
-* **🧪 Simulation Demo Mode:** Test all dual-gauge physics, 3D particle reactions, and graphs instantly without hardware.
+* **🧪 Simulation Demo Mode:** Test all dual-gauge physics, 3D particle reactions, AeroBot alerts, and graphs instantly without hardware.
 * **Dual Transport:** Zero-install Web Bluetooth (BLE) with fallback to USB Web Serial (115200 baud).

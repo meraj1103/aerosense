@@ -492,6 +492,309 @@
     }
     .hero-substats span strong { color: #fff; }
 
+    /* ==========================================
+       CPCB / MPCB Kolhapur AQI Scale & Range Styles
+       ========================================== */
+    .cpcb-scale-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: linear-gradient(145deg, rgba(18, 24, 40, 0.85), rgba(10, 15, 26, 0.9));
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cpcb-scale-card::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cpcb-scale-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .cpcb-header-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cpcb-station-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 10px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+
+    .cpcb-header-title h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cpcb-header-title p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .cpcb-current-score {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 18px;
+      border-radius: 16px;
+    }
+
+    .cpcb-score-val {
+      font-size: 2.2rem;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+      color: #00b050;
+      line-height: 1;
+      text-shadow: 0 0 15px rgba(0, 176, 80, 0.4);
+    }
+
+    .cpcb-score-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cpcb-score-badge {
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(0, 176, 80, 0.2);
+      color: #00b050;
+      border: 1px solid #00b050;
+      text-align: center;
+    }
+
+    .cpcb-score-unit {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Multi-segment Spectrum Bar */
+    .cpcb-bar-wrapper {
+      position: relative;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      padding: 14px 0 0 0;
+    }
+
+    .cpcb-needle-container {
+      position: absolute;
+      top: -12px;
+      transform: translateX(-50%);
+      transition: left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .cpcb-needle-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #fff;
+      background: #00b050;
+      padding: 3px 8px;
+      border-radius: 8px;
+      white-space: nowrap;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .cpcb-needle-pin {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #00b050;
+      margin-top: -1px;
+    }
+
+    .cpcb-multi-bar {
+      display: flex;
+      height: 28px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .cpcb-segment {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      position: relative;
+      transition: opacity 0.2s;
+    }
+
+    .cpcb-segment .seg-label { line-height: 1.1; }
+    .cpcb-segment .seg-range { font-size: 0.58rem; opacity: 0.85; font-family: 'JetBrains Mono', monospace; }
+
+    .cpcb-seg-good { background: linear-gradient(180deg, #00b050, #008f41); }
+    .cpcb-seg-satisfactory { background: linear-gradient(180deg, #92d050, #7bb838); color: #1e293b; text-shadow: none; }
+    .cpcb-seg-moderate { background: linear-gradient(180deg, #eab308, #ca8a04); color: #1e293b; text-shadow: none; }
+    .cpcb-seg-poor { background: linear-gradient(180deg, #f97316, #ea580c); }
+    .cpcb-seg-verypoor { background: linear-gradient(180deg, #ef4444, #dc2626); }
+    .cpcb-seg-severe { background: linear-gradient(180deg, #881337, #4c0519); }
+
+    /* Categories Grid */
+    .cpcb-breakdown-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cpcb-categories-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 1050px) { .cpcb-categories-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) { .cpcb-categories-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 400px) { .cpcb-categories-grid { grid-template-columns: 1fr; } }
+
+    .cpcb-cat-card {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .cpcb-cat-card.active {
+      border-color: var(--active-cpcb-color, #00b050);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 20px var(--active-cpcb-glow, rgba(0, 176, 80, 0.3));
+      transform: translateY(-2px);
+    }
+
+    .cat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.78rem;
+    }
+
+    .cat-head-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .cat-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+    }
+
+    .cat-units {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 0.72rem;
+      padding: 6px 8px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .cat-units .u-name { color: var(--text-muted); font-weight: 600; }
+    .cat-units .u-val { color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+
+    .cat-health {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+
+    .cpcb-units-footnote {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+    @media (max-width: 768px) { .cpcb-units-footnote { grid-template-columns: 1fr; } }
+
+    .u-expl { display: flex; flex-direction: column; gap: 3px; }
+    .badge-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 2px 6px;
+      border-radius: 6px;
+      width: fit-content;
+      font-size: 0.7rem;
+    }
+
     /* Metrics Grid */
     .metrics-grid {
       display: grid;
@@ -626,9 +929,7 @@
     .legend-item { display: flex; align-items: center; gap: 6px; }
     .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
 
-    /* ==========================================
-       History & Analytics View Specific Styles
-       ========================================== */
+    /* History & Analytics Specific */
     #view-history {
       display: none;
       flex-direction: column;
@@ -804,6 +1105,783 @@
       color: #475569;
       margin-top: 6px;
     }
+
+    /* ==========================================
+       AeroBot AI Companion & Real-Time Alert Engine
+       ========================================== */
+    :root {
+      --bot-aura: #10b981;
+      --bot-glow: rgba(16, 185, 129, 0.35);
+    }
+
+    /* AeroBot Live Motivation & Alert Card */
+    .aerobot-live-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(10, 15, 26, 0.96));
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 35px -10px rgba(0, 0, 0, 0.6);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .aerobot-live-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, var(--bot-glow) 0%, transparent 70%);
+      pointer-events: none;
+      transition: background 0.6s ease;
+    }
+
+    .aerobot-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .aerobot-header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .aerobot-avatar-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+      border: 1.5px solid var(--bot-aura);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 22px var(--bot-glow);
+      font-size: 1.65rem;
+      user-select: none;
+      flex-shrink: 0;
+      transition: all 0.4s ease;
+    }
+
+    .bot-status-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 20px;
+      border: 1.5px dashed var(--bot-aura);
+      animation: rotateRing 14s linear infinite;
+      opacity: 0.75;
+    }
+
+    @keyframes rotateRing {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .aerobot-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .aerobot-tag-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .aerobot-pill-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+    }
+
+    .aerobot-live-mode-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .aerobot-live-mode-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+      animation: pulse 1.6s infinite;
+    }
+
+    .aerobot-voice-toggle-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .aerobot-voice-toggle-btn.active {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: rgba(56, 189, 248, 0.45);
+      color: #38bdf8;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+    }
+
+    .aerobot-headline {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-aerobot-chat-trigger {
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: white;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+      border: none;
+      padding: 9px 18px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .btn-aerobot-chat-trigger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 28px rgba(56, 189, 248, 0.55);
+    }
+
+    /* Dynamic Bubble in Card */
+    .aerobot-bubble-container {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .aerobot-bubble-icon {
+      font-size: 1.55rem;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      line-height: 1;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .aerobot-bubble-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .aerobot-quote-text {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: #f1f5f9;
+      font-weight: 500;
+      font-style: italic;
+    }
+
+    .aerobot-meta-strip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+      font-size: 0.78rem;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .meta-pill.pill-clean { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.35); }
+    .meta-pill.pill-moderate { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.35); }
+    .meta-pill.pill-poor { background: rgba(249, 115, 22, 0.15); color: #f97316; border: 1px solid rgba(249, 115, 22, 0.35); }
+    .meta-pill.pill-hazard { background: rgba(239, 68, 68, 0.18); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.45); }
+
+    .meta-action {
+      color: #cbd5e1;
+      font-size: 0.8rem;
+    }
+
+    /* Card Action Buttons */
+    .aerobot-actions-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ai-quick-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .ai-quick-btn:hover {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      transform: translateY(-1px);
+    }
+
+    /* Floating Action Orb */
+    .aerobot-floating-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 990;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.45), 0 8px 24px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+    }
+    .aerobot-floating-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.7);
+    }
+    .aerobot-floating-btn .orb-icon {
+      font-size: 1.8rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    .aerobot-floating-btn .orb-badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      background: #ef4444;
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      border: 2px solid #070a12;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .aerobot-floating-btn {
+        bottom: 84px;
+        right: 18px;
+        width: 52px;
+        height: 52px;
+      }
+    }
+
+    /* Slide-out / Bottom Drawer */
+    .aerobot-drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .aerobot-drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .aerobot-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 450px;
+      max-width: 100vw;
+      height: 100vh;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(8, 12, 22, 0.99));
+      border-left: 1px solid rgba(56, 189, 248, 0.25);
+      box-shadow: -10px 0 40px rgba(0, 0, 0, 0.75);
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .aerobot-drawer.active {
+      transform: translateX(0);
+    }
+
+    @media (max-width: 600px) {
+      .aerobot-drawer {
+        width: 100vw;
+        height: 92vh;
+        top: auto;
+        bottom: 0;
+        border-left: none;
+        border-top: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 24px 24px 0 0;
+        transform: translateY(100%);
+      }
+      .aerobot-drawer.active {
+        transform: translateY(0);
+      }
+    }
+
+    /* Drawer Header */
+    .drawer-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(18, 24, 40, 0.7);
+    }
+
+    .drawer-head-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .drawer-title-box h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .drawer-title-box p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .drawer-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .drawer-action-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .drawer-action-btn:hover {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    /* Live Telemetry Ticker inside Chat */
+    .chat-telemetry-ribbon {
+      background: rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.73rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #94a3b8;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .chat-telemetry-ribbon strong {
+      color: #fff;
+    }
+
+    /* Messages Stream */
+    .chat-messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 18px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-msg {
+      display: flex;
+      gap: 10px;
+      max-width: 90%;
+      animation: fadeInMsg 0.25s ease-out;
+    }
+    @keyframes fadeInMsg {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-msg.msg-bot {
+      align-self: flex-start;
+    }
+    .chat-msg.msg-user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .msg-bot .msg-avatar {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .msg-user .msg-avatar {
+      background: rgba(192, 132, 252, 0.2);
+      border: 1px solid rgba(192, 132, 252, 0.3);
+    }
+
+    .msg-bubble {
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      position: relative;
+    }
+    .msg-bot .msg-bubble {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+      border-top-left-radius: 4px;
+    }
+    .msg-user .msg-bubble {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #ffffff;
+      border-top-right-radius: 4px;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+
+    .msg-bot .msg-bubble.alert-highlight {
+      border-color: rgba(239, 68, 68, 0.5);
+      background: rgba(239, 68, 68, 0.12);
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+    }
+
+    .msg-bot .msg-bubble.motivate-highlight {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: rgba(16, 185, 129, 0.12);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    }
+
+    .msg-time {
+      font-size: 0.65rem;
+      opacity: 0.6;
+      margin-top: 4px;
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .msg-card-block {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-top: 8px;
+      font-size: 0.8rem;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      width: fit-content;
+      margin-top: 4px;
+      display: none;
+    }
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #38bdf8;
+      animation: typingBounce 1.4s infinite ease-in-out both;
+    }
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Suggestion Chips */
+    .chat-suggestions-bar {
+      padding: 8px 16px 6px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .chat-suggestions-bar::-webkit-scrollbar { display: none; }
+
+    .chat-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chat-chip:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+    }
+
+    /* Chat Input Area */
+    .chat-input-area {
+      padding: 12px 16px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(18, 24, 40, 0.7);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .chat-input-wrapper {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .chat-text-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
+      color: #fff;
+      font-size: 0.86rem;
+      padding: 10px 42px 10px 16px;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .chat-text-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+    }
+
+    .btn-chat-mic {
+      position: absolute;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .btn-chat-mic:hover, .btn-chat-mic.listening {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+      animation: pulse 1s infinite;
+    }
+
+    .btn-chat-send {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .btn-chat-send:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.55);
+    }
+
+    /* Guided 4-7-8 Breathing Circle Modal */
+    .breath-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 10, 20, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 1050;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .breath-modal-overlay.active {
+      display: flex;
+    }
+
+    .breath-card {
+      background: linear-gradient(145deg, rgba(18, 24, 40, 0.95), rgba(10, 15, 26, 0.98));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 460px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 22px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .breath-ring-wrapper {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .breath-ring {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, rgba(16, 185, 129, 0.15) 70%, transparent 100%);
+      border: 2px solid #38bdf8;
+      box-shadow: 0 0 35px rgba(56, 189, 248, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .breath-ring.inhale {
+      transform: scale(1.35);
+      border-color: #10b981;
+      box-shadow: 0 0 50px rgba(16, 185, 129, 0.6);
+      transition-duration: 4s;
+    }
+    .breath-ring.hold {
+      transform: scale(1.35);
+      border-color: #f59e0b;
+      box-shadow: 0 0 50px rgba(245, 158, 11, 0.6);
+      transition-duration: 0.1s;
+    }
+    .breath-ring.exhale {
+      transform: scale(0.9);
+      border-color: #38bdf8;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+      transition-duration: 8s;
+    }
+
+    .breath-countdown {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .breath-phase-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #38bdf8;
+    }
   </style>
 </head>
 <body>
@@ -837,6 +1915,9 @@
         <button class="btn btn-demo" id="btnDemo" onclick="toggleDemo()">
           <span>🧪</span> Demo Mode
         </button>
+        <button class="btn btn-aerobot" id="btnHeaderAeroBot" onclick="toggleChatDrawer(true)" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(56, 189, 248, 0.25)); border: 1px solid rgba(56, 189, 248, 0.45); color: #fff; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);">
+          <span>🤖</span> AeroBot AI
+        </button>
         <button class="btn btn-install" id="btnInstallPwa" onclick="promptPwaInstall()">
           <span>📲</span> Install App
         </button>
@@ -854,6 +1935,9 @@
         </button>
         <button class="nav-tab-btn" id="tabNavHistory" onclick="switchMainView('history')">
           <span>📈</span> History &amp; Analytics
+        </button>
+        <button class="nav-tab-btn" id="tabNavBot" onclick="toggleChatDrawer(true)" style="border-color:rgba(56,189,248,0.35);">
+          <span>🤖</span> AeroBot AI
         </button>
       </div>
       <div class="db-status-badge" title="Historical readings persistently stored in IndexedDB">
@@ -884,10 +1968,66 @@
       </div>
     </div>
 
-    <!-- ========================================================
-         VIEW 1: LIVE DASHBOARD
-         ======================================================== -->
+    <!-- VIEW 1: LIVE DASHBOARD -->
     <div id="view-live" style="display:flex; flex-direction:column; gap:18px;">
+      <!-- AeroBot Live Motivation & Real-Time Alert Engine -->
+      <div class="aerobot-live-card" id="aerobotLiveCard">
+        <div class="aerobot-card-header">
+          <div class="aerobot-header-left">
+            <div class="aerobot-avatar-box" id="aerobotAvatarBox">
+              <div class="bot-status-ring"></div>
+              <span>🤖</span>
+            </div>
+            <div class="aerobot-title-group">
+              <div class="aerobot-tag-row">
+                <span class="aerobot-pill-badge">AeroBot AI</span>
+                <span class="aerobot-live-mode-tag" id="aerobotLiveStatusTag">Live Air Coach</span>
+                <button class="aerobot-voice-toggle-btn active" id="aerobotVoiceBtn" onclick="toggleAeroVoice()" title="Toggle Voice Alerts">
+                  <span id="aerobotVoiceIcon">🔊</span> <span id="aerobotVoiceText">Voice: ON</span>
+                </button>
+              </div>
+              <h3 class="aerobot-headline" id="aerobotHeadline">Ready to monitor &amp; motivate your air wellness</h3>
+            </div>
+          </div>
+          <button class="btn-aerobot-chat-trigger" onclick="toggleChatDrawer(true)">
+            <span>💬</span> Chat with AeroBot
+          </button>
+        </div>
+
+        <!-- Dynamic Live Motivation & Alert Feed Bubble -->
+        <div class="aerobot-bubble-container" id="aerobotBubbleContainer">
+          <div class="aerobot-bubble-icon" id="aerobotBubbleIcon">✨</div>
+          <div class="aerobot-bubble-body">
+            <p class="aerobot-quote-text" id="aerobotQuoteText">
+              "Your breath is the source of all your energy. Connect your sensors to monitor your air and protect your vitality!"
+            </p>
+            <div class="aerobot-meta-strip">
+              <span class="meta-pill pill-clean" id="aerobotPillTag">🌱 Optimal Air Quality</span>
+              <span class="meta-action" id="aerobotActionText">💡 Tip: Pristine conditions. Great time for deep focus, aerobic exercise, or opening windows.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Strip -->
+        <div class="aerobot-actions-strip">
+          <button class="ai-quick-btn" onclick="openAeroBotWithPrompt('How is my air right now and what is the health forecast?')">
+            <span>🎯</span> Air Health Audit
+          </button>
+          <button class="ai-quick-btn" onclick="openAeroBotWithPrompt('Is it safe for outdoor exercise or running right now?')">
+            <span>🏃</span> Exercise Safety
+          </button>
+          <button class="ai-quick-btn" onclick="startBreathingSession()">
+            <span>🧘</span> 4-7-8 Breathing Guide
+          </button>
+          <button class="ai-quick-btn" onclick="openAeroBotWithPrompt('Give me an inspiring health and focus motivation boost!')">
+            <span>⚡</span> Motivation Boost
+          </button>
+          <button class="ai-quick-btn" onclick="requestNotificationPermission()">
+            <span>🔔</span> Enable Alerts
+          </button>
+        </div>
+      </div>
+
       <!-- Composite Integrated Air Quality Bar -->
       <div class="composite-banner" id="compositeBanner">
         <div class="composite-info">
@@ -951,7 +2091,176 @@
         </div>
       </div>
 
-      <!-- Troubleshooting helper box -->
+      <!-- Official Kolhapur MPCB / CPCB National AQI Scale & Range Reference Card -->
+      <div class="card cpcb-scale-card">
+        <div class="cpcb-scale-header">
+          <div class="cpcb-header-title">
+            <span class="cpcb-station-badge">🏛️ Kolhapur MPCB &bull; CAAQMS Standard</span>
+            <h3>National Air Quality Index (NAQI) &bull; 0–500 Spectrum</h3>
+            <p>Live breakpoint classification adhering to Maharashtra Pollution Control Board &amp; CPCB norms</p>
+          </div>
+          <div class="cpcb-current-score" id="cpcbHeroScore">
+            <div class="cpcb-score-val" id="cpcbAqiNumber">--</div>
+            <div class="cpcb-score-meta">
+              <span class="cpcb-score-badge" id="cpcbAqiBadge">READY</span>
+              <span class="cpcb-score-unit">AQI Index (0–500)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Spectrum Bar with Sliding Needle -->
+        <div class="cpcb-bar-wrapper">
+          <div class="cpcb-needle-container" id="cpcbNeedleContainer" style="left: 6%;">
+            <div class="cpcb-needle-tag" id="cpcbNeedleTag">AQI: Ready</div>
+            <div class="cpcb-needle-pin" id="cpcbNeedlePin"></div>
+          </div>
+          <div class="cpcb-multi-bar">
+            <div class="cpcb-segment cpcb-seg-good" style="flex: 10;" title="0 - 50: Good">
+              <span class="seg-label">Good</span>
+              <span class="seg-range">0-50</span>
+            </div>
+            <div class="cpcb-segment cpcb-seg-satisfactory" style="flex: 10;" title="51 - 100: Satisfactory">
+              <span class="seg-label">Satisfactory</span>
+              <span class="seg-range">51-100</span>
+            </div>
+            <div class="cpcb-segment cpcb-seg-moderate" style="flex: 20;" title="101 - 200: Moderate">
+              <span class="seg-label">Moderate</span>
+              <span class="seg-range">101-200</span>
+            </div>
+            <div class="cpcb-segment cpcb-seg-poor" style="flex: 20;" title="201 - 300: Poor">
+              <span class="seg-label">Poor</span>
+              <span class="seg-range">201-300</span>
+            </div>
+            <div class="cpcb-segment cpcb-seg-verypoor" style="flex: 20;" title="301 - 400: Very Poor">
+              <span class="seg-label">Very Poor</span>
+              <span class="seg-range">301-400</span>
+            </div>
+            <div class="cpcb-segment cpcb-seg-severe" style="flex: 20;" title="401 - 500: Severe">
+              <span class="seg-label">Severe</span>
+              <span class="seg-range">401-500</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Category Breakpoint Cards -->
+        <div class="cpcb-breakdown-title">
+          <span>📋 Official Breakpoint Ranges &amp; Units for Monitored Parameters</span>
+        </div>
+
+        <div class="cpcb-categories-grid">
+          <!-- 1. Good -->
+          <div class="cpcb-cat-card active" id="catCard0" style="--active-cpcb-color:#00b050; --active-cpcb-glow:rgba(0,176,80,0.35);">
+            <div class="cat-head">
+              <div class="cat-head-left">
+                <span class="cat-dot" style="background:#00b050;"></span>
+                <strong style="color:#00b050;">Good</strong>
+              </div>
+              <span class="cat-badge">0 – 50</span>
+            </div>
+            <div class="cat-units">
+              <div><span class="u-name">PM2.5:</span> <span class="u-val">0 – 30 µg/m³</span></div>
+              <div><span class="u-name">Gas ADC:</span> <span class="u-val">&lt; 1800 (Clean)</span></div>
+            </div>
+            <div class="cat-health">Minimal health impact. Fresh, clean air.</div>
+          </div>
+
+          <!-- 2. Satisfactory -->
+          <div class="cpcb-cat-card" id="catCard1" style="--active-cpcb-color:#92d050; --active-cpcb-glow:rgba(146,208,80,0.35);">
+            <div class="cat-head">
+              <div class="cat-head-left">
+                <span class="cat-dot" style="background:#92d050;"></span>
+                <strong style="color:#92d050;">Satisfactory</strong>
+              </div>
+              <span class="cat-badge">51 – 100</span>
+            </div>
+            <div class="cat-units">
+              <div><span class="u-name">PM2.5:</span> <span class="u-val">31 – 60 µg/m³</span></div>
+              <div><span class="u-name">Gas ADC:</span> <span class="u-val">1800 – 2300</span></div>
+            </div>
+            <div class="cat-health">Minor breathing discomfort to sensitive people.</div>
+          </div>
+
+          <!-- 3. Moderate -->
+          <div class="cpcb-cat-card" id="catCard2" style="--active-cpcb-color:#eab308; --active-cpcb-glow:rgba(234,179,8,0.35);">
+            <div class="cat-head">
+              <div class="cat-head-left">
+                <span class="cat-dot" style="background:#eab308;"></span>
+                <strong style="color:#eab308;">Moderate</strong>
+              </div>
+              <span class="cat-badge">101 – 200</span>
+            </div>
+            <div class="cat-units">
+              <div><span class="u-name">PM2.5:</span> <span class="u-val">61 – 90 µg/m³</span></div>
+              <div><span class="u-name">Gas ADC:</span> <span class="u-val">2300 – 2800</span></div>
+            </div>
+            <div class="cat-health">Discomfort for asthma, lung, or heart patients.</div>
+          </div>
+
+          <!-- 4. Poor -->
+          <div class="cpcb-cat-card" id="catCard3" style="--active-cpcb-color:#f97316; --active-cpcb-glow:rgba(249,115,22,0.35);">
+            <div class="cat-head">
+              <div class="cat-head-left">
+                <span class="cat-dot" style="background:#f97316;"></span>
+                <strong style="color:#f97316;">Poor</strong>
+              </div>
+              <span class="cat-badge">201 – 300</span>
+            </div>
+            <div class="cat-units">
+              <div><span class="u-name">PM2.5:</span> <span class="u-val">91 – 120 µg/m³</span></div>
+              <div><span class="u-name">Gas ADC:</span> <span class="u-val">2800 – 3300</span></div>
+            </div>
+            <div class="cat-health">Breathing discomfort to most on prolonged exposure.</div>
+          </div>
+
+          <!-- 5. Very Poor -->
+          <div class="cpcb-cat-card" id="catCard4" style="--active-cpcb-color:#ef4444; --active-cpcb-glow:rgba(239,68,68,0.35);">
+            <div class="cat-head">
+              <div class="cat-head-left">
+                <span class="cat-dot" style="background:#ef4444;"></span>
+                <strong style="color:#ef4444;">Very Poor</strong>
+              </div>
+              <span class="cat-badge">301 – 400</span>
+            </div>
+            <div class="cat-units">
+              <div><span class="u-name">PM2.5:</span> <span class="u-val">121 – 250 µg/m³</span></div>
+              <div><span class="u-name">Gas ADC:</span> <span class="u-val">3300 – 3800</span></div>
+            </div>
+            <div class="cat-health">Risk of respiratory illness. Limit outdoor exertion.</div>
+          </div>
+
+          <!-- 6. Severe -->
+          <div class="cpcb-cat-card" id="catCard5" style="--active-cpcb-color:#881337; --active-cpcb-glow:rgba(136,19,55,0.45);">
+            <div class="cat-head">
+              <div class="cat-head-left">
+                <span class="cat-dot" style="background:#881337;"></span>
+                <strong style="color:#fda4af;">Severe</strong>
+              </div>
+              <span class="cat-badge">401 – 500</span>
+            </div>
+            <div class="cat-units">
+              <div><span class="u-name">PM2.5:</span> <span class="u-val">&gt; 250 µg/m³</span></div>
+              <div><span class="u-name">Gas ADC:</span> <span class="u-val">&gt; 3800</span></div>
+            </div>
+            <div class="cat-health">Emergency: Affects healthy people; severe for vulnerable.</div>
+          </div>
+        </div>
+
+        <!-- Educational Measurement Units Footnote -->
+        <div class="cpcb-units-footnote">
+          <div class="u-expl">
+            <span class="badge-tag">AQI (0–500)</span>
+            <span><strong>National AQI Score:</strong> Official unitless health rating mandated by Central Pollution Control Board.</span>
+          </div>
+          <div class="u-expl">
+            <span class="badge-tag">µg/m³ (PM2.5)</span>
+            <span><strong>Micrograms per Cubic Meter:</strong> Concentration of inhalable dust particles &le; 2.5 µm (Sharp GP2Y sensor).</span>
+          </div>
+          <div class="u-expl">
+            <span class="badge-tag">ADC / PPM (Gas)</span>
+            <span><strong>12-bit Analog Units (0–4095):</strong> Gas concentration index detecting NH3, NOx, CO, and VOCs (MQ-135 sensor).</span>
+          </div>
+        </div>
+      </div>
       <div id="heroTroubleshoot" style="display:none; font-size:0.82rem; background:rgba(245, 158, 11, 0.12); border:1px solid rgba(245, 158, 11, 0.35); padding:12px 16px; border-radius:14px; color:#fde68a;"></div>
 
       <!-- Expanded 4-Column Key Metrics Grid -->
@@ -1046,9 +2355,7 @@
       </div>
     </div>
 
-    <!-- ========================================================
-         VIEW 2: HISTORY & ANALYTICS (Persistent IndexedDB)
-         ======================================================== -->
+    <!-- VIEW 2: HISTORY & ANALYTICS -->
     <div id="view-history">
       <!-- History Header & Controls Card -->
       <div class="card history-controls-card">
@@ -1158,6 +2465,10 @@
       <span class="icon">📱</span>
       <span>Phone URL</span>
     </button>
+    <button class="bottom-nav-item" id="bnavBot" onclick="toggleChatDrawer(true)">
+      <span class="icon">🤖</span>
+      <span>AeroBot</span>
+    </button>
   </div>
 
   <!-- Modal for Phone Setup Guide -->
@@ -1174,7 +2485,7 @@
         </div>
         <div>
           <strong>Step 2: On your phone browser, open:</strong>
-          <div class="code-pill" id="phoneUrlHint">http://&lt;PC-LOCAL-IP&gt;:8000/dashboard.html</div>
+          <div class="code-pill" id="phoneUrlHint">http://&lt;PC-LOCAL-IP&gt;:8000/index.html</div>
         </div>
         <div>
           <strong>Step 3: Install as an App (Add to Home Screen)</strong>
@@ -1192,6 +2503,162 @@
         </div>
       </div>
       <button class="btn btn-bluetooth" style="justify-content:center; width:100%; margin-top:6px;" onclick="closePhoneModal()">Got it!</button>
+    </div>
+  </div>
+
+  <!-- Floating AeroBot AI Action Button -->
+  <button class="aerobot-floating-btn" id="aerobotFloatingBtn" onclick="toggleChatDrawer()" title="Open AeroBot AI Assistant">
+    <span class="orb-icon">🤖</span>
+    <span class="orb-badge" id="aerobotUnreadBadge">0</span>
+  </button>
+
+  <!-- AeroBot AI Slide-Out Chat Drawer -->
+  <div class="aerobot-drawer-overlay" id="aerobotDrawerOverlay" onclick="toggleChatDrawer(false)"></div>
+  <div class="aerobot-drawer" id="aerobotDrawer">
+    <!-- Header -->
+    <div class="drawer-header">
+      <div class="drawer-head-left">
+        <div class="msg-avatar" style="background: rgba(56, 189, 248, 0.15); border: 1.5px solid var(--bot-aura); box-shadow: 0 0 14px var(--bot-glow);">
+          🤖
+        </div>
+        <div class="drawer-title-box">
+          <h3>AeroBot AI <span style="font-size:0.65rem; background:rgba(56, 189, 248, 0.15); color:#38bdf8; border:1px solid rgba(56, 189, 248, 0.3); padding:1px 6px; border-radius:10px; font-weight:700;">PRO</span></h3>
+          <p id="drawerBotSubstatus">Active • Real-Time Environmental Coach</p>
+        </div>
+      </div>
+      <div class="drawer-actions">
+        <button class="drawer-action-btn" id="drawerVoiceToggle" onclick="toggleAeroVoice()" title="Toggle Voice Alerts">
+          🔊
+        </button>
+        <button class="drawer-action-btn" onclick="openAiSettingsModal()" title="AI Engine &amp; API Settings">
+          ⚙️
+        </button>
+        <button class="drawer-action-btn" onclick="clearAeroBotChat()" title="Clear Chat History">
+          🗑️
+        </button>
+        <button class="drawer-action-btn" onclick="toggleChatDrawer(false)" title="Close Chat">
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- Real-time Mini Telemetry Ribbon -->
+    <div class="chat-telemetry-ribbon" id="chatTelemetryRibbon">
+      <span>AQI: <strong id="ribbonAqi">--</strong> (<span id="ribbonCategory" style="color:var(--clean);">Ready</span>)</span>
+      <span>•</span>
+      <span>PM2.5: <strong id="ribbonDust">0.0 µg/m³</strong></span>
+      <span>•</span>
+      <span>Gas: <strong id="ribbonGas">---</strong></span>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="chat-messages-container" id="chatMessagesContainer">
+      <!-- Welcome Message -->
+      <div class="chat-msg msg-bot">
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-bubble">
+          Hello! I'm <strong>AeroBot</strong>, your personal AI environmental wellness and motivation coach. 🌿
+          <br><br>
+          While you measure pollution with your <strong>MQ-135</strong> &amp; <strong>Sharp GP2Y</strong> sensors, I will monitor trends in real time, keep you alerted of any toxic spikes, and provide uplifting health advice and motivation to protect your lungs and maximize your focus!
+          <div class="msg-card-block" style="border-color: rgba(56, 189, 248, 0.25); background: rgba(56, 189, 248, 0.06);">
+            💡 <strong>Quick Tip:</strong> Tap any question below, or use the 🎙️ mic button to speak with me!
+          </div>
+          <span class="msg-time">Just now</span>
+        </div>
+      </div>
+      <!-- Typing Indicator -->
+      <div class="typing-indicator" id="chatTypingIndicator">
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+      </div>
+    </div>
+
+    <!-- Quick Suggestions Carousel -->
+    <div class="chat-suggestions-bar">
+      <button class="chat-chip" onclick="handleChipClick('How is my air right now and what is the health forecast?')">🎯 Current Air Audit</button>
+      <button class="chat-chip" onclick="handleChipClick('Is it safe for outdoor exercise or running right now?')">🏃 Exercise Safety</button>
+      <button class="chat-chip" onclick="handleChipClick('Give me an inspiring health and focus motivation boost!')">⚡ Motivation Affirmation</button>
+      <button class="chat-chip" onclick="handleChipClick('What immediate precautions should I take for this air level?')">⚠️ Precautions Guide</button>
+      <button class="chat-chip" onclick="handleChipClick('What are the best indoor air purifying plants?')">🌱 Air Purifying Plants</button>
+      <button class="chat-chip" onclick="handleChipClick('Explain how MQ-135 and Sharp GP2Y dust sensors work')">🔬 Sensor Science</button>
+      <button class="chat-chip" onclick="startBreathingSession()">🧘 Guided 4-7-8 Breathing</button>
+    </div>
+
+    <!-- Input Area -->
+    <div class="chat-input-area">
+      <div class="chat-input-wrapper">
+        <input type="text" class="chat-text-input" id="chatInput" placeholder="Ask AeroBot about air, health, precautions..." onkeydown="handleChatKeyDown(event)" autocomplete="off">
+        <button class="btn-chat-mic" id="btnChatMic" onclick="toggleVoiceRecognition()" title="Voice input (Speech to Text)">
+          🎙️
+        </button>
+      </div>
+      <button class="btn-chat-send" onclick="sendChatMessage()" title="Send Message">
+        ➤
+      </button>
+    </div>
+  </div>
+
+  <!-- Guided 4-7-8 Breathing Modal -->
+  <div class="breath-modal-overlay" id="breathModalOverlay" onclick="closeBreathingModal(event)">
+    <div class="breath-card" onclick="event.stopPropagation()">
+      <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+        <h3 style="font-size:1.15rem; font-weight:800; color:#fff; display:flex; align-items:center; gap:8px;">
+          <span>🧘</span> 4-7-8 Mindful Breath Session
+        </h3>
+        <button class="modal-close" onclick="closeBreathingModal()">&times;</button>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.4;">
+        Inhale oxygen-rich air, calm your nervous system, and expand your lung capacity.
+      </p>
+      <div class="breath-ring-wrapper">
+        <div class="breath-ring" id="breathRing">
+          <div class="breath-countdown" id="breathCountdown">4</div>
+          <div class="breath-phase-label" id="breathPhase">INHALE</div>
+        </div>
+      </div>
+      <div style="font-size:0.85rem; color:#cbd5e1;" id="breathInstruction">
+        Breathe in smoothly through your nose...
+      </div>
+      <div style="display:flex; gap:10px; width:100%;">
+        <button class="btn btn-bluetooth" style="flex:1; justify-content:center;" id="btnBreathToggle" onclick="toggleBreathingLoop()">
+          Pause Session
+        </button>
+        <button class="btn" style="background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15);" onclick="closeBreathingModal()">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Settings Modal (Optional Gemini API key) -->
+  <div class="modal-overlay" id="aiSettingsModal" onclick="closeAiSettingsModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>⚙️ AeroBot AI Engine Settings</h3>
+        <button class="modal-close" onclick="closeAiSettingsModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>
+          AeroBot includes a built-in <strong>High-Precision Offline Expert AI Engine</strong> that works 100% locally with zero internet required.
+        </p>
+        <p>
+          <strong>Optional: Google Gemini Free API Key</strong><br>
+          If you'd like deep freeform LLM reasoning with live sensor context, enter your free Gemini API key below:
+        </p>
+        <input type="password" id="geminiApiKeyInput" placeholder="Paste AI Studio Gemini Key (AIza...)" style="width:100%; padding:10px 14px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:12px; color:#fff; font-family:'JetBrains Mono', monospace; font-size:0.82rem; outline:none;">
+        <div style="font-size:0.75rem; color:var(--text-muted);">
+          🔒 Your key is saved locally in your browser/phone storage only and is never shared.
+        </div>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button class="btn btn-bluetooth" style="flex:1; justify-content:center;" onclick="saveGeminiApiKey()">
+            Save Key
+          </button>
+          <button class="btn" style="background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3);" onclick="removeGeminiApiKey()">
+            Remove
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1242,10 +2709,10 @@
     let dbInstance = null;
     let totalDbRecords = 0;
     let lastSavedTime = 0;
-    const SAVE_THROTTLE_MS = 3000; // Save record every 3 seconds
+    const SAVE_THROTTLE_MS = 3000;
 
     function initIndexedDB() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         const req = indexedDB.open(DB_NAME, DB_VERSION);
         req.onupgradeneeded = (e) => {
           const db = e.target.result;
@@ -1271,7 +2738,7 @@
     function saveReadingToDb(reading) {
       if (!dbInstance) return;
       const now = Date.now();
-      if (now - lastSavedTime < SAVE_THROTTLE_MS) return; // Throttle to prevent DB bloat
+      if (now - lastSavedTime < SAVE_THROTTLE_MS) return;
       lastSavedTime = now;
 
       try {
@@ -1415,7 +2882,7 @@
     // ==========================================
     // History Analytics & Chart
     // ==========================================
-    let currentHistoryRange = '1h'; // '1h', '6h', '24h', '7d', 'all'
+    let currentHistoryRange = '1h';
     const hCanvas = document.getElementById('historyChart');
     const hCtx = hCanvas.getContext('2d');
     let loadedHistoryData = [];
@@ -1516,7 +2983,6 @@
         return;
       }
 
-      // Downsample if dataset is very large (> 200 points) for buttery 60 FPS mobile rendering
       let displayRecords = records;
       if (records.length > 200) {
         const step = Math.ceil(records.length / 200);
@@ -1562,7 +3028,7 @@
         hCtx.fillText(`${dustVal}µg`, w - paddingRight + 8, yPos + 3);
       }
 
-      // X-Axis Timestamp labels
+      // Timestamps on X-axis
       const timeSteps = 4;
       hCtx.fillStyle = '#64748b';
       hCtx.textAlign = 'center';
@@ -1635,7 +3101,6 @@
       threeRenderer.setSize(window.innerWidth, window.innerHeight);
       threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      // Circular particle texture
       const pCanvas = document.createElement('canvas');
       pCanvas.width = 32;
       pCanvas.height = 32;
@@ -1825,10 +3290,9 @@
       initIndexedDB();
       setTimeout(resizeLiveCanvas, 60);
 
-      // Phone URL Hint
       const host = window.location.hostname || 'localhost';
-      const port = window.location.port || '8000';
-      const urlText = `http://${host}:${port}/dashboard.html`;
+      const port = window.location.port ? `:${window.location.port}` : '';
+      const urlText = `${window.location.protocol}//${host}${port}/index.html`;
       const hintEl = document.getElementById('phoneUrlHint');
       if (hintEl) hintEl.textContent = urlText;
 
@@ -1850,7 +3314,7 @@
 
       if (!navigator.bluetooth) {
         if (window.location.protocol === 'file:') {
-          alert("Chrome blocks Bluetooth on local file:// files!\n\nTo fix:\n1. Run start_dashboard.bat in your project folder.\n2. Open http://localhost:8000/dashboard.html where Bluetooth is enabled!\n\nOr click 'USB / COM' to connect right now.");
+          alert("Chrome blocks Bluetooth on local file:// files!\n\nTo fix:\n1. Open your live GitHub Pages link or local server.\n2. Bluetooth will be enabled!");
         } else {
           alert("Web Bluetooth is not supported on this browser.\nPlease use Google Chrome or Microsoft Edge on Windows/Android, or Bluefy on iOS.");
         }
@@ -2014,7 +3478,6 @@
           continue;
         }
 
-        // 1. JSON Parser
         const jsonStart = line.indexOf('{');
         const jsonEnd = line.lastIndexOf('}');
         if (jsonStart !== -1 && jsonEnd > jsonStart) {
@@ -2031,7 +3494,6 @@
           }
         }
 
-        // 2. Fallback Plain Text Parser
         const adcMatch = line.match(/(?:Raw\s*ADC|Gas\s*ADC|ADC)[:\s]+(\d+)/i);
         const voltMatch = line.match(/(?:Voltage|Volts)[:\s]+([\d.]+)/i);
         const dustMatch = line.match(/(?:Dust|PM2\.5)[:\s]+([\d.]+)/i);
@@ -2094,7 +3556,6 @@
       document.getElementById('legendGasVal').textContent = data.raw;
       document.getElementById('legendDustVal').textContent = `${dustUg.toFixed(1)} µg/m³`;
 
-      // 1. Gas Gauge (MQ-135)
       document.getElementById('valGasRaw').textContent = data.raw;
       const badgeGas = document.getElementById('badgeGas');
       badgeGas.textContent = data.quality;
@@ -2120,7 +3581,6 @@
       else if (data.qualityCode === 2) descGas.textContent = "Poor air quality! Consider opening windows or turning on exhaust.";
       else descGas.textContent = "Hazardous gas levels detected! Ventilate area immediately.";
 
-      // 2. Optical Dust Gauge (Sharp GP2Y1014AU0F)
       const valDustUg = document.getElementById('valDustUg');
       const badgeDust = document.getElementById('badgeDust');
       const gaugeDustArc = document.getElementById('gaugeDustArc');
@@ -2152,7 +3612,6 @@
       else if (dustUg < 150) descDust.textContent = "High PM2.5 particulate density! Close windows, activate air purifier.";
       else descDust.textContent = "Hazardous particle storm! Heavy smoke or direct dust detected.";
 
-      // 3. Composite Banner
       const compBanner = document.getElementById('compositeBanner');
       const compIcon = document.getElementById('compositeIcon');
       const compTitle = document.getElementById('compositeTitle');
@@ -2213,7 +3672,6 @@
         update3DAtmosphere(0x10b981, 0.3);
       }
 
-      // 4. Metric Cards
       document.getElementById('valGasVoltCard').textContent = Number(data.voltage).toFixed(2);
       const voltPct = Math.min(100, Math.max(0, (data.voltage / 3.3) * 100));
       document.getElementById('barGasVolt').style.width = voltPct + '%';
@@ -2222,7 +3680,6 @@
       const dustVoltPct = Math.min(100, Math.max(0, (parseFloat(dVolt) / 3.3) * 100));
       document.getElementById('barDustVolt').style.width = dustVoltPct + '%';
 
-      // Preheating
       const preheatVal = document.getElementById('valPreheat');
       const preheatBar = document.getElementById('barPreheat');
       const preheatDesc = document.getElementById('preheatDesc');
@@ -2243,10 +3700,19 @@
         preheatBar.style.background = 'var(--clean)';
       }
 
-      // Uptime
       const mins = Math.floor(data.uptimeSec / 60);
       const secs = data.uptimeSec % 60;
       document.getElementById('valUptime').textContent = `${mins}m ${secs}s`;
+
+      // CPCB NAQI Calculation & Spectrum Needle Update
+      const aqiInfo = calculateCpcbAqi(dustUg, data.raw);
+      updateCpcbCard(aqiInfo);
+      updateChatRibbon(aqiInfo, dustUg, data.raw);
+
+      // AeroBot AI Real-Time Environmental Coach & Alert Observer
+      if (window.AeroBotEngine) {
+        window.AeroBotEngine.processLiveReading(data, aqiInfo, dustUg);
+      }
 
       if (currentMainView === 'live') {
         renderLiveChart();
@@ -2291,7 +3757,6 @@
       let minDust = 0;
       let maxDust = Math.max(50, Math.ceil(Math.max(...historyDust) * 1.3));
 
-      // Grid Lines
       liveCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
       liveCtx.lineWidth = 1;
       liveCtx.font = '10px "JetBrains Mono", monospace';
@@ -2319,7 +3784,6 @@
         }
       }
 
-      // Draw Gas Line
       if (chartMode === 'dual' || chartMode === 'gas') {
         const gasPoints = historyGas.map((val, idx) => {
           const x = paddingLeft + (idx / (MAX_LIVE_POINTS - 1)) * graphW;
@@ -2360,7 +3824,6 @@
         liveCtx.shadowBlur = 0;
       }
 
-      // Draw Dust Line
       if (chartMode === 'dual' || chartMode === 'dust') {
         const dustPoints = historyDust.map((val, idx) => {
           const x = paddingLeft + (idx / (MAX_LIVE_POINTS - 1)) * graphW;
@@ -2562,6 +4025,1007 @@
 
       setDisconnectedState();
     }
+
+    // ==========================================
+    // CPCB NAQI Calculation & Spectrum Breakpoint Engine
+    // ==========================================
+    function calculateCpcbAqi(pm25, gasRaw) {
+      // CPCB Indian National AQI PM2.5 Breakpoints (µg/m³):
+      // Good: 0-30 -> AQI 0-50
+      // Satisfactory: 31-60 -> AQI 51-100
+      // Moderate: 61-90 -> AQI 101-200
+      // Poor: 91-120 -> AQI 201-300
+      // Very Poor: 121-250 -> AQI 301-400
+      // Severe: > 250 -> AQI 401-500
+      let pmAqi = 0;
+      if (pm25 <= 30) {
+        pmAqi = (50 / 30) * pm25;
+      } else if (pm25 <= 60) {
+        pmAqi = 51 + ((100 - 51) / (60 - 30)) * (pm25 - 30);
+      } else if (pm25 <= 90) {
+        pmAqi = 101 + ((200 - 101) / (90 - 60)) * (pm25 - 60);
+      } else if (pm25 <= 120) {
+        pmAqi = 201 + ((300 - 201) / (120 - 90)) * (pm25 - 90);
+      } else if (pm25 <= 250) {
+        pmAqi = 301 + ((400 - 301) / (250 - 120)) * (pm25 - 120);
+      } else {
+        pmAqi = 401 + Math.min(99, ((500 - 401) / (380 - 250)) * (pm25 - 250));
+      }
+
+      // Gas ADC Sub-Index mapping (MQ-135 12-bit ADC 0-4095)
+      let gasAqi = 0;
+      if (gasRaw < 1800) {
+        gasAqi = (50 / 1800) * gasRaw;
+      } else if (gasRaw < 2300) {
+        gasAqi = 51 + ((100 - 51) / (2300 - 1800)) * (gasRaw - 1800);
+      } else if (gasRaw < 2800) {
+        gasAqi = 101 + ((200 - 101) / (2800 - 2300)) * (gasRaw - 2300);
+      } else if (gasRaw < 3300) {
+        gasAqi = 201 + ((300 - 201) / (3300 - 2800)) * (gasRaw - 2800);
+      } else if (gasRaw < 3800) {
+        gasAqi = 301 + ((400 - 301) / (3800 - 3300)) * (gasRaw - 3300);
+      } else {
+        gasAqi = 401 + Math.min(99, ((500 - 401) / (4095 - 3800)) * (gasRaw - 3800));
+      }
+
+      const finalAqi = Math.min(500, Math.max(0, Math.max(pmAqi, gasAqi)));
+      let catIndex = 0;
+      let name = "Good";
+      let color = "#00b050";
+      let health = "Minimal health impact. Fresh, clean air.";
+
+      if (finalAqi <= 50) {
+        catIndex = 0; name = "Good"; color = "#00b050"; health = "Minimal health impact. Fresh, clean air.";
+      } else if (finalAqi <= 100) {
+        catIndex = 1; name = "Satisfactory"; color = "#92d050"; health = "Minor breathing discomfort to sensitive people.";
+      } else if (finalAqi <= 200) {
+        catIndex = 2; name = "Moderate"; color = "#eab308"; health = "Discomfort for asthma, lung, or heart patients.";
+      } else if (finalAqi <= 300) {
+        catIndex = 3; name = "Poor"; color = "#f97316"; health = "Breathing discomfort to most people on prolonged exposure.";
+      } else if (finalAqi <= 400) {
+        catIndex = 4; name = "Very Poor"; color = "#ef4444"; health = "Respiratory illness risk. Wear N95, limit outdoor exertion.";
+      } else {
+        catIndex = 5; name = "Severe"; color = "#881337"; health = "Critical emergency: Affects healthy people; severe for vulnerable.";
+      }
+
+      return {
+        aqi: Math.round(finalAqi),
+        catIndex,
+        name,
+        color,
+        health,
+        pmAqi: Math.round(pmAqi),
+        gasAqi: Math.round(gasAqi)
+      };
+    }
+
+    function updateCpcbCard(aqiInfo) {
+      const aqiNumEl = document.getElementById('cpcbAqiNumber');
+      const aqiBadgeEl = document.getElementById('cpcbAqiBadge');
+      const needleContainer = document.getElementById('cpcbNeedleContainer');
+      const needleTag = document.getElementById('cpcbNeedleTag');
+      const needlePin = document.getElementById('cpcbNeedlePin');
+
+      if (aqiNumEl) {
+        aqiNumEl.textContent = aqiInfo.aqi;
+        aqiNumEl.style.color = aqiInfo.color;
+      }
+      if (aqiBadgeEl) {
+        aqiBadgeEl.textContent = aqiInfo.name.toUpperCase();
+        aqiBadgeEl.style.color = aqiInfo.color;
+        aqiBadgeEl.style.borderColor = aqiInfo.color;
+        aqiBadgeEl.style.background = aqiInfo.color + '22';
+      }
+      if (needleContainer) {
+        const pct = Math.min(98, Math.max(2, (aqiInfo.aqi / 500) * 100));
+        needleContainer.style.left = pct + '%';
+      }
+      if (needleTag) {
+        needleTag.textContent = 'AQI: ' + aqiInfo.aqi;
+        needleTag.style.background = aqiInfo.color;
+        needleTag.style.color = aqiInfo.catIndex === 1 || aqiInfo.catIndex === 2 ? '#000' : '#fff';
+      }
+      if (needlePin) {
+        needlePin.style.borderTopColor = aqiInfo.color;
+      }
+
+      for (let i = 0; i <= 5; i++) {
+        const card = document.getElementById('catCard' + i);
+        if (card) {
+          if (i === aqiInfo.catIndex) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        }
+      }
+    }
+
+    function updateChatRibbon(aqiInfo, dustUg, rawGas) {
+      const rAqi = document.getElementById('ribbonAqi');
+      const rCat = document.getElementById('ribbonCategory');
+      const rDust = document.getElementById('ribbonDust');
+      const rGas = document.getElementById('ribbonGas');
+      if (rAqi) rAqi.textContent = aqiInfo.aqi;
+      if (rCat) {
+        rCat.textContent = aqiInfo.name;
+        rCat.style.color = aqiInfo.color;
+      }
+      if (rDust) rDust.textContent = dustUg.toFixed(1) + ' µg/m³';
+      if (rGas) rGas.textContent = rawGas;
+    }
+
+    // ==========================================
+    // AeroBot AI Engine (Motivation, Real-Time Alerts, Q&A)
+    // ==========================================
+    window.AeroBotEngine = {
+      voiceEnabled: localStorage.getItem('aerobot_voice') !== 'false',
+      lastAqiCategory: null,
+      lastSpokenTime: 0,
+      lastMotivationTime: Date.now(),
+      unreadCount: 0,
+      isDrawerOpen: false,
+      audioCtx: null,
+      speechRecognizer: null,
+      isListening: false,
+      currentReading: { raw: 1750, voltage: 1.4, dustUg: 15.0, aqi: 25, catIndex: 0, name: "Good" },
+
+      motivationalQuotes: [
+        {
+          quote: "✨ Pristine air detected! Your lungs are thanking you today. Take 5 deep breaths, step outside, or crush that workout!",
+          action: "Optimal oxygenation time. High mental clarity & productivity window."
+        },
+        {
+          quote: "🌟 Clean air score is in the top tier! Supercharge your focus and crush your goals—your environment is primed for peak performance.",
+          action: "Great time for cardio, focused studying, or opening windows for fresh air."
+        },
+        {
+          quote: "🌱 Fresh atmospheric baseline. Remember: deep diaphragmatic breathing increases blood oxygenation by up to 15%.",
+          action: "Try a quick 4-7-8 breathing session to center your mind and energize your body."
+        },
+        {
+          quote: "💪 Healthy lungs build powerful stamina. Your indoor space is a sanctuary of clean breath right now.",
+          action: "Keep indoor plants hydrated to maintain natural transpiration and humidity."
+        },
+        {
+          quote: "🌿 Pure air fuels clear thoughts. High air quality enhances cognitive speed and reduces mental fatigue.",
+          action: "Make the most of this high-vitality window for high-value tasks."
+        },
+        {
+          quote: "🌤️ Fresh oxygen fuels cellular repair. Celebrate having clean indoor air and breathe with gratitude!",
+          action: "Stay hydrated with pure water to keep respiratory mucous membranes healthy."
+        }
+      ],
+
+      init() {
+        this.updateVoiceButtonUI();
+        this.initSpeechRecognition();
+        logMsg("AeroBot AI Companion Engine initialized.", "success");
+      },
+
+      getAudioContext() {
+        if (!this.audioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.audioCtx = new AudioContext();
+          }
+        }
+        if (this.audioCtx && this.audioCtx.state === 'suspended') {
+          this.audioCtx.resume();
+        }
+        return this.audioCtx;
+      },
+
+      playAudioTone(type) {
+        try {
+          const ctx = this.getAudioContext();
+          if (!ctx) return;
+
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          if (type === 'clean') {
+            // Cheerful two-tone chime (C5 -> G5)
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(523.25, now);
+            osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.18);
+            gain.gain.setValueAtTime(0.15, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+            osc.start(now);
+            osc.stop(now + 0.5);
+          } else if (type === 'alert') {
+            // Warning pulse (A5 dual beep)
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(880, now);
+            osc.frequency.setValueAtTime(659.25, now + 0.12);
+            gain.gain.setValueAtTime(0.25, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+            osc.start(now);
+            osc.stop(now + 0.45);
+          } else if (type === 'bell') {
+            // Notification ping
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, now);
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+            osc.start(now);
+            osc.stop(now + 0.35);
+          } else if (type === 'breath') {
+            // Gentle soothing hum
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(146.83, now); // D3
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+            osc.start(now);
+            osc.stop(now + 1.2);
+          }
+        } catch (e) {
+          console.warn("Audio tone error:", e);
+        }
+      },
+
+      speak(text, priority = false) {
+        if (!this.voiceEnabled || !('speechSynthesis' in window)) return;
+        const now = Date.now();
+        if (!priority && (now - this.lastSpokenTime < 35000)) return;
+
+        try {
+          if (priority) {
+            window.speechSynthesis.cancel();
+          }
+          const cleanedText = text.replace(/[#*`_~]/g, '').replace(/[\u{1F300}-\u{1F6FF}]/gu, '');
+          const utterance = new SpeechSynthesisUtterance(cleanedText);
+          utterance.rate = 1.0;
+          utterance.pitch = 1.05;
+
+          const voices = window.speechSynthesis.getVoices();
+          const preferredVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Zira')));
+          if (preferredVoice) utterance.voice = preferredVoice;
+
+          window.speechSynthesis.speak(utterance);
+          this.lastSpokenTime = now;
+        } catch (e) {
+          console.warn("Speech synthesis error:", e);
+        }
+      },
+
+      initSpeechRecognition() {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRec) return;
+
+        this.speechRecognizer = new SpeechRec();
+        this.speechRecognizer.continuous = false;
+        this.speechRecognizer.interimResults = false;
+        this.speechRecognizer.lang = 'en-US';
+
+        this.speechRecognizer.onstart = () => {
+          this.isListening = true;
+          const btn = document.getElementById('btnChatMic');
+          if (btn) btn.classList.add('listening');
+          logMsg("AeroBot listening for voice input...", "info");
+        };
+
+        this.speechRecognizer.onresult = (e) => {
+          const transcript = e.results[0][0].transcript;
+          const input = document.getElementById('chatInput');
+          if (input) {
+            input.value = transcript;
+            sendChatMessage();
+          }
+        };
+
+        this.speechRecognizer.onerror = (e) => {
+          console.warn("Speech recognition error:", e);
+          this.isListening = false;
+          const btn = document.getElementById('btnChatMic');
+          if (btn) btn.classList.remove('listening');
+        };
+
+        this.speechRecognizer.onend = () => {
+          this.isListening = false;
+          const btn = document.getElementById('btnChatMic');
+          if (btn) btn.classList.remove('listening');
+        };
+      },
+
+      toggleVoice() {
+        this.voiceEnabled = !this.voiceEnabled;
+        localStorage.setItem('aerobot_voice', this.voiceEnabled);
+        this.updateVoiceButtonUI();
+        if (this.voiceEnabled) {
+          this.playAudioTone('clean');
+          this.speak("AeroBot voice alerts enabled.", true);
+          logMsg("AeroBot voice alerts turned ON.", "success");
+        } else {
+          window.speechSynthesis && window.speechSynthesis.cancel();
+          logMsg("AeroBot voice alerts muted.", "info");
+        }
+      },
+
+      updateVoiceButtonUI() {
+        const btn = document.getElementById('aerobotVoiceBtn');
+        const icon = document.getElementById('aerobotVoiceIcon');
+        const text = document.getElementById('aerobotVoiceText');
+        const drawerToggle = document.getElementById('drawerVoiceToggle');
+
+        if (this.voiceEnabled) {
+          if (btn) btn.classList.add('active');
+          if (icon) icon.textContent = '🔊';
+          if (text) text.textContent = 'Voice: ON';
+          if (drawerToggle) drawerToggle.textContent = '🔊';
+        } else {
+          if (btn) btn.classList.remove('active');
+          if (icon) icon.textContent = '🔇';
+          if (text) text.textContent = 'Voice: OFF';
+          if (drawerToggle) drawerToggle.textContent = '🔇';
+        }
+      },
+
+      // ==========================================
+      // Live Observation & Real-Time Alert Engine
+      // ==========================================
+      processLiveReading(data, aqiInfo, dustUg) {
+        this.currentReading = {
+          raw: data.raw,
+          voltage: data.voltage,
+          dustUg: dustUg,
+          dustVoltage: data.dustVoltage,
+          aqi: aqiInfo.aqi,
+          catIndex: aqiInfo.catIndex,
+          name: aqiInfo.name,
+          color: aqiInfo.color,
+          status: data.status,
+          uptimeSec: data.uptimeSec
+        };
+
+        // Update Aura Color on Live Card & Floating Button
+        document.documentElement.style.setProperty('--bot-aura', aqiInfo.color);
+        document.documentElement.style.setProperty('--bot-glow', aqiInfo.color + '44');
+
+        const now = Date.now();
+        const prevCat = this.lastAqiCategory;
+
+        if (prevCat === null) {
+          // First reading
+          this.lastAqiCategory = aqiInfo.catIndex;
+          this.updateLiveCard(
+            "🌱 Live Air Monitoring Active",
+            "Atmosphere analyzed: AQI is " + aqiInfo.aqi + " (" + aqiInfo.name + "). Sensors are streaming in real-time.",
+            aqiInfo
+          );
+          return;
+        }
+
+        // ==========================================
+        // 1. Degradation Alert Detection (WORSENING)
+        // ==========================================
+        if (aqiInfo.catIndex > prevCat && aqiInfo.catIndex >= 2) {
+          // Air quality has degraded!
+          this.playAudioTone('alert');
+          let alertTitle = "⚠️ Pollution Alert: " + aqiInfo.name;
+          let alertQuote = "";
+          let spokenAlert = "";
+
+          if (aqiInfo.catIndex === 2) {
+            alertQuote = "Air quality shifted to Moderate (AQI: " + aqiInfo.aqi + "). PM2.5 is at " + dustUg.toFixed(1) + " µg/m³. Sensitive individuals should take note.";
+            spokenAlert = "Notice: Air quality has shifted to moderate. Particulate matter is rising.";
+          } else if (aqiInfo.catIndex === 3) {
+            alertTitle = "🚨 Air Quality Warning: Poor / Unhealthy";
+            alertQuote = "PM2.5 particulate count has spiked to " + dustUg.toFixed(1) + " µg/m³! Close windows and activate your air purifier.";
+            spokenAlert = "Warning: Air pollution levels have reached unhealthy range. Please close windows and activate air filtration.";
+          } else {
+            alertTitle = "🛑 CRITICAL HAZARD ALERT: " + aqiInfo.name.toUpperCase();
+            alertQuote = "Dangerous particulate density and VOC levels detected! Evacuate or seal the room and run maximum filtration immediately.";
+            spokenAlert = "Critical alert: Severe airborne contamination detected. Immediate air filtration advised.";
+          }
+
+          this.updateLiveCard(alertTitle, alertQuote, aqiInfo, true);
+          this.speak(spokenAlert, true);
+          this.triggerSystemNotification(alertTitle, alertQuote);
+          this.logChatAlert(alertTitle, alertQuote, aqiInfo.color);
+
+          if (!this.isDrawerOpen) {
+            this.unreadCount++;
+            this.updateUnreadBadge();
+          }
+
+          this.lastAqiCategory = aqiInfo.catIndex;
+          return;
+        }
+
+        // ==========================================
+        // 2. Recovery Milestone Detection (CLEARING UP)
+        // ==========================================
+        if (prevCat >= 2 && aqiInfo.catIndex <= 1) {
+          // Cleared back to Good/Satisfactory!
+          this.playAudioTone('clean');
+          const victoryTitle = "🎉 Victory! Air Quality Cleared to " + aqiInfo.name;
+          const victoryQuote = "Contaminants have cleared back to healthy baseline (AQI: " + aqiInfo.aqi + ", PM2.5: " + dustUg.toFixed(1) + " µg/m³). Breathe easy, your environment is safe!";
+          
+          this.updateLiveCard(victoryTitle, victoryQuote, aqiInfo);
+          this.speak("Great news! Air quality has returned to healthy levels. Take a fresh, deep breath.", true);
+          this.logChatMotivation(victoryTitle, victoryQuote);
+
+          this.lastAqiCategory = aqiInfo.catIndex;
+          return;
+        }
+
+        // Update category state
+        this.lastAqiCategory = aqiInfo.catIndex;
+
+        // ==========================================
+        // 3. Periodic Motivation Cycling (When Clean)
+        // ==========================================
+        if (aqiInfo.catIndex <= 1 && (now - this.lastMotivationTime > 180000)) {
+          this.lastMotivationTime = now;
+          const item = this.motivationalQuotes[Math.floor(Math.random() * this.motivationalQuotes.length)];
+          this.updateLiveCard("✨ AeroBot Wellness & Focus Coach", item.quote, aqiInfo);
+          const actionEl = document.getElementById('aerobotActionText');
+          if (actionEl) actionEl.textContent = "💡 Tip: " + item.action;
+        }
+      },
+
+      updateLiveCard(headline, quote, aqiInfo, isAlert = false) {
+        const headEl = document.getElementById('aerobotHeadline');
+        const quoteEl = document.getElementById('aerobotQuoteText');
+        const pillEl = document.getElementById('aerobotPillTag');
+        const iconEl = document.getElementById('aerobotBubbleIcon');
+        const container = document.getElementById('aerobotBubbleContainer');
+
+        if (headEl) headEl.textContent = headline;
+        if (quoteEl) quoteEl.textContent = `"${quote}"`;
+
+        if (pillEl) {
+          pillEl.className = 'meta-pill';
+          if (aqiInfo.catIndex === 0) pillEl.classList.add('pill-clean');
+          else if (aqiInfo.catIndex <= 2) pillEl.classList.add('pill-moderate');
+          else if (aqiInfo.catIndex <= 4) pillEl.classList.add('pill-poor');
+          else pillEl.classList.add('pill-hazard');
+          pillEl.textContent = aqiInfo.name + ' Air • AQI ' + aqiInfo.aqi;
+        }
+
+        if (iconEl) {
+          iconEl.textContent = isAlert ? '⚠️' : (aqiInfo.catIndex === 0 ? '🌿' : '🌤️');
+        }
+
+        if (container) {
+          if (isAlert) {
+            container.style.borderColor = aqiInfo.color;
+            container.style.background = aqiInfo.color + '15';
+          } else {
+            container.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+            container.style.background = 'rgba(255, 255, 255, 0.03)';
+          }
+        }
+      },
+
+      triggerSystemNotification(title, body) {
+        if ('Notification' in window && Notification.permission === 'granted') {
+          try {
+            new Notification(title, {
+              body: body,
+              icon: 'icon.svg'
+            });
+          } catch (e) {
+            console.warn("Notification error:", e);
+          }
+        }
+      },
+
+      updateUnreadBadge() {
+        const badge = document.getElementById('aerobotUnreadBadge');
+        if (badge) {
+          if (this.unreadCount > 0) {
+            badge.textContent = this.unreadCount;
+            badge.style.display = 'flex';
+          } else {
+            badge.style.display = 'none';
+          }
+        }
+      },
+
+      logChatAlert(title, text, color) {
+        const container = document.getElementById('chatMessagesContainer');
+        if (!container) return;
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-msg msg-bot';
+        msgDiv.innerHTML = `
+          <div class="msg-avatar" style="border-color:${color}; background:${color}22;">🚨</div>
+          <div class="msg-bubble alert-highlight" style="border-color:${color}88;">
+            <strong style="color:${color}; font-size:0.95rem;">${title}</strong><br>
+            ${text}
+            <div class="msg-card-block" style="border-color:${color}44;">
+              🛑 <strong>Immediate Action:</strong> Turn on HEPA purifier, close windows, avoid aerobic exertion.
+            </div>
+            <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+          </div>
+        `;
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+      },
+
+      logChatMotivation(title, text) {
+        const container = document.getElementById('chatMessagesContainer');
+        if (!container) return;
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-msg msg-bot';
+        msgDiv.innerHTML = `
+          <div class="msg-avatar" style="border-color:#10b981; background:rgba(16,185,129,0.2);">✨</div>
+          <div class="msg-bubble motivate-highlight">
+            <strong style="color:#10b981; font-size:0.95rem;">${title}</strong><br>
+            ${text}
+            <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+          </div>
+        `;
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+      },
+
+      // ==========================================
+      // Offline NLP Knowledge Engine & Gemini API
+      // ==========================================
+      async generateResponse(userText) {
+        const geminiKey = localStorage.getItem('aerobot_gemini_key');
+        if (geminiKey && geminiKey.trim()) {
+          try {
+            return await this.callGeminiApi(userText, geminiKey.trim());
+          } catch (err) {
+            console.warn("Gemini API call failed, falling back to local expert engine:", err);
+          }
+        }
+        return this.localExpertKnowledge(userText);
+      },
+
+      async callGeminiApi(prompt, apiKey) {
+        const cur = this.currentReading;
+        const systemInstruction = `You are AeroBot, an empathetic, highly knowledgeable, and motivational AI air quality coach embedded in the AeroSense hardware IoT app (ESP32 with MQ-135 Gas & Sharp GP2Y PM2.5 sensors).
+Current Live Sensor Telemetry:
+- National AQI: ${cur.aqi} (${cur.name} - 0 to 500 scale)
+- Sharp Optical PM2.5: ${Number(cur.dustUg).toFixed(1)} µg/m³ (Voltage: ${Number(cur.dustVoltage || 0).toFixed(2)}V)
+- MQ-135 Gas ADC: ${cur.raw} (Voltage: ${Number(cur.voltage).toFixed(2)}V, Status: ${cur.status})
+- Continuous Uptime: ${cur.uptimeSec} seconds
+Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3-4 paragraphs, formatted cleanly with emojis and bullet points. Always motivate the user and prioritize their health.`;
+
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: 'user',
+                parts: [
+                  { text: systemInstruction + "\n\nUser Question: " + prompt }
+                ]
+              }
+            ]
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error("Gemini API HTTP " + response.status);
+        }
+
+        const data = await response.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!text) throw new Error("Empty response from Gemini");
+
+        return text + `<br><div class="msg-card-block" style="font-size:0.75rem; color:#38bdf8; border-color:rgba(56,189,248,0.3); margin-top:10px;">✨ <em>Powered by Google Gemini AI Studio</em></div>`;
+      },
+
+      localExpertKnowledge(query) {
+        const q = query.toLowerCase();
+        const cur = this.currentReading;
+
+        // 1. Current Air Status & Audit
+        if (q.includes('air right now') || q.includes('how is my air') || q.includes('audit') || q.includes('status') || q.includes('current reading') || q.includes('what is the aqi')) {
+          let advice = "";
+          if (cur.catIndex <= 1) {
+            advice = "🌿 <strong>Health Rating: Excellent.</strong> Your indoor air is fresh, clean, and free of elevated particulates. Ideal conditions for deep focus and aerobic work!";
+          } else if (cur.catIndex === 2) {
+            advice = "🌤️ <strong>Health Rating: Moderate.</strong> Mild airborne particulates or background vapors present. Sensitive individuals or asthmatics should take note.";
+          } else {
+            advice = "⚠️ <strong>Health Rating: Unhealthy.</strong> High airborne contamination detected! Close doors and windows, and turn on an air purifier with a true HEPA filter.";
+          }
+
+          return `
+            <strong>📊 Live Environmental Diagnostic Audit:</strong><br><br>
+            • <strong>National AQI:</strong> <span style="color:${cur.color}; font-weight:800;">${cur.aqi} (${cur.name})</span><br>
+            • <strong>Sharp GP2Y PM2.5 Dust:</strong> <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong><br>
+            • <strong>MQ-135 Gas &amp; VOC ADC:</strong> <strong>${cur.raw}</strong> (${Number(cur.voltage).toFixed(2)}V)<br>
+            • <strong>Hardware Status:</strong> <strong>${cur.status}</strong> (Monitoring Active)<br><br>
+            ${advice}
+          `;
+        }
+
+        // 2. Exercise / Outdoor Running Safety
+        if (q.includes('exercise') || q.includes('running') || q.includes('run') || q.includes('jog') || q.includes('jogging') || q.includes('gym') || q.includes('workout') || q.includes('cycling')) {
+          if (cur.catIndex <= 1) {
+            return `
+              🏃 <strong>Yes, it is 100% safe and optimal for exercise!</strong><br><br>
+              With PM2.5 at <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong> (AQI: ${cur.aqi}), your respiratory tract is completely unhindered by particle irritation. 
+              <br><br>
+              💡 <strong>Coach Tip:</strong> Deep breathing during clean air workouts maximizes VO₂ max efficiency and accelerates muscle recovery! Go crush that workout! 💪
+            `;
+          } else if (cur.catIndex === 2) {
+            return `
+              🧘 <strong>Caution for Intense Outdoor Cardio:</strong><br><br>
+              The current AQI is <strong>${cur.aqi} (${cur.name})</strong>. While light walking and moderate workouts are generally safe for healthy individuals, people with asthma or allergies should avoid long-distance outdoor sprinting right now.
+              <br><br>
+              💡 <strong>Coach Tip:</strong> Consider exercising indoors or running an air purifier nearby.
+            `;
+          } else {
+            return `
+              🛑 <strong>Avoid Outdoor or Intense Cardio Right Now!</strong><br><br>
+              Current PM2.5 is at <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong> (Unhealthy). During intense cardio, your respiratory volume increases by up to 10x, pulling fine particulates deep into your alveoli and bloodstream.
+              <br><br>
+              💡 <strong>Action:</strong> Keep your workout indoors with closed windows and a HEPA air filtration system active!
+            `;
+          }
+        }
+
+        // 3. Motivation / Energy Boost
+        if (q.includes('motivat') || q.includes('boost') || q.includes('inspire') || q.includes('quote') || q.includes('tired') || q.includes('energy') || q.includes('mindset') || q.includes('affirmation')) {
+          const quotes = [
+            "✨ *'Every breath is a fresh start.'* When your air is clean, your brain produces more serotonin and maintains neuro-focus up to 20% longer. Today is your day to excel!",
+            "🔥 *'Discipline is choosing between what you want now and what you want most.'* Your respiratory health is your ultimate superpower. Safeguard it, fuel it with clean oxygen, and reach your goals!",
+            "🌟 *'Your energy introduces you before you even speak.'* Take a moment right now: roll your shoulders back, inhale deeply through your nose for 4 seconds, and feel the vitality return to your body!",
+            "🌱 *'Small habits done consistently create massive transformations.'* Monitoring your air quality is proof that you value your body, your focus, and your longevity. Keep thriving!"
+          ];
+          const selected = quotes[Math.floor(Math.random() * quotes.length)];
+          return `
+            ${selected}<br><br>
+            <div class="msg-card-block">
+              🎯 <strong>AeroBot Affirmation:</strong> <em>"My mind is clear, my lungs are healthy, and I possess the energy to accomplish great things today."</em>
+            </div>
+          `;
+        }
+
+        // 4. Precautions & What to Do
+        if (q.includes('precaution') || q.includes('what to do') || q.includes('protect') || q.includes('purifier') || q.includes('mask') || q.includes('filter') || q.includes('remedy')) {
+          return `
+            🛡️ <strong>Air Quality Safety &amp; Protection Protocol:</strong><br><br>
+            1. <strong>Indoor HEPA Air Purifier:</strong> Use an H13/True HEPA purifier rated for your room volume to capture particles down to 0.3 µm.<br>
+            2. <strong>Window Management:</strong> Open windows only when outdoor AQI is &lt; 50; otherwise keep them shut to block road dust and industrial smog.<br>
+            3. <strong>Activated Carbon:</strong> While HEPA traps dust (PM2.5), activated carbon is needed to absorb volatile gases (detected by your MQ-135 sensor).<br>
+            4. <strong>N95 Respirators:</strong> Wear a snug-fitting N95 or KN95 mask whenever venturing outdoors during high PM2.5 alerts.<br>
+            5. <strong>Hydration &amp; Steam:</strong> Drink plenty of warm fluids to maintain the protective mucus layer in your upper airways.
+          `;
+        }
+
+        // 5. Indoor Air Purifying Plants
+        if (q.includes('plant') || q.includes('flora') || q.includes('spider plant') || q.includes('snake plant') || q.includes('peace lily')) {
+          return `
+            🌱 <strong>Top NASA Clean Air Study Indoor Plants:</strong><br><br>
+            • <strong>Snake Plant (Sansevieria):</strong> Excellent bedroom plant! It releases oxygen at night (CAM photosynthesis) and absorbs benzene, formaldehyde, and xylene.<br>
+            • <strong>Spider Plant (Chlorophytum):</strong> Extremely resilient, safe for pets, and filters carbon monoxide &amp; toluene.<br>
+            • <strong>Peace Lily (Spathiphyllum):</strong> Outstanding at absorbing ammonia (NH3) and acetone vapors (detected by MQ-135).<br>
+            • <strong>Areca Palm:</strong> Natural room humidifier that transpires 1 liter of clean water vapor per day while removing airborne toxins.<br><br>
+            💡 <em>Rule of thumb: Place 2 to 3 medium-sized plants for every 100 sq. ft. of indoor space!</em>
+          `;
+        }
+
+        // 6. Sensor Science & Hardware
+        if (q.includes('sensor') || q.includes('mq135') || q.includes('sharp') || q.includes('gp2y') || q.includes('optical') || q.includes('hardware') || q.includes('how it works') || q.includes('adc')) {
+          return `
+            🔬 <strong>How Your Dual AeroSense Sensors Work:</strong><br><br>
+            1. <strong>MQ-135 Gas &amp; VOC Sensor:</strong><br>
+            Uses an internal heating coil that warms a Tin Dioxide (SnO₂) sensitive layer to ~300°C. In clean air, conductivity is low; when oxidizable gas molecules (CO, NH3, Benzene, Alcohol, Smoke) collide with the hot surface, electrons are released, dropping resistance and increasing the analog voltage (0V to 3.3V / ADC 0 to 4095).<br><br>
+            2. <strong>Sharp GP2Y1014AU0F Optical Dust Sensor:</strong><br>
+            Contains an Infrared Emitting Diode (IRED) pulsed at 10ms intervals and a Phototransistor aligned across an optical dark chamber. When fine airborne dust (PM2.5) enters the chamber, it scatters the infrared light beam. The reflected light hits the detector, outputting a voltage $V_o$ directly proportional to particle density in $\\mu\\text{g/m}^3$.
+          `;
+        }
+
+        // 7. Breathing & Relaxation
+        if (q.includes('breath') || q.includes('relax') || q.includes('stress') || q.includes('calm') || q.includes('pranayama')) {
+          return `
+            🧘 <strong>The 4-7-8 Deep Breathing Technique (Pranayama):</strong><br><br>
+            This evidence-based technique activates your parasympathetic nervous system, slowing heart rate and oxygenating muscle tissue:<br><br>
+            1. <strong>Inhale:</strong> Quietly through the nose for <strong>4 seconds</strong>.<br>
+            2. <strong>Hold:</strong> Retain the breath gently for <strong>7 seconds</strong>.<br>
+            3. <strong>Exhale:</strong> Audible release through mouth for <strong>8 seconds</strong>.<br><br>
+            <button class="ai-quick-btn" onclick="startBreathingSession()" style="background:#10b98122; border-color:#10b981; color:#10b981; padding:8px 16px; margin-top:6px;">
+              <span>🧘</span> Launch Interactive 4-7-8 Breathing Guide
+            </button>
+          `;
+        }
+
+        // General fallback
+        return `
+          Hello! I'm actively monitoring your air quality in real time. 🌿<br><br>
+          Currently, your <strong>AQI is ${cur.aqi} (${cur.name})</strong> with PM2.5 at <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong> and Gas ADC at <strong>${cur.raw}</strong>.<br><br>
+          You can ask me anything about:
+          <br>• 🏃 <em>"Is it safe to run or exercise outside?"</em>
+          <br>• ⚠️ <em>"What precautions should I take?"</em>
+          <br>• 🌱 <em>"Best indoor air purifying plants?"</em>
+          <br>• 🔬 <em>"How does the MQ-135 and dust sensor work?"</em>
+          <br>• ⚡ <em>"Give me a health & motivation quote!"</em>
+        `;
+      }
+    };
+
+    // ==========================================
+    // UI Drawer, Chat, and Modal Controllers
+    // ==========================================
+    function toggleChatDrawer(forceState) {
+      const overlay = document.getElementById('aerobotDrawerOverlay');
+      const drawer = document.getElementById('aerobotDrawer');
+      if (!drawer) return;
+
+      const shouldOpen = typeof forceState === 'boolean' ? forceState : !drawer.classList.contains('active');
+      if (shouldOpen) {
+        drawer.classList.add('active');
+        if (overlay) overlay.classList.add('active');
+        window.AeroBotEngine.isDrawerOpen = true;
+        window.AeroBotEngine.unreadCount = 0;
+        window.AeroBotEngine.updateUnreadBadge();
+        const input = document.getElementById('chatInput');
+        if (input) setTimeout(() => input.focus(), 300);
+      } else {
+        drawer.classList.remove('active');
+        if (overlay) overlay.classList.remove('active');
+        window.AeroBotEngine.isDrawerOpen = false;
+      }
+    }
+
+    function openAeroBotWithPrompt(promptText) {
+      toggleChatDrawer(true);
+      const input = document.getElementById('chatInput');
+      if (input) {
+        input.value = promptText;
+        sendChatMessage();
+      }
+    }
+
+    function handleChipClick(text) {
+      const input = document.getElementById('chatInput');
+      if (input) {
+        input.value = text;
+        sendChatMessage();
+      }
+    }
+
+    function handleChatKeyDown(e) {
+      if (e.key === 'Enter') {
+        sendChatMessage();
+      }
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      const container = document.getElementById('chatMessagesContainer');
+      const typing = document.getElementById('chatTypingIndicator');
+
+      // Append user bubble
+      const userDiv = document.createElement('div');
+      userDiv.className = 'chat-msg msg-user';
+      userDiv.innerHTML = `
+        <div class="msg-avatar">👤</div>
+        <div class="msg-bubble">
+          ${escapeHtml(text)}
+          <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+        </div>
+      `;
+      if (container && typing) {
+        container.insertBefore(userDiv, typing);
+        typing.style.display = 'flex';
+        container.scrollTop = container.scrollHeight;
+      }
+
+      window.AeroBotEngine.playAudioTone('bell');
+
+      // Generate bot response
+      const answerHtml = await window.AeroBotEngine.generateResponse(text);
+
+      if (typing) typing.style.display = 'none';
+
+      // Append bot bubble
+      const botDiv = document.createElement('div');
+      botDiv.className = 'chat-msg msg-bot';
+      botDiv.innerHTML = `
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-bubble">
+          ${answerHtml}
+          <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+        </div>
+      `;
+      if (container) {
+        container.appendChild(botDiv);
+        container.scrollTop = container.scrollHeight;
+      }
+
+      // Read aloud if voice enabled
+      if (window.AeroBotEngine.voiceEnabled) {
+        const plainText = answerHtml.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        window.AeroBotEngine.speak(plainText);
+      }
+    }
+
+    function clearAeroBotChat() {
+      const container = document.getElementById('chatMessagesContainer');
+      const typing = document.getElementById('chatTypingIndicator');
+      if (container) {
+        container.innerHTML = `
+          <div class="chat-msg msg-bot">
+            <div class="msg-avatar">🤖</div>
+            <div class="msg-bubble">
+              Chat history cleared. AeroBot is actively monitoring your air in real time! Ask me anything or tap a prompt below. 🌿
+              <span class="msg-time">Just now</span>
+            </div>
+          </div>
+        `;
+        if (typing) container.appendChild(typing);
+      }
+    }
+
+    function toggleAeroVoice() {
+      window.AeroBotEngine.toggleVoice();
+    }
+
+    function toggleVoiceRecognition() {
+      if (!window.AeroBotEngine.speechRecognizer) {
+        alert("Speech Recognition is not supported by this browser. Try Google Chrome on PC or Android.");
+        return;
+      }
+      if (window.AeroBotEngine.isListening) {
+        window.AeroBotEngine.speechRecognizer.stop();
+      } else {
+        window.AeroBotEngine.speechRecognizer.start();
+      }
+    }
+
+    function requestNotificationPermission() {
+      if (!('Notification' in window)) {
+        alert("Desktop / Web Push notifications are not supported by this browser.");
+        return;
+      }
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          logMsg("Push notifications granted! You will receive toxic pollution alerts.", "success");
+          window.AeroBotEngine.triggerSystemNotification("🔔 AeroSense Alerts Enabled", "You will now be proactively alerted whenever air pollution rises!");
+        } else {
+          logMsg("Notification permission was dismissed or denied.", "warn");
+        }
+      });
+    }
+
+    // ==========================================
+    // Guided 4-7-8 Breathing Circle Controller
+    // ==========================================
+    let breathTimer = null;
+    let breathIsPaused = false;
+    let breathPhase = 'inhale'; // inhale (4s), hold (7s), exhale (8s)
+    let breathRemaining = 4;
+
+    function startBreathingSession() {
+      const modal = document.getElementById('breathModalOverlay');
+      if (!modal) return;
+      modal.classList.add('active');
+      breathIsPaused = false;
+      breathPhase = 'inhale';
+      breathRemaining = 4;
+      runBreathingTick();
+    }
+
+    function closeBreathingModal(e) {
+      if (e) e.stopPropagation();
+      const modal = document.getElementById('breathModalOverlay');
+      if (modal) modal.classList.remove('active');
+      if (breathTimer) clearTimeout(breathTimer);
+      breathTimer = null;
+    }
+
+    function toggleBreathingLoop() {
+      breathIsPaused = !breathIsPaused;
+      const btn = document.getElementById('btnBreathToggle');
+      if (btn) btn.textContent = breathIsPaused ? 'Resume Session' : 'Pause Session';
+      if (!breathIsPaused) {
+        runBreathingTick();
+      }
+    }
+
+    function runBreathingTick() {
+      if (breathIsPaused) return;
+
+      const ring = document.getElementById('breathRing');
+      const countEl = document.getElementById('breathCountdown');
+      const labelEl = document.getElementById('breathPhase');
+      const instrEl = document.getElementById('breathInstruction');
+
+      if (countEl) countEl.textContent = breathRemaining;
+
+      if (ring && labelEl && instrEl) {
+        if (breathPhase === 'inhale') {
+          ring.className = 'breath-ring inhale';
+          labelEl.textContent = 'INHALE';
+          labelEl.style.color = '#10b981';
+          instrEl.textContent = 'Breathe in slowly and deeply through your nose (filling your abdomen)...';
+          if (breathRemaining === 4) window.AeroBotEngine.playAudioTone('breath');
+        } else if (breathPhase === 'hold') {
+          ring.className = 'breath-ring hold';
+          labelEl.textContent = 'HOLD';
+          labelEl.style.color = '#f59e0b';
+          instrEl.textContent = 'Hold your breath gently and relax your shoulders...';
+        } else if (breathPhase === 'exhale') {
+          ring.className = 'breath-ring exhale';
+          labelEl.textContent = 'EXHALE';
+          labelEl.style.color = '#38bdf8';
+          instrEl.textContent = 'Exhale completely and steadily through your mouth...';
+        }
+      }
+
+      breathRemaining--;
+      if (breathRemaining < 0) {
+        if (breathPhase === 'inhale') {
+          breathPhase = 'hold';
+          breathRemaining = 7;
+        } else if (breathPhase === 'hold') {
+          breathPhase = 'exhale';
+          breathRemaining = 8;
+        } else if (breathPhase === 'exhale') {
+          breathPhase = 'inhale';
+          breathRemaining = 4;
+        }
+      }
+
+      breathTimer = setTimeout(runBreathingTick, 1000);
+    }
+
+    // ==========================================
+    // AI Settings Modal & Key Management
+    // ==========================================
+    function openAiSettingsModal() {
+      const modal = document.getElementById('aiSettingsModal');
+      const input = document.getElementById('geminiApiKeyInput');
+      if (input) input.value = localStorage.getItem('aerobot_gemini_key') || '';
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeAiSettingsModal(e) {
+      if (e) e.stopPropagation();
+      const modal = document.getElementById('aiSettingsModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function saveGeminiApiKey() {
+      const input = document.getElementById('geminiApiKeyInput');
+      if (!input) return;
+      const key = input.value.trim();
+      if (key) {
+        localStorage.setItem('aerobot_gemini_key', key);
+        logMsg("Gemini API key saved! AeroBot will now use Google Gemini 1.5 Flash.", "success");
+        alert("Google Gemini API Key successfully saved!\n\nAeroBot will now use Gemini 1.5 Flash for deep conversational reasoning with live sensor data.");
+      }
+      closeAiSettingsModal();
+    }
+
+    function removeGeminiApiKey() {
+      localStorage.removeItem('aerobot_gemini_key');
+      const input = document.getElementById('geminiApiKeyInput');
+      if (input) input.value = '';
+      logMsg("Gemini API key removed. AeroBot restored to built-in offline expert mode.", "info");
+      alert("API key removed.\nAeroBot is now operating in 100% Offline Expert Mode.");
+      closeAiSettingsModal();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Auto-initialize AeroBot on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      window.AeroBotEngine.init();
+    });
   </script>
 </body>
 </html>
