@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>AeroSense | Mobile App &amp; Dual-Sensor Air Quality Monitor</title>
-  
+
   <!-- PWA & Mobile Meta Tags -->
   <link rel="manifest" href="manifest.json">
   <meta name="mobile-web-app-capable" content="yes">
@@ -18,8 +20,10 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
+
   <!-- Three.js for 3D Atmospheric Particle Experience -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -40,7 +44,12 @@
       --radius: 20px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
     body {
       background-color: var(--bg);
@@ -105,7 +114,11 @@
       overflow: hidden;
     }
 
-    .brand-icon svg { width: 24px; height: 24px; fill: white; }
+    .brand-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
 
     .brand-title h1 {
       font-size: 1.45rem;
@@ -159,9 +172,20 @@
     }
 
     @keyframes pulse {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.4); opacity: 1; }
-      100% { transform: scale(0.95); opacity: 0.8; }
+      0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.4);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
     }
 
     /* Buttons */
@@ -185,7 +209,11 @@
       color: white;
       box-shadow: 0 0 18px rgba(37, 99, 235, 0.35);
     }
-    .btn-bluetooth:hover { transform: translateY(-1px); box-shadow: 0 0 25px rgba(37, 99, 235, 0.55); }
+
+    .btn-bluetooth:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 25px rgba(37, 99, 235, 0.55);
+    }
 
     .btn-disconnect {
       background: rgba(239, 68, 68, 0.15);
@@ -199,14 +227,21 @@
       color: var(--text);
       border: 1px solid var(--card-border);
     }
-    .btn-serial:hover { background: rgba(255, 255, 255, 0.14); }
+
+    .btn-serial:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
 
     .btn-demo {
       background: rgba(168, 85, 247, 0.12);
       color: #c084fc;
       border: 1px solid rgba(168, 85, 247, 0.3);
     }
-    .btn-demo:hover { background: rgba(168, 85, 247, 0.22); }
+
+    .btn-demo:hover {
+      background: rgba(168, 85, 247, 0.22);
+    }
+
     .btn-demo.demo-active {
       background: linear-gradient(135deg, #9333ea, #a855f7);
       color: #fff;
@@ -303,7 +338,11 @@
       cursor: pointer;
       user-select: none;
     }
-    .toggle-label input[type="checkbox"] { cursor: pointer; accent-color: var(--accent); }
+
+    .toggle-label input[type="checkbox"] {
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
 
     .baud-select {
       background: rgba(255, 255, 255, 0.08);
@@ -332,10 +371,28 @@
       transition: all 0.4s ease;
     }
 
-    .composite-info { display: flex; align-items: center; gap: 12px; }
-    .composite-icon { font-size: 1.7rem; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3)); }
-    .composite-text h3 { font-size: 1rem; font-weight: 700; color: #fff; }
-    .composite-text p { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+    .composite-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .composite-icon {
+      font-size: 1.7rem;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+    }
+
+    .composite-text h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .composite-text p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
 
     .composite-badge {
       padding: 5px 14px;
@@ -360,7 +417,10 @@
       box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.45);
       transition: border-color 0.25s, box-shadow 0.25s;
     }
-    .card:hover { border-color: var(--card-hover); }
+
+    .card:hover {
+      border-color: var(--card-hover);
+    }
 
     /* Dual Hero Section */
     .hero-dual-grid {
@@ -368,7 +428,12 @@
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
-    @media (max-width: 820px) { .hero-dual-grid { grid-template-columns: 1fr; } }
+
+    @media (max-width: 820px) {
+      .hero-dual-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .hero-gauge-card {
       display: flex;
@@ -391,8 +456,16 @@
       opacity: 0.25;
       pointer-events: none;
     }
-    .hero-gas::before { background: var(--accent); left: 10%; }
-    .hero-dust::before { background: var(--purple); right: 10%; }
+
+    .hero-gas::before {
+      background: var(--accent);
+      left: 10%;
+    }
+
+    .hero-dust::before {
+      background: var(--purple);
+      right: 10%;
+    }
 
     .sensor-tag {
       display: inline-flex;
@@ -409,8 +482,16 @@
       margin-bottom: 14px;
       z-index: 1;
     }
-    .sensor-tag.tag-gas { color: var(--accent); border-color: rgba(56, 189, 248, 0.3); }
-    .sensor-tag.tag-dust { color: var(--purple); border-color: rgba(168, 85, 247, 0.3); }
+
+    .sensor-tag.tag-gas {
+      color: var(--accent);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .sensor-tag.tag-dust {
+      color: var(--purple);
+      border-color: rgba(168, 85, 247, 0.3);
+    }
 
     .gauge-wrapper {
       position: relative;
@@ -421,8 +502,19 @@
       justify-content: center;
       z-index: 1;
     }
-    .gauge-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-    .gauge-bg { fill: none; stroke: rgba(255, 255, 255, 0.07); stroke-width: 13; }
+
+    .gauge-svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.07);
+      stroke-width: 13;
+    }
+
     .gauge-progress {
       fill: none;
       stroke-width: 13;
@@ -431,8 +523,16 @@
       stroke-dashoffset: 565.48;
       transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease;
     }
-    .gauge-progress-gas { stroke: var(--clean); filter: drop-shadow(0 0 10px currentColor); }
-    .gauge-progress-dust { stroke: #a855f7; filter: drop-shadow(0 0 10px currentColor); }
+
+    .gauge-progress-gas {
+      stroke: var(--clean);
+      filter: drop-shadow(0 0 10px currentColor);
+    }
+
+    .gauge-progress-dust {
+      stroke: #a855f7;
+      filter: drop-shadow(0 0 10px currentColor);
+    }
 
     .gauge-center-text {
       position: absolute;
@@ -448,6 +548,7 @@
       font-family: 'JetBrains Mono', monospace;
       line-height: 1;
     }
+
     .gauge-primary-label {
       font-size: 0.72rem;
       color: var(--text-muted);
@@ -490,7 +591,10 @@
       font-family: 'JetBrains Mono', monospace;
       z-index: 1;
     }
-    .hero-substats span strong { color: #fff; }
+
+    .hero-substats span strong {
+      color: #fff;
+    }
 
     /* ==========================================
        CPCB / MPCB Kolhapur AQI Scale & Range Styles
@@ -671,15 +775,43 @@
       transition: opacity 0.2s;
     }
 
-    .cpcb-segment .seg-label { line-height: 1.1; }
-    .cpcb-segment .seg-range { font-size: 0.58rem; opacity: 0.85; font-family: 'JetBrains Mono', monospace; }
+    .cpcb-segment .seg-label {
+      line-height: 1.1;
+    }
 
-    .cpcb-seg-good { background: linear-gradient(180deg, #00b050, #008f41); }
-    .cpcb-seg-satisfactory { background: linear-gradient(180deg, #92d050, #7bb838); color: #1e293b; text-shadow: none; }
-    .cpcb-seg-moderate { background: linear-gradient(180deg, #eab308, #ca8a04); color: #1e293b; text-shadow: none; }
-    .cpcb-seg-poor { background: linear-gradient(180deg, #f97316, #ea580c); }
-    .cpcb-seg-verypoor { background: linear-gradient(180deg, #ef4444, #dc2626); }
-    .cpcb-seg-severe { background: linear-gradient(180deg, #881337, #4c0519); }
+    .cpcb-segment .seg-range {
+      font-size: 0.58rem;
+      opacity: 0.85;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .cpcb-seg-good {
+      background: linear-gradient(180deg, #00b050, #008f41);
+    }
+
+    .cpcb-seg-satisfactory {
+      background: linear-gradient(180deg, #92d050, #7bb838);
+      color: #1e293b;
+      text-shadow: none;
+    }
+
+    .cpcb-seg-moderate {
+      background: linear-gradient(180deg, #eab308, #ca8a04);
+      color: #1e293b;
+      text-shadow: none;
+    }
+
+    .cpcb-seg-poor {
+      background: linear-gradient(180deg, #f97316, #ea580c);
+    }
+
+    .cpcb-seg-verypoor {
+      background: linear-gradient(180deg, #ef4444, #dc2626);
+    }
+
+    .cpcb-seg-severe {
+      background: linear-gradient(180deg, #881337, #4c0519);
+    }
 
     /* Categories Grid */
     .cpcb-breakdown-title {
@@ -699,9 +831,24 @@
       grid-template-columns: repeat(6, 1fr);
       gap: 10px;
     }
-    @media (max-width: 1050px) { .cpcb-categories-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 600px) { .cpcb-categories-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 400px) { .cpcb-categories-grid { grid-template-columns: 1fr; } }
+
+    @media (max-width: 1050px) {
+      .cpcb-categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .cpcb-categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 400px) {
+      .cpcb-categories-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .cpcb-cat-card {
       background: rgba(255, 255, 255, 0.025);
@@ -761,8 +908,16 @@
       border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
-    .cat-units .u-name { color: var(--text-muted); font-weight: 600; }
-    .cat-units .u-val { color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+    .cat-units .u-name {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .cat-units .u-val {
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
 
     .cat-health {
       font-size: 0.7rem;
@@ -781,9 +936,19 @@
       font-size: 0.74rem;
       color: var(--text-muted);
     }
-    @media (max-width: 768px) { .cpcb-units-footnote { grid-template-columns: 1fr; } }
 
-    .u-expl { display: flex; flex-direction: column; gap: 3px; }
+    @media (max-width: 768px) {
+      .cpcb-units-footnote {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .u-expl {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
     .badge-tag {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 700;
@@ -801,8 +966,18 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
     }
-    @media (max-width: 950px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 520px) { .metrics-grid { grid-template-columns: 1fr; } }
+
+    @media (max-width: 950px) {
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .metric-card {
       display: flex;
@@ -832,7 +1007,12 @@
       align-items: baseline;
       gap: 5px;
     }
-    .metric-value .unit { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+
+    .metric-value .unit {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
 
     .metric-footer {
       font-size: 0.72rem;
@@ -849,6 +1029,7 @@
       overflow: hidden;
       margin-top: 5px;
     }
+
     .metric-bar-fill {
       height: 100%;
       width: 0%;
@@ -879,7 +1060,12 @@
       align-items: center;
       gap: 8px;
     }
-    .chart-title p { font-size: 0.76rem; color: var(--text-muted); margin-top: 2px; }
+
+    .chart-title p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
 
     .chart-tabs {
       display: flex;
@@ -915,7 +1101,11 @@
       height: 250px;
     }
 
-    canvas { width: 100%; height: 100%; display: block; }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
     .chart-legend {
       display: flex;
@@ -926,8 +1116,18 @@
       color: var(--text-muted);
       font-family: 'JetBrains Mono', monospace;
     }
-    .legend-item { display: flex; align-items: center; gap: 6px; }
-    .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
 
     /* History & Analytics Specific */
     #view-history {
@@ -963,15 +1163,28 @@
       color: #f87171;
       border: 1px solid rgba(239, 68, 68, 0.3);
     }
-    .btn-clear-db:hover { background: rgba(239, 68, 68, 0.22); }
+
+    .btn-clear-db:hover {
+      background: rgba(239, 68, 68, 0.22);
+    }
 
     .analytics-stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
     }
-    @media (max-width: 860px) { .analytics-stats-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .analytics-stats-grid { grid-template-columns: 1fr; } }
+
+    @media (max-width: 860px) {
+      .analytics-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .analytics-stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .stat-box {
       background: rgba(255, 255, 255, 0.03);
@@ -982,9 +1195,24 @@
       flex-direction: column;
       gap: 6px;
     }
-    .stat-label { font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
-    .stat-val { font-size: 1.45rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
-    .stat-sub { font-size: 0.72rem; color: var(--text-muted); }
+
+    .stat-label {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .stat-val {
+      font-size: 1.45rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stat-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
 
     /* Diagnostics Log Drawer */
     .diag-card {
@@ -1001,6 +1229,7 @@
       cursor: pointer;
       user-select: none;
     }
+
     .diag-header h4 {
       font-size: 0.85rem;
       font-weight: 600;
@@ -1025,11 +1254,27 @@
       flex-direction: column;
       gap: 4px;
     }
-    .diag-line { word-break: break-all; line-height: 1.4; }
-    .diag-line.info { color: #38bdf8; }
-    .diag-line.success { color: #10b981; }
-    .diag-line.warn { color: #fbbf24; }
-    .diag-line.error { color: #f87171; }
+
+    .diag-line {
+      word-break: break-all;
+      line-height: 1.4;
+    }
+
+    .diag-line.info {
+      color: #38bdf8;
+    }
+
+    .diag-line.success {
+      color: #10b981;
+    }
+
+    .diag-line.warn {
+      color: #fbbf24;
+    }
+
+    .diag-line.error {
+      color: #f87171;
+    }
 
     /* Mobile Bottom Navigation Bar */
     .mobile-bottom-nav {
@@ -1062,7 +1307,11 @@
       border-radius: 16px;
       transition: all 0.2s;
     }
-    .bottom-nav-item span.icon { font-size: 1.25rem; }
+
+    .bottom-nav-item span.icon {
+      font-size: 1.25rem;
+    }
+
     .bottom-nav-item.active {
       color: var(--accent);
       background: rgba(56, 189, 248, 0.12);
@@ -1071,7 +1320,10 @@
     /* Modal for Mobile QR / Connection */
     .modal-overlay {
       position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
       z-index: 200;
@@ -1091,13 +1343,48 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
     }
-    .modal-header { display: flex; align-items: center; justify-content: space-between; }
-    .modal-header h3 { font-size: 1.15rem; font-weight: 700; color: #fff; }
-    .modal-close { background: transparent; border: none; font-size: 1.2rem; color: var(--text-muted); cursor: pointer; }
-    .modal-body { font-size: 0.85rem; color: #cbd5e1; line-height: 1.5; display: flex; flex-direction: column; gap: 12px; }
-    .code-pill { background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--accent); border: 1px solid rgba(255,255,255,0.08); word-break: break-all; }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .modal-body {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .code-pill {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--accent);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      word-break: break-all;
+    }
 
     footer {
       text-align: center;
@@ -1184,8 +1471,13 @@
     }
 
     @keyframes rotateRing {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     .aerobot-title-group {
@@ -1250,6 +1542,7 @@
       gap: 5px;
       transition: all 0.2s;
     }
+
     .aerobot-voice-toggle-btn.active {
       background: rgba(56, 189, 248, 0.16);
       border-color: rgba(56, 189, 248, 0.45);
@@ -1289,19 +1582,35 @@
     .aerobot-avatar-box {
       cursor: pointer;
     }
+
     .aerobot-avatar-box:hover {
       transform: scale(1.08);
     }
+
     .aerobot-avatar-box.poked {
       animation: botBounce 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
     }
 
     @keyframes botBounce {
-      0% { transform: scale(1); }
-      25% { transform: scale(1.28) rotate(-12deg); }
-      50% { transform: scale(1.18) rotate(12deg); }
-      75% { transform: scale(1.06) rotate(-4deg); }
-      100% { transform: scale(1) rotate(0deg); }
+      0% {
+        transform: scale(1);
+      }
+
+      25% {
+        transform: scale(1.28) rotate(-12deg);
+      }
+
+      50% {
+        transform: scale(1.18) rotate(12deg);
+      }
+
+      75% {
+        transform: scale(1.06) rotate(-4deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
     }
 
     .aerobot-headline {
@@ -1328,6 +1637,7 @@
       cursor: pointer;
       transition: all 0.25s ease;
     }
+
     .btn-aerobot-chat-trigger:hover {
       transform: translateY(-2px);
       box-shadow: 0 0 28px rgba(56, 189, 248, 0.55);
@@ -1388,10 +1698,30 @@
       padding: 3px 10px;
       border-radius: 20px;
     }
-    .meta-pill.pill-clean { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.35); }
-    .meta-pill.pill-moderate { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.35); }
-    .meta-pill.pill-poor { background: rgba(249, 115, 22, 0.15); color: #f97316; border: 1px solid rgba(249, 115, 22, 0.35); }
-    .meta-pill.pill-hazard { background: rgba(239, 68, 68, 0.18); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.45); }
+
+    .meta-pill.pill-clean {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .meta-pill.pill-moderate {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .meta-pill.pill-poor {
+      background: rgba(249, 115, 22, 0.15);
+      color: #f97316;
+      border: 1px solid rgba(249, 115, 22, 0.35);
+    }
+
+    .meta-pill.pill-hazard {
+      background: rgba(239, 68, 68, 0.18);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.45);
+    }
 
     .meta-action {
       color: #cbd5e1;
@@ -1421,6 +1751,7 @@
       transition: all 0.2s;
       user-select: none;
     }
+
     .ai-quick-btn:hover {
       background: rgba(56, 189, 248, 0.14);
       border-color: rgba(56, 189, 248, 0.35);
@@ -1447,14 +1778,17 @@
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       user-select: none;
     }
+
     .aerobot-floating-btn:hover {
       transform: scale(1.1);
       box-shadow: 0 0 35px rgba(56, 189, 248, 0.7);
     }
+
     .aerobot-floating-btn .orb-icon {
       font-size: 1.8rem;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
     }
+
     .aerobot-floating-btn .orb-badge {
       position: absolute;
       top: -2px;
@@ -1474,6 +1808,7 @@
       box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
       display: none;
     }
+
     @media (max-width: 768px) {
       .aerobot-floating-btn {
         bottom: 84px;
@@ -1494,6 +1829,7 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
+
     .aerobot-drawer-overlay.active {
       opacity: 1;
       pointer-events: auto;
@@ -1515,6 +1851,7 @@
       transform: translateX(100%);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .aerobot-drawer.active {
       transform: translateX(0);
     }
@@ -1530,6 +1867,7 @@
         border-radius: 24px 24px 0 0;
         transform: translateY(100%);
       }
+
       .aerobot-drawer.active {
         transform: translateY(0);
       }
@@ -1560,6 +1898,7 @@
       align-items: center;
       gap: 6px;
     }
+
     .drawer-title-box p {
       font-size: 0.72rem;
       color: var(--text-muted);
@@ -1585,6 +1924,7 @@
       font-size: 0.95rem;
       transition: all 0.2s;
     }
+
     .drawer-action-btn:hover {
       background: rgba(56, 189, 248, 0.15);
       color: #38bdf8;
@@ -1606,6 +1946,7 @@
       overflow-x: auto;
       white-space: nowrap;
     }
+
     .chat-telemetry-ribbon strong {
       color: #fff;
     }
@@ -1627,14 +1968,23 @@
       max-width: 90%;
       animation: fadeInMsg 0.25s ease-out;
     }
+
     @keyframes fadeInMsg {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .chat-msg.msg-bot {
       align-self: flex-start;
     }
+
     .chat-msg.msg-user {
       align-self: flex-end;
       flex-direction: row-reverse;
@@ -1651,10 +2001,12 @@
       flex-shrink: 0;
       user-select: none;
     }
+
     .msg-bot .msg-avatar {
       background: rgba(56, 189, 248, 0.15);
       border: 1px solid rgba(56, 189, 248, 0.3);
     }
+
     .msg-user .msg-avatar {
       background: rgba(192, 132, 252, 0.2);
       border: 1px solid rgba(192, 132, 252, 0.3);
@@ -1669,12 +2021,14 @@
       word-break: break-word;
       overflow-wrap: break-word;
     }
+
     .msg-bot .msg-bubble {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: #f1f5f9;
       border-top-left-radius: 4px;
     }
+
     .msg-user .msg-bubble {
       background: linear-gradient(135deg, #0284c7, #2563eb);
       color: #ffffff;
@@ -1724,6 +2078,7 @@
       margin-top: 4px;
       display: none;
     }
+
     .typing-dot {
       width: 6px;
       height: 6px;
@@ -1731,11 +2086,26 @@
       background: #38bdf8;
       animation: typingBounce 1.4s infinite ease-in-out both;
     }
-    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    .typing-dot:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
     @keyframes typingBounce {
-      0%, 80%, 100% { transform: scale(0); }
-      40% { transform: scale(1); }
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0);
+      }
+
+      40% {
+        transform: scale(1);
+      }
     }
 
     /* Suggestion Chips */
@@ -1747,7 +2117,10 @@
       scrollbar-width: none;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
-    .chat-suggestions-bar::-webkit-scrollbar { display: none; }
+
+    .chat-suggestions-bar::-webkit-scrollbar {
+      display: none;
+    }
 
     .chat-chip {
       background: rgba(255, 255, 255, 0.05);
@@ -1761,6 +2134,7 @@
       cursor: pointer;
       transition: all 0.2s;
     }
+
     .chat-chip:hover {
       background: rgba(56, 189, 248, 0.15);
       border-color: rgba(56, 189, 248, 0.35);
@@ -1796,6 +2170,7 @@
       font-family: inherit;
       transition: border-color 0.2s;
     }
+
     .chat-text-input:focus {
       border-color: #38bdf8;
       box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
@@ -1817,7 +2192,9 @@
       font-size: 1rem;
       transition: all 0.2s;
     }
-    .btn-chat-mic:hover, .btn-chat-mic.listening {
+
+    .btn-chat-mic:hover,
+    .btn-chat-mic.listening {
       color: #ef4444;
       background: rgba(239, 68, 68, 0.15);
       animation: pulse 1s infinite;
@@ -1839,6 +2216,7 @@
       transition: all 0.2s;
       flex-shrink: 0;
     }
+
     .btn-chat-send:hover {
       transform: scale(1.05);
       box-shadow: 0 0 22px rgba(56, 189, 248, 0.55);
@@ -1856,6 +2234,7 @@
       justify-content: center;
       padding: 20px;
     }
+
     .breath-modal-overlay.active {
       display: flex;
     }
@@ -1905,12 +2284,14 @@
       box-shadow: 0 0 50px rgba(16, 185, 129, 0.6);
       transition-duration: 4s;
     }
+
     .breath-ring.hold {
       transform: scale(1.35);
       border-color: #f59e0b;
       box-shadow: 0 0 50px rgba(245, 158, 11, 0.6);
       transition-duration: 0.1s;
     }
+
     .breath-ring.exhale {
       transform: scale(0.9);
       border-color: #38bdf8;
@@ -1924,6 +2305,7 @@
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
     }
+
     .breath-phase-label {
       font-size: 0.82rem;
       font-weight: 700;
@@ -1933,6 +2315,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Three.js 3D Atmospheric Particle Experience -->
   <canvas id="webgl-canvas"></canvas>
@@ -1942,7 +2325,10 @@
     <header>
       <div class="brand">
         <div class="brand-icon">
-          <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z" />
+          </svg>
         </div>
         <div class="brand-title">
           <h1>AeroSense</h1>
@@ -1964,7 +2350,8 @@
         <button class="btn btn-demo" id="btnDemo" onclick="toggleDemo()">
           <span>🧪</span> Demo Mode
         </button>
-        <button class="btn btn-aerobot" id="btnHeaderAeroBot" onclick="toggleChatDrawer(true)" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(56, 189, 248, 0.25)); border: 1px solid rgba(56, 189, 248, 0.45); color: #fff; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);">
+        <button class="btn btn-aerobot" id="btnHeaderAeroBot" onclick="toggleChatDrawer(true)"
+          style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(56, 189, 248, 0.25)); border: 1px solid rgba(56, 189, 248, 0.45); color: #fff; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);">
           <span>🤖</span> AeroBot AI
         </button>
         <button class="btn btn-install" id="btnInstallPwa" onclick="promptPwaInstall()">
@@ -1985,7 +2372,8 @@
         <button class="nav-tab-btn" id="tabNavHistory" onclick="switchMainView('history')">
           <span>📈</span> History &amp; Analytics
         </button>
-        <button class="nav-tab-btn" id="tabNavBot" onclick="toggleChatDrawer(true)" style="border-color:rgba(56,189,248,0.35);">
+        <button class="nav-tab-btn" id="tabNavBot" onclick="toggleChatDrawer(true)"
+          style="border-color:rgba(56,189,248,0.35);">
           <span>🤖</span> AeroBot AI
         </button>
       </div>
@@ -1997,7 +2385,8 @@
     <!-- Sub-header Controls Bar -->
     <div class="options-bar">
       <div class="options-group">
-        <label class="toggle-label" title="Enable this if AeroSense-BLE does not appear in the Bluetooth scan on Windows">
+        <label class="toggle-label"
+          title="Enable this if AeroSense-BLE does not appear in the Bluetooth scan on Windows">
           <input type="checkbox" id="scanAllToggle">
           <span>Scan all BLE devices</span>
         </label>
@@ -2007,7 +2396,8 @@
         </label>
       </div>
       <div class="options-group">
-        <button class="btn" style="padding:4px 10px; font-size:0.75rem; background:rgba(255,255,255,0.08);" onclick="openPhoneModal()">
+        <button class="btn" style="padding:4px 10px; font-size:0.75rem; background:rgba(255,255,255,0.08);"
+          onclick="openPhoneModal()">
           <span>📱</span> Phone Setup Guide
         </button>
         <select class="baud-select" id="baudSelect">
@@ -2023,7 +2413,8 @@
       <div class="aerobot-live-card" id="aerobotLiveCard">
         <div class="aerobot-card-header">
           <div class="aerobot-header-left">
-            <div class="aerobot-avatar-box" id="aerobotAvatarBox" onclick="triggerAeroBotPoke()" title="Tap me to get instant praise, energy, or tips!">
+            <div class="aerobot-avatar-box" id="aerobotAvatarBox" onclick="triggerAeroBotPoke()"
+              title="Tap me to get instant praise, energy, or tips!">
               <div class="bot-status-ring"></div>
               <span id="aerobotAvatarEmoji">🤖</span>
             </div>
@@ -2033,11 +2424,13 @@
                 <span class="aerobot-live-mode-tag" id="aerobotLiveStatusTag">Live Air Coach</span>
                 <span class="aerobot-mood-tag" id="aerobotMoodTag">Mood: Ecstatic ✨</span>
                 <span class="aerobot-streak-tag" id="aerobotStreakTag">🔥 0m Pure Air</span>
-                <button class="aerobot-voice-toggle-btn active" id="aerobotVoiceBtn" onclick="toggleAeroVoice()" title="Toggle Voice Alerts">
+                <button class="aerobot-voice-toggle-btn active" id="aerobotVoiceBtn" onclick="toggleAeroVoice()"
+                  title="Toggle Voice Alerts">
                   <span id="aerobotVoiceIcon">🔊</span> <span id="aerobotVoiceText">Voice: ON</span>
                 </button>
               </div>
-              <h3 class="aerobot-headline" id="aerobotHeadline">Ready to monitor, praise &amp; motivate your air wellness</h3>
+              <h3 class="aerobot-headline" id="aerobotHeadline">Ready to monitor, praise &amp; motivate your air
+                wellness</h3>
             </div>
           </div>
           <button class="btn-aerobot-chat-trigger" onclick="toggleChatDrawer(true)">
@@ -2050,27 +2443,34 @@
           <div class="aerobot-bubble-icon" id="aerobotBubbleIcon">✨</div>
           <div class="aerobot-bubble-body">
             <p class="aerobot-quote-text" id="aerobotQuoteText">
-              "Your breath is the source of all your energy. Connect your sensors to monitor your air and protect your vitality!"
+              "Your breath is the source of all your energy. Connect your sensors to monitor your air and protect your
+              vitality!"
             </p>
             <div class="aerobot-meta-strip">
               <span class="meta-pill pill-clean" id="aerobotPillTag">🌱 Optimal Air Quality</span>
-              <span class="meta-action" id="aerobotActionText">💡 Tip: Pristine conditions. Great time for deep focus, aerobic exercise, or opening windows.</span>
+              <span class="meta-action" id="aerobotActionText">💡 Tip: Pristine conditions. Great time for deep focus,
+                aerobic exercise, or opening windows.</span>
             </div>
           </div>
         </div>
 
         <!-- Action Strip -->
         <div class="aerobot-actions-strip">
-          <button class="ai-quick-btn" onclick="triggerPraiseMe()" style="background:rgba(16, 185, 129, 0.16); border-color:rgba(16, 185, 129, 0.45); color:#34d399; font-weight:700;">
+          <button class="ai-quick-btn" onclick="triggerPraiseMe()"
+            style="background:rgba(16, 185, 129, 0.16); border-color:rgba(16, 185, 129, 0.45); color:#34d399; font-weight:700;">
             <span>🌟</span> Praise Me!
           </button>
-          <button class="ai-quick-btn" onclick="openAeroBotWithPrompt('Give me high-energy motivation and hype me up to conquer my day!')" style="background:rgba(245, 158, 11, 0.14); border-color:rgba(245, 158, 11, 0.35); color:#fbbf24; font-weight:700;">
+          <button class="ai-quick-btn"
+            onclick="openAeroBotWithPrompt('Give me high-energy motivation and hype me up to conquer my day!')"
+            style="background:rgba(245, 158, 11, 0.14); border-color:rgba(245, 158, 11, 0.35); color:#fbbf24; font-weight:700;">
             <span>⚡</span> Hype Me Up!
           </button>
-          <button class="ai-quick-btn" onclick="openAeroBotWithPrompt('How is my air right now and what is the health forecast?')">
+          <button class="ai-quick-btn"
+            onclick="openAeroBotWithPrompt('How is my air right now and what is the health forecast?')">
             <span>🎯</span> Air Health Audit
           </button>
-          <button class="ai-quick-btn" onclick="openAeroBotWithPrompt('Is it safe for outdoor exercise or running right now?')">
+          <button class="ai-quick-btn"
+            onclick="openAeroBotWithPrompt('Is it safe for outdoor exercise or running right now?')">
             <span>🏃</span> Exercise Safety
           </button>
           <button class="ai-quick-btn" onclick="startBreathingSession()">
@@ -2112,7 +2512,8 @@
             </div>
           </div>
           <div class="status-badge" id="badgeGas">Click Connect</div>
-          <p class="status-desc" id="descGas">Monitors indoor air pollution, CO2, smoke, ammonia, benzene, and alcohol vapors.</p>
+          <p class="status-desc" id="descGas">Monitors indoor air pollution, CO2, smoke, ammonia, benzene, and alcohol
+            vapors.</p>
           <div class="hero-substats">
             <span>Voltage: <strong id="subGasVolt">0.00V</strong></span>
             <span>•</span>
@@ -2136,7 +2537,8 @@
             </div>
           </div>
           <div class="status-badge" id="badgeDust">Sensor Active</div>
-          <p class="status-desc" id="descDust">Infrared optical chamber measuring fine particulate matter and respirable dust.</p>
+          <p class="status-desc" id="descDust">Infrared optical chamber measuring fine particulate matter and respirable
+            dust.</p>
           <div class="hero-substats">
             <span>Vo: <strong id="subDustVolt">0.00V</strong></span>
             <span>•</span>
@@ -2203,7 +2605,8 @@
 
         <div class="cpcb-categories-grid">
           <!-- 1. Good -->
-          <div class="cpcb-cat-card active" id="catCard0" style="--active-cpcb-color:#00b050; --active-cpcb-glow:rgba(0,176,80,0.35);">
+          <div class="cpcb-cat-card active" id="catCard0"
+            style="--active-cpcb-color:#00b050; --active-cpcb-glow:rgba(0,176,80,0.35);">
             <div class="cat-head">
               <div class="cat-head-left">
                 <span class="cat-dot" style="background:#00b050;"></span>
@@ -2219,7 +2622,8 @@
           </div>
 
           <!-- 2. Satisfactory -->
-          <div class="cpcb-cat-card" id="catCard1" style="--active-cpcb-color:#92d050; --active-cpcb-glow:rgba(146,208,80,0.35);">
+          <div class="cpcb-cat-card" id="catCard1"
+            style="--active-cpcb-color:#92d050; --active-cpcb-glow:rgba(146,208,80,0.35);">
             <div class="cat-head">
               <div class="cat-head-left">
                 <span class="cat-dot" style="background:#92d050;"></span>
@@ -2235,7 +2639,8 @@
           </div>
 
           <!-- 3. Moderate -->
-          <div class="cpcb-cat-card" id="catCard2" style="--active-cpcb-color:#eab308; --active-cpcb-glow:rgba(234,179,8,0.35);">
+          <div class="cpcb-cat-card" id="catCard2"
+            style="--active-cpcb-color:#eab308; --active-cpcb-glow:rgba(234,179,8,0.35);">
             <div class="cat-head">
               <div class="cat-head-left">
                 <span class="cat-dot" style="background:#eab308;"></span>
@@ -2251,7 +2656,8 @@
           </div>
 
           <!-- 4. Poor -->
-          <div class="cpcb-cat-card" id="catCard3" style="--active-cpcb-color:#f97316; --active-cpcb-glow:rgba(249,115,22,0.35);">
+          <div class="cpcb-cat-card" id="catCard3"
+            style="--active-cpcb-color:#f97316; --active-cpcb-glow:rgba(249,115,22,0.35);">
             <div class="cat-head">
               <div class="cat-head-left">
                 <span class="cat-dot" style="background:#f97316;"></span>
@@ -2267,7 +2673,8 @@
           </div>
 
           <!-- 5. Very Poor -->
-          <div class="cpcb-cat-card" id="catCard4" style="--active-cpcb-color:#ef4444; --active-cpcb-glow:rgba(239,68,68,0.35);">
+          <div class="cpcb-cat-card" id="catCard4"
+            style="--active-cpcb-color:#ef4444; --active-cpcb-glow:rgba(239,68,68,0.35);">
             <div class="cat-head">
               <div class="cat-head-left">
                 <span class="cat-dot" style="background:#ef4444;"></span>
@@ -2283,7 +2690,8 @@
           </div>
 
           <!-- 6. Severe -->
-          <div class="cpcb-cat-card" id="catCard5" style="--active-cpcb-color:#881337; --active-cpcb-glow:rgba(136,19,55,0.45);">
+          <div class="cpcb-cat-card" id="catCard5"
+            style="--active-cpcb-color:#881337; --active-cpcb-glow:rgba(136,19,55,0.45);">
             <div class="cat-head">
               <div class="cat-head-left">
                 <span class="cat-dot" style="background:#881337;"></span>
@@ -2303,19 +2711,24 @@
         <div class="cpcb-units-footnote">
           <div class="u-expl">
             <span class="badge-tag">AQI (0–500)</span>
-            <span><strong>National AQI Score:</strong> Official unitless health rating mandated by Central Pollution Control Board.</span>
+            <span><strong>National AQI Score:</strong> Official unitless health rating mandated by Central Pollution
+              Control Board.</span>
           </div>
           <div class="u-expl">
             <span class="badge-tag">µg/m³ (PM2.5)</span>
-            <span><strong>Micrograms per Cubic Meter:</strong> Concentration of inhalable dust particles &le; 2.5 µm (Sharp GP2Y sensor).</span>
+            <span><strong>Micrograms per Cubic Meter:</strong> Concentration of inhalable dust particles &le; 2.5 µm
+              (Sharp GP2Y sensor).</span>
           </div>
           <div class="u-expl">
             <span class="badge-tag">ADC / PPM (Gas)</span>
-            <span><strong>12-bit Analog Units (0–4095):</strong> Gas concentration index detecting NH3, NOx, CO, and VOCs (MQ-135 sensor).</span>
+            <span><strong>12-bit Analog Units (0–4095):</strong> Gas concentration index detecting NH3, NOx, CO, and
+              VOCs (MQ-135 sensor).</span>
           </div>
         </div>
       </div>
-      <div id="heroTroubleshoot" style="display:none; font-size:0.82rem; background:rgba(245, 158, 11, 0.12); border:1px solid rgba(245, 158, 11, 0.35); padding:12px 16px; border-radius:14px; color:#fde68a;"></div>
+      <div id="heroTroubleshoot"
+        style="display:none; font-size:0.82rem; background:rgba(245, 158, 11, 0.12); border:1px solid rgba(245, 158, 11, 0.35); padding:12px 16px; border-radius:14px; color:#fde68a;">
+      </div>
 
       <!-- Expanded 4-Column Key Metrics Grid -->
       <div class="metrics-grid">
@@ -2434,7 +2847,9 @@
       <!-- Time Range Filters & Analytics Summary -->
       <div class="card" style="display:flex; flex-direction:column; gap:16px;">
         <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-          <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Filter Time Horizon:</span>
+          <span
+            style="font-size:0.82rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">Filter
+            Time Horizon:</span>
           <div class="chart-tabs">
             <button class="chart-tab active" id="hrange-1h" onclick="setHistoryRange('1h')">1 Hour</button>
             <button class="chart-tab" id="hrange-6h" onclick="setHistoryRange('6h')">6 Hours</button>
@@ -2452,7 +2867,8 @@
           </div>
           <div class="stat-box">
             <div class="stat-label">Peak PM2.5 Dust</div>
-            <div class="stat-val" style="color:var(--purple);" id="statPeakDust">0.0 <span style="font-size:0.8rem">µg/m³</span></div>
+            <div class="stat-val" style="color:var(--purple);" id="statPeakDust">0.0 <span
+                style="font-size:0.8rem">µg/m³</span></div>
             <div class="stat-sub">Average: <span id="statAvgDust">0.0</span> µg/m³</div>
           </div>
           <div class="stat-box">
@@ -2488,7 +2904,8 @@
     <!-- Live Activity & Diagnostics Console -->
     <div class="diag-card">
       <div class="diag-header" onclick="toggleDiagnostics()">
-        <h4><span>📋</span> System Activity &amp; Diagnostics <span id="diagToggleIcon" style="font-size:0.75rem; color:var(--accent);">[hide]</span></h4>
+        <h4><span>📋</span> System Activity &amp; Diagnostics <span id="diagToggleIcon"
+            style="font-size:0.75rem; color:var(--accent);">[hide]</span></h4>
         <span style="font-size:0.75rem; color:var(--text-muted);">Real-time log</span>
       </div>
       <div class="diag-content" id="diagLog">
@@ -2533,7 +2950,8 @@
         <button class="modal-close" onclick="closePhoneModal()">&times;</button>
       </div>
       <div class="modal-body">
-        <p>You can use this app on any mobile phone (Android or iPhone) with full graph history and Bluetooth streaming:</p>
+        <p>You can use this app on any mobile phone (Android or iPhone) with full graph history and Bluetooth streaming:
+        </p>
         <div>
           <strong>Step 1: Connect your phone to the same Wi-Fi network as this PC</strong>
         </div>
@@ -2544,7 +2962,8 @@
         <div>
           <strong>Step 3: Install as an App (Add to Home Screen)</strong>
           <p style="font-size:0.78rem; color:var(--text-muted); margin-top:3px;">
-            • <strong>Android (Chrome):</strong> Tap the 3 dots menu &rarr; <em>"Install App"</em> or <em>"Add to Home screen"</em>.<br>
+            • <strong>Android (Chrome):</strong> Tap the 3 dots menu &rarr; <em>"Install App"</em> or <em>"Add to Home
+              screen"</em>.<br>
             • <strong>iPhone (Safari / Bluefy):</strong> Tap Share &rarr; <em>"Add to Home Screen"</em>.<br>
             <em>(On iPhone, use the free <strong>Bluefy</strong> browser for Web Bluetooth support).</em>
           </p>
@@ -2552,16 +2971,19 @@
         <div>
           <strong>Step 4: Offline History is Saved Automatically</strong>
           <p style="font-size:0.78rem; color:var(--text-muted); margin-top:3px;">
-            Every sensor reading is saved to your phone's internal storage so you can review trends and export CSV anytime!
+            Every sensor reading is saved to your phone's internal storage so you can review trends and export CSV
+            anytime!
           </p>
         </div>
       </div>
-      <button class="btn btn-bluetooth" style="justify-content:center; width:100%; margin-top:6px;" onclick="closePhoneModal()">Got it!</button>
+      <button class="btn btn-bluetooth" style="justify-content:center; width:100%; margin-top:6px;"
+        onclick="closePhoneModal()">Got it!</button>
     </div>
   </div>
 
   <!-- Floating AeroBot AI Action Button -->
-  <button class="aerobot-floating-btn" id="aerobotFloatingBtn" onclick="toggleChatDrawer()" title="Open AeroBot AI Assistant">
+  <button class="aerobot-floating-btn" id="aerobotFloatingBtn" onclick="toggleChatDrawer()"
+    title="Open AeroBot AI Assistant">
     <span class="orb-icon">🤖</span>
     <span class="orb-badge" id="aerobotUnreadBadge">0</span>
   </button>
@@ -2572,16 +2994,20 @@
     <!-- Header -->
     <div class="drawer-header">
       <div class="drawer-head-left">
-        <div class="msg-avatar" style="background: rgba(56, 189, 248, 0.15); border: 1.5px solid var(--bot-aura); box-shadow: 0 0 14px var(--bot-glow);">
+        <div class="msg-avatar"
+          style="background: rgba(56, 189, 248, 0.15); border: 1.5px solid var(--bot-aura); box-shadow: 0 0 14px var(--bot-glow);">
           🤖
         </div>
         <div class="drawer-title-box">
-          <h3>AeroBot AI <span style="font-size:0.65rem; background:rgba(56, 189, 248, 0.15); color:#38bdf8; border:1px solid rgba(56, 189, 248, 0.3); padding:1px 6px; border-radius:10px; font-weight:700;">PRO</span></h3>
+          <h3>AeroBot AI <span
+              style="font-size:0.65rem; background:rgba(56, 189, 248, 0.15); color:#38bdf8; border:1px solid rgba(56, 189, 248, 0.3); padding:1px 6px; border-radius:10px; font-weight:700;">PRO</span>
+          </h3>
           <p id="drawerBotSubstatus">Active • Real-Time Environmental Coach</p>
         </div>
       </div>
       <div class="drawer-actions">
-        <button class="drawer-action-btn" id="drawerVoiceToggle" onclick="toggleAeroVoice()" title="Toggle Voice Alerts">
+        <button class="drawer-action-btn" id="drawerVoiceToggle" onclick="toggleAeroVoice()"
+          title="Toggle Voice Alerts">
           🔊
         </button>
         <button class="drawer-action-btn" onclick="openAiSettingsModal()" title="AI Engine &amp; API Settings">
@@ -2598,7 +3024,8 @@
 
     <!-- Real-time Mini Telemetry Ribbon -->
     <div class="chat-telemetry-ribbon" id="chatTelemetryRibbon">
-      <span>AQI: <strong id="ribbonAqi">--</strong> (<span id="ribbonCategory" style="color:var(--clean);">Ready</span>)</span>
+      <span>AQI: <strong id="ribbonAqi">--</strong> (<span id="ribbonCategory"
+          style="color:var(--clean);">Ready</span>)</span>
       <span>•</span>
       <span>PM2.5: <strong id="ribbonDust">0.0 µg/m³</strong></span>
       <span>•</span>
@@ -2613,8 +3040,11 @@
         <div class="msg-bubble">
           Hello! I'm <strong>AeroBot</strong>, your personal AI environmental wellness and motivation coach. 🌿
           <br><br>
-          While you measure pollution with your <strong>MQ-135</strong> &amp; <strong>Sharp GP2Y</strong> sensors, I will monitor trends in real time, keep you alerted of any toxic spikes, and provide uplifting health advice and motivation to protect your lungs and maximize your focus!
-          <div class="msg-card-block" style="border-color: rgba(56, 189, 248, 0.25); background: rgba(56, 189, 248, 0.06);">
+          While you measure pollution with your <strong>MQ-135</strong> &amp; <strong>Sharp GP2Y</strong> sensors, I
+          will monitor trends in real time, keep you alerted of any toxic spikes, and provide uplifting health advice
+          and motivation to protect your lungs and maximize your focus!
+          <div class="msg-card-block"
+            style="border-color: rgba(56, 189, 248, 0.25); background: rgba(56, 189, 248, 0.06);">
             💡 <strong>Quick Tip:</strong> Tap any question below, or use the 🎙️ mic button to speak with me!
           </div>
           <span class="msg-time">Just now</span>
@@ -2630,21 +3060,34 @@
 
     <!-- Quick Suggestions Carousel -->
     <div class="chat-suggestions-bar">
-      <button class="chat-chip" onclick="handleChipClick('Praise me for staying in good air and tell me how my body benefits!')" style="border-color:rgba(16,185,129,0.5); color:#34d399; font-weight:700;">🌟 Praise My Good Air Habit!</button>
-      <button class="chat-chip" onclick="handleChipClick('Give me high-energy motivation and hype me up to conquer my day!')" style="border-color:rgba(245,158,11,0.5); color:#fbbf24; font-weight:700;">⚡ Hype Me Up!</button>
-      <button class="chat-chip" onclick="handleChipClick('How is my air right now and what is the health forecast?')">🎯 Current Air Audit</button>
-      <button class="chat-chip" onclick="handleChipClick('Is it safe for outdoor exercise or running right now?')">🏃 Exercise Safety</button>
-      <button class="chat-chip" onclick="handleChipClick('What immediate precautions should I take for this air level?')">⚠️ Precautions Guide</button>
-      <button class="chat-chip" onclick="handleChipClick('What are the best indoor air purifying plants?')">🌱 Air Purifying Plants</button>
-      <button class="chat-chip" onclick="handleChipClick('Explain how MQ-135 and Sharp GP2Y dust sensors work')">🔬 Sensor Science</button>
+      <button class="chat-chip"
+        onclick="handleChipClick('Praise me for staying in good air and tell me how my body benefits!')"
+        style="border-color:rgba(16,185,129,0.5); color:#34d399; font-weight:700;">🌟 Praise My Good Air Habit!</button>
+      <button class="chat-chip"
+        onclick="handleChipClick('Give me high-energy motivation and hype me up to conquer my day!')"
+        style="border-color:rgba(245,158,11,0.5); color:#fbbf24; font-weight:700;">⚡ Hype Me Up!</button>
+      <button class="chat-chip" onclick="handleChipClick('How is my air right now and what is the health forecast?')">🎯
+        Current Air Audit</button>
+      <button class="chat-chip" onclick="handleChipClick('Is it safe for outdoor exercise or running right now?')">🏃
+        Exercise Safety</button>
+      <button class="chat-chip"
+        onclick="handleChipClick('What immediate precautions should I take for this air level?')">⚠️ Precautions
+        Guide</button>
+      <button class="chat-chip" onclick="handleChipClick('What are the best indoor air purifying plants?')">🌱 Air
+        Purifying Plants</button>
+      <button class="chat-chip" onclick="handleChipClick('Explain how MQ-135 and Sharp GP2Y dust sensors work')">🔬
+        Sensor Science</button>
       <button class="chat-chip" onclick="startBreathingSession()">🧘 Guided 4-7-8 Breathing</button>
     </div>
 
     <!-- Input Area -->
     <div class="chat-input-area">
       <div class="chat-input-wrapper">
-        <input type="text" class="chat-text-input" id="chatInput" placeholder="Ask AeroBot about air, health, precautions..." onkeydown="handleChatKeyDown(event)" autocomplete="off">
-        <button class="btn-chat-mic" id="btnChatMic" onclick="toggleVoiceRecognition()" title="Voice input (Speech to Text)">
+        <input type="text" class="chat-text-input" id="chatInput"
+          placeholder="Ask AeroBot about air, health, precautions..." onkeydown="handleChatKeyDown(event)"
+          autocomplete="off">
+        <button class="btn-chat-mic" id="btnChatMic" onclick="toggleVoiceRecognition()"
+          title="Voice input (Speech to Text)">
           🎙️
         </button>
       </div>
@@ -2676,10 +3119,13 @@
         Breathe in smoothly through your nose...
       </div>
       <div style="display:flex; gap:10px; width:100%;">
-        <button class="btn btn-bluetooth" style="flex:1; justify-content:center;" id="btnBreathToggle" onclick="toggleBreathingLoop()">
+        <button class="btn btn-bluetooth" style="flex:1; justify-content:center;" id="btnBreathToggle"
+          onclick="toggleBreathingLoop()">
           Pause Session
         </button>
-        <button class="btn" style="background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15);" onclick="closeBreathingModal()">
+        <button class="btn"
+          style="background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15);"
+          onclick="closeBreathingModal()">
           Done
         </button>
       </div>
@@ -2695,13 +3141,15 @@
       </div>
       <div class="modal-body">
         <p>
-          AeroBot includes a built-in <strong>High-Precision Offline Expert AI Engine</strong> that works 100% locally with zero internet required.
+          AeroBot includes a built-in <strong>High-Precision Offline Expert AI Engine</strong> that works 100% locally
+          with zero internet required.
         </p>
         <p>
           <strong>Optional: Google Gemini Free API Key</strong><br>
           If you'd like deep freeform LLM reasoning with live sensor context, enter your free Gemini API key below:
         </p>
-        <input type="password" id="geminiApiKeyInput" placeholder="Paste AI Studio Gemini Key (AIza...)" style="width:100%; padding:10px 14px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:12px; color:#fff; font-family:'JetBrains Mono', monospace; font-size:0.82rem; outline:none;">
+        <input type="password" id="geminiApiKeyInput" placeholder="Paste AI Studio Gemini Key (AIza...)"
+          style="width:100%; padding:10px 14px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:12px; color:#fff; font-family:'JetBrains Mono', monospace; font-size:0.82rem; outline:none;">
         <div style="font-size:0.75rem; color:var(--text-muted);">
           🔒 Your key is saved locally in your browser/phone storage only and is never shared.
         </div>
@@ -2709,7 +3157,9 @@
           <button class="btn btn-bluetooth" style="flex:1; justify-content:center;" onclick="saveGeminiApiKey()">
             Save Key
           </button>
-          <button class="btn" style="background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3);" onclick="removeGeminiApiKey()">
+          <button class="btn"
+            style="background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3);"
+            onclick="removeGeminiApiKey()">
             Remove
           </button>
         </div>
@@ -2831,7 +3281,7 @@
           totalDbRecords = countReq.result || 0;
           updateDbCounterText();
         };
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function updateDbCounterText() {
@@ -2976,8 +3426,8 @@
         return;
       }
 
-      const firstTime = new Date(records[0].timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-      const lastTime = new Date(records[records.length - 1].timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      const firstTime = new Date(records[0].timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const lastTime = new Date(records[records.length - 1].timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       document.getElementById('statTimeSpan').textContent = `${firstTime} - ${lastTime}`;
 
       let maxDust = 0, sumDust = 0;
@@ -3174,11 +3624,11 @@
       particleVelocities = [];
 
       for (let i = 0; i < particleCount; i++) {
-        particlePositions[i * 3]     = (Math.random() - 0.5) * 160;
+        particlePositions[i * 3] = (Math.random() - 0.5) * 160;
         particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 110;
         particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 120;
 
-        particleColors[i * 3]     = 0.1;
+        particleColors[i * 3] = 0.1;
         particleColors[i * 3 + 1] = 0.72;
         particleColors[i * 3 + 2] = 0.55;
 
@@ -3251,7 +3701,7 @@
       for (let i = 0; i < particleCount; i++) {
         const vel = particleVelocities[i];
         positions[i * 3 + 1] += vel.y * currentParticleSpeed;
-        positions[i * 3]     += vel.x * currentParticleSpeed;
+        positions[i * 3] += vel.x * currentParticleSpeed;
         positions[i * 3 + 2] += vel.z * currentParticleSpeed;
 
         if (positions[i * 3 + 1] > 55) positions[i * 3 + 1] = -55;
@@ -3260,7 +3710,7 @@
         if (positions[i * 3 + 2] > 60) positions[i * 3 + 2] = -60;
         if (positions[i * 3 + 2] < -60) positions[i * 3 + 2] = 60;
 
-        colors[i * 3]     = currentParticleColor.r;
+        colors[i * 3] = currentParticleColor.r;
         colors[i * 3 + 1] = currentParticleColor.g;
         colors[i * 3 + 2] = currentParticleColor.b;
       }
@@ -3276,7 +3726,7 @@
     // State & Transports
     // ==========================================
     const NORDIC_SERVICE_UUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
-    const NORDIC_TX_UUID      = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+    const NORDIC_TX_UUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
 
     let bleDevice = null;
     let bleCharacteristic = null;
@@ -3452,10 +3902,10 @@
       try {
         const baudRate = parseInt(document.getElementById('baudSelect')?.value || '115200', 10);
         logMsg(`Requesting USB COM port at ${baudRate} baud...`);
-        
+
         serialPort = await navigator.serial.requestPort();
         await serialPort.open({ baudRate: baudRate });
-        
+
         setConnectedState(`Serial COM (${baudRate} baud)`);
         logMsg(`Serial COM port opened at ${baudRate} baud!`, "success");
 
@@ -4420,339 +4870,335 @@
           setTimeout(() => { if (emoji) emoji.textContent = this.botFace; }, 2400);
         }
       },
-        } catch (e) {
-          console.warn("Audio tone error:", e);
-        }
-      },
 
       speak(text, priority = false) {
-        if (!this.voiceEnabled || !('speechSynthesis' in window)) return;
-        const now = Date.now();
-        if (!priority && (now - this.lastSpokenTime < 35000)) return;
+      if (!this.voiceEnabled || !('speechSynthesis' in window)) return;
+      const now = Date.now();
+      if (!priority && (now - this.lastSpokenTime < 35000)) return;
 
-        try {
-          if (priority) {
-            window.speechSynthesis.cancel();
-          }
-          const cleanedText = text.replace(/[#*`_~]/g, '').replace(/[\u{1F300}-\u{1F6FF}]/gu, '');
-          const utterance = new SpeechSynthesisUtterance(cleanedText);
-          utterance.rate = 1.0;
-          utterance.pitch = 1.05;
-
-          const voices = window.speechSynthesis.getVoices();
-          const preferredVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Zira')));
-          if (preferredVoice) utterance.voice = preferredVoice;
-
-          window.speechSynthesis.speak(utterance);
-          this.lastSpokenTime = now;
-        } catch (e) {
-          console.warn("Speech synthesis error:", e);
+      try {
+        if (priority) {
+          window.speechSynthesis.cancel();
         }
-      },
+        const cleanedText = text.replace(/[#*`_~]/g, '').replace(/[\u{1F300}-\u{1F6FF}]/gu, '');
+        const utterance = new SpeechSynthesisUtterance(cleanedText);
+        utterance.rate = 1.0;
+        utterance.pitch = 1.05;
 
-      initSpeechRecognition() {
-        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRec) return;
+        const voices = window.speechSynthesis.getVoices();
+        const preferredVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Zira')));
+        if (preferredVoice) utterance.voice = preferredVoice;
 
-        this.speechRecognizer = new SpeechRec();
-        this.speechRecognizer.continuous = false;
-        this.speechRecognizer.interimResults = false;
-        this.speechRecognizer.lang = 'en-US';
+        window.speechSynthesis.speak(utterance);
+        this.lastSpokenTime = now;
+      } catch (e) {
+        console.warn("Speech synthesis error:", e);
+      }
+    },
 
-        this.speechRecognizer.onstart = () => {
-          this.isListening = true;
-          const btn = document.getElementById('btnChatMic');
-          if (btn) btn.classList.add('listening');
-          logMsg("AeroBot listening for voice input...", "info");
-        };
+    initSpeechRecognition() {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRec) return;
 
-        this.speechRecognizer.onresult = (e) => {
-          const transcript = e.results[0][0].transcript;
-          const input = document.getElementById('chatInput');
-          if (input) {
-            input.value = transcript;
-            sendChatMessage();
-          }
-        };
+      this.speechRecognizer = new SpeechRec();
+      this.speechRecognizer.continuous = false;
+      this.speechRecognizer.interimResults = false;
+      this.speechRecognizer.lang = 'en-US';
 
-        this.speechRecognizer.onerror = (e) => {
-          console.warn("Speech recognition error:", e);
-          this.isListening = false;
-          const btn = document.getElementById('btnChatMic');
-          if (btn) btn.classList.remove('listening');
-        };
+      this.speechRecognizer.onstart = () => {
+        this.isListening = true;
+        const btn = document.getElementById('btnChatMic');
+        if (btn) btn.classList.add('listening');
+        logMsg("AeroBot listening for voice input...", "info");
+      };
 
-        this.speechRecognizer.onend = () => {
-          this.isListening = false;
-          const btn = document.getElementById('btnChatMic');
-          if (btn) btn.classList.remove('listening');
-        };
-      },
-
-      toggleVoice() {
-        this.voiceEnabled = !this.voiceEnabled;
-        localStorage.setItem('aerobot_voice', this.voiceEnabled);
-        this.updateVoiceButtonUI();
-        if (this.voiceEnabled) {
-          this.playAudioTone('clean');
-          this.speak("AeroBot voice alerts enabled.", true);
-          logMsg("AeroBot voice alerts turned ON.", "success");
-        } else {
-          window.speechSynthesis && window.speechSynthesis.cancel();
-          logMsg("AeroBot voice alerts muted.", "info");
+      this.speechRecognizer.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        const input = document.getElementById('chatInput');
+        if (input) {
+          input.value = transcript;
+          sendChatMessage();
         }
-      },
+      };
 
-      updateVoiceButtonUI() {
-        const btn = document.getElementById('aerobotVoiceBtn');
-        const icon = document.getElementById('aerobotVoiceIcon');
-        const text = document.getElementById('aerobotVoiceText');
-        const drawerToggle = document.getElementById('drawerVoiceToggle');
+      this.speechRecognizer.onerror = (e) => {
+        console.warn("Speech recognition error:", e);
+        this.isListening = false;
+        const btn = document.getElementById('btnChatMic');
+        if (btn) btn.classList.remove('listening');
+      };
 
-        if (this.voiceEnabled) {
-          if (btn) btn.classList.add('active');
-          if (icon) icon.textContent = '🔊';
-          if (text) text.textContent = 'Voice: ON';
-          if (drawerToggle) drawerToggle.textContent = '🔊';
-        } else {
-          if (btn) btn.classList.remove('active');
-          if (icon) icon.textContent = '🔇';
-          if (text) text.textContent = 'Voice: OFF';
-          if (drawerToggle) drawerToggle.textContent = '🔇';
-        }
-      },
+      this.speechRecognizer.onend = () => {
+        this.isListening = false;
+        const btn = document.getElementById('btnChatMic');
+        if (btn) btn.classList.remove('listening');
+      };
+    },
 
-      // ==========================================
-      // Live Observation & Real-Time Alert Engine
-      // ==========================================
-      processLiveReading(data, aqiInfo, dustUg) {
-        this.currentReading = {
-          raw: data.raw,
-          voltage: data.voltage,
-          dustUg: dustUg,
-          dustVoltage: data.dustVoltage,
-          aqi: aqiInfo.aqi,
-          catIndex: aqiInfo.catIndex,
-          name: aqiInfo.name,
-          color: aqiInfo.color,
-          status: data.status,
-          uptimeSec: data.uptimeSec
-        };
+    toggleVoice() {
+      this.voiceEnabled = !this.voiceEnabled;
+      localStorage.setItem('aerobot_voice', this.voiceEnabled);
+      this.updateVoiceButtonUI();
+      if (this.voiceEnabled) {
+        this.playAudioTone('clean');
+        this.speak("AeroBot voice alerts enabled.", true);
+        logMsg("AeroBot voice alerts turned ON.", "success");
+      } else {
+        window.speechSynthesis && window.speechSynthesis.cancel();
+        logMsg("AeroBot voice alerts muted.", "info");
+      }
+    },
 
-        // Update Aura Color on Live Card & Floating Button
-        document.documentElement.style.setProperty('--bot-aura', aqiInfo.color);
-        document.documentElement.style.setProperty('--bot-glow', aqiInfo.color + '44');
+    updateVoiceButtonUI() {
+      const btn = document.getElementById('aerobotVoiceBtn');
+      const icon = document.getElementById('aerobotVoiceIcon');
+      const text = document.getElementById('aerobotVoiceText');
+      const drawerToggle = document.getElementById('drawerVoiceToggle');
 
-        const now = Date.now();
-        const prevCat = this.lastAqiCategory;
+      if (this.voiceEnabled) {
+        if (btn) btn.classList.add('active');
+        if (icon) icon.textContent = '🔊';
+        if (text) text.textContent = 'Voice: ON';
+        if (drawerToggle) drawerToggle.textContent = '🔊';
+      } else {
+        if (btn) btn.classList.remove('active');
+        if (icon) icon.textContent = '🔇';
+        if (text) text.textContent = 'Voice: OFF';
+        if (drawerToggle) drawerToggle.textContent = '🔇';
+      }
+    },
 
-        if (prevCat === null) {
-          // First reading
-          this.lastAqiCategory = aqiInfo.catIndex;
-          this.updateLiveCard(
-            "🌱 Live Air Monitoring Active",
-            "Atmosphere analyzed: AQI is " + aqiInfo.aqi + " (" + aqiInfo.name + "). Sensors are streaming in real-time.",
-            aqiInfo
-          );
-          return;
-        }
+    // ==========================================
+    // Live Observation & Real-Time Alert Engine
+    // ==========================================
+    processLiveReading(data, aqiInfo, dustUg) {
+      this.currentReading = {
+        raw: data.raw,
+        voltage: data.voltage,
+        dustUg: dustUg,
+        dustVoltage: data.dustVoltage,
+        aqi: aqiInfo.aqi,
+        catIndex: aqiInfo.catIndex,
+        name: aqiInfo.name,
+        color: aqiInfo.color,
+        status: data.status,
+        uptimeSec: data.uptimeSec
+      };
 
-        // ==========================================
-        // 1. Degradation Alert Detection (WORSENING)
-        // ==========================================
-        if (aqiInfo.catIndex > prevCat && aqiInfo.catIndex >= 2) {
-          // Air quality has degraded!
-          this.playAudioTone('alert');
-          let alertTitle = "⚠️ Pollution Alert: " + aqiInfo.name;
-          let alertQuote = "";
-          let spokenAlert = "";
+      // Update Aura Color on Live Card & Floating Button
+      document.documentElement.style.setProperty('--bot-aura', aqiInfo.color);
+      document.documentElement.style.setProperty('--bot-glow', aqiInfo.color + '44');
 
-          if (aqiInfo.catIndex === 2) {
-            alertQuote = "Air quality shifted to Moderate (AQI: " + aqiInfo.aqi + "). PM2.5 is at " + dustUg.toFixed(1) + " µg/m³. Sensitive individuals should take note.";
-            spokenAlert = "Notice: Air quality has shifted to moderate. Particulate matter is rising.";
-          } else if (aqiInfo.catIndex === 3) {
-            alertTitle = "🚨 Air Quality Warning: Poor / Unhealthy";
-            alertQuote = "PM2.5 particulate count has spiked to " + dustUg.toFixed(1) + " µg/m³! Close windows and activate your air purifier.";
-            spokenAlert = "Warning: Air pollution levels have reached unhealthy range. Please close windows and activate air filtration.";
-          } else {
-            alertTitle = "🛑 CRITICAL HAZARD ALERT: " + aqiInfo.name.toUpperCase();
-            alertQuote = "Dangerous particulate density and VOC levels detected! Evacuate or seal the room and run maximum filtration immediately.";
-            spokenAlert = "Critical alert: Severe airborne contamination detected. Immediate air filtration advised.";
-          }
+      const now = Date.now();
+      const prevCat = this.lastAqiCategory;
 
-          this.updateLiveCard(alertTitle, alertQuote, aqiInfo, true);
-          this.speak(spokenAlert, true);
-          this.triggerSystemNotification(alertTitle, alertQuote);
-          this.logChatAlert(alertTitle, alertQuote, aqiInfo.color);
-
-          if (!this.isDrawerOpen) {
-            this.unreadCount++;
-            this.updateUnreadBadge();
-          }
-
-          this.lastAqiCategory = aqiInfo.catIndex;
-          return;
-        }
-
-        // ==========================================
-        // 2. Recovery Milestone Detection (CLEARING UP)
-        // ==========================================
-        if (prevCat >= 2 && aqiInfo.catIndex <= 1) {
-          // Cleared back to Good/Satisfactory!
-          this.playAudioTone('clean');
-          const victoryTitle = "🎉 Victory! Air Quality Cleared to " + aqiInfo.name;
-          const victoryQuote = "Contaminants have cleared back to healthy baseline (AQI: " + aqiInfo.aqi + ", PM2.5: " + dustUg.toFixed(1) + " µg/m³). Breathe easy, your environment is safe!";
-          
-          this.updateLiveCard(victoryTitle, victoryQuote, aqiInfo);
-          this.speak("Great news! Air quality has returned to healthy levels. Take a fresh, deep breath.", true);
-          this.logChatMotivation(victoryTitle, victoryQuote);
-
-          this.lastAqiCategory = aqiInfo.catIndex;
-          return;
-        }
-
-        // Update category state
+      if (prevCat === null) {
+        // First reading
         this.lastAqiCategory = aqiInfo.catIndex;
+        this.updateLiveCard(
+          "🌱 Live Air Monitoring Active",
+          "Atmosphere analyzed: AQI is " + aqiInfo.aqi + " (" + aqiInfo.name + "). Sensors are streaming in real-time.",
+          aqiInfo
+        );
+        return;
+      }
 
-        // ==========================================
-        // Clean Air Streak Tracking & Praise Engine
-        // ==========================================
-        if (aqiInfo.catIndex <= 1) {
-          const deltaSec = (now - this.lastStreakSecondTick) / 1000;
-          if (deltaSec > 0 && deltaSec < 30) {
-            this.cleanAirStreakSec += deltaSec;
-            this.cleanAirXp += Math.round(deltaSec * 0.5);
-          }
-          this.lastStreakSecondTick = now;
+      // ==========================================
+      // 1. Degradation Alert Detection (WORSENING)
+      // ==========================================
+      if (aqiInfo.catIndex > prevCat && aqiInfo.catIndex >= 2) {
+        // Air quality has degraded!
+        this.playAudioTone('alert');
+        let alertTitle = "⚠️ Pollution Alert: " + aqiInfo.name;
+        let alertQuote = "";
+        let spokenAlert = "";
 
-          const streakMins = Math.floor(this.cleanAirStreakSec / 60);
-          const streakTag = document.getElementById('aerobotStreakTag');
-          if (streakTag) {
-            streakTag.textContent = `🔥 ${streakMins}m Pure Air (+${this.cleanAirXp} XP)`;
-          }
-
-          // Check streak milestones: 3m (180s), 10m (600s), 25m (1500s), 60m (3600s)
-          const milestones = [
-            { sec: 180, title: "🌱 Milestone: 3m Fresh Breath Novice!", desc: "Awesome habit! You have spent 3 continuous minutes in pure air. Your alveoli are loving this!", xp: 50 },
-            { sec: 600, title: "🏅 Milestone: 10m Oxygen Shield Active!", desc: "10 minutes of pristine air! Inhaling pure oxygen lowers resting cortisol and sharpens focus.", xp: 150 },
-            { sec: 1500, title: "🫁 Milestone: 25m Lung Sanctuary Master!", desc: "25 minutes of continuous clean air! Your blood oxygen saturation is optimal.", xp: 300 },
-            { sec: 3600, title: "👑 Milestone: 1 Hour Pure Atmosphere Champion!", desc: "A full hour in top-tier air quality! You have prevented billions of particulate deposits.", xp: 600 }
-          ];
-
-          for (const m of milestones) {
-            if (this.cleanAirStreakSec >= m.sec && this.lastStreakMilestone < m.sec) {
-              this.lastStreakMilestone = m.sec;
-              this.playAudioTone('cheer');
-              this.updateLiveCard(m.title, m.desc, aqiInfo, false);
-              this.speak(`Congratulations! ${m.title} Keep breathing that clean air!`, true);
-              this.logChatMotivation(m.title, m.desc);
-              this.triggerSystemNotification(m.title, m.desc);
-              break;
-            }
-          }
-
-          this.botMood = aqiInfo.catIndex === 0 ? "Ecstatic & Loving Clean Air ✨" : "Fresh & Vibrant 🍃";
-          this.botFace = aqiInfo.catIndex === 0 ? "🤖✨" : "🤖🌱";
+        if (aqiInfo.catIndex === 2) {
+          alertQuote = "Air quality shifted to Moderate (AQI: " + aqiInfo.aqi + "). PM2.5 is at " + dustUg.toFixed(1) + " µg/m³. Sensitive individuals should take note.";
+          spokenAlert = "Notice: Air quality has shifted to moderate. Particulate matter is rising.";
+        } else if (aqiInfo.catIndex === 3) {
+          alertTitle = "🚨 Air Quality Warning: Poor / Unhealthy";
+          alertQuote = "PM2.5 particulate count has spiked to " + dustUg.toFixed(1) + " µg/m³! Close windows and activate your air purifier.";
+          spokenAlert = "Warning: Air pollution levels have reached unhealthy range. Please close windows and activate air filtration.";
         } else {
-          this.lastStreakSecondTick = now;
-          if (aqiInfo.catIndex === 2) {
-            this.botMood = "Vigilant & Watching Vapors 🛡️";
-            this.botFace = "🤖🌤️";
-          } else {
-            this.botMood = "Protective Shield Active 🛑";
-            this.botFace = "🤖🚨";
-          }
-          const streakTag = document.getElementById('aerobotStreakTag');
-          if (streakTag && aqiInfo.catIndex >= 3) {
-            streakTag.textContent = `⚠️ Air Degraded (Purifier Needed)`;
-          }
+          alertTitle = "🛑 CRITICAL HAZARD ALERT: " + aqiInfo.name.toUpperCase();
+          alertQuote = "Dangerous particulate density and VOC levels detected! Evacuate or seal the room and run maximum filtration immediately.";
+          spokenAlert = "Critical alert: Severe airborne contamination detected. Immediate air filtration advised.";
         }
 
-        const moodTag = document.getElementById('aerobotMoodTag');
-        if (moodTag) moodTag.textContent = `Mood: ${this.botMood}`;
-        const avatarEmoji = document.getElementById('aerobotAvatarEmoji');
-        if (avatarEmoji && !document.getElementById('aerobotAvatarBox')?.classList.contains('poked')) {
-          avatarEmoji.textContent = this.botFace;
+        this.updateLiveCard(alertTitle, alertQuote, aqiInfo, true);
+        this.speak(spokenAlert, true);
+        this.triggerSystemNotification(alertTitle, alertQuote);
+        this.logChatAlert(alertTitle, alertQuote, aqiInfo.color);
+
+        if (!this.isDrawerOpen) {
+          this.unreadCount++;
+          this.updateUnreadBadge();
         }
 
-        // ==========================================
-        // Periodic Motivation & Praise Cycling (Every 45s when clean)
-        // ==========================================
-        if (aqiInfo.catIndex <= 1 && (now - this.lastMotivationTime > 45000)) {
-          this.lastMotivationTime = now;
-          const item = this.motivationalQuotes[Math.floor(Math.random() * this.motivationalQuotes.length)];
-          this.updateLiveCard("✨ AeroBot Wellness & Focus Coach", item.quote, aqiInfo);
-          const actionEl = document.getElementById('aerobotActionText');
-          if (actionEl) actionEl.textContent = "💡 Tip: " + item.action;
+        this.lastAqiCategory = aqiInfo.catIndex;
+        return;
+      }
+
+      // ==========================================
+      // 2. Recovery Milestone Detection (CLEARING UP)
+      // ==========================================
+      if (prevCat >= 2 && aqiInfo.catIndex <= 1) {
+        // Cleared back to Good/Satisfactory!
+        this.playAudioTone('clean');
+        const victoryTitle = "🎉 Victory! Air Quality Cleared to " + aqiInfo.name;
+        const victoryQuote = "Contaminants have cleared back to healthy baseline (AQI: " + aqiInfo.aqi + ", PM2.5: " + dustUg.toFixed(1) + " µg/m³). Breathe easy, your environment is safe!";
+
+        this.updateLiveCard(victoryTitle, victoryQuote, aqiInfo);
+        this.speak("Great news! Air quality has returned to healthy levels. Take a fresh, deep breath.", true);
+        this.logChatMotivation(victoryTitle, victoryQuote);
+
+        this.lastAqiCategory = aqiInfo.catIndex;
+        return;
+      }
+
+      // Update category state
+      this.lastAqiCategory = aqiInfo.catIndex;
+
+      // ==========================================
+      // Clean Air Streak Tracking & Praise Engine
+      // ==========================================
+      if (aqiInfo.catIndex <= 1) {
+        const deltaSec = (now - this.lastStreakSecondTick) / 1000;
+        if (deltaSec > 0 && deltaSec < 30) {
+          this.cleanAirStreakSec += deltaSec;
+          this.cleanAirXp += Math.round(deltaSec * 0.5);
         }
-      },
+        this.lastStreakSecondTick = now;
 
-      updateLiveCard(headline, quote, aqiInfo, isAlert = false) {
-        const headEl = document.getElementById('aerobotHeadline');
-        const quoteEl = document.getElementById('aerobotQuoteText');
-        const pillEl = document.getElementById('aerobotPillTag');
-        const iconEl = document.getElementById('aerobotBubbleIcon');
-        const container = document.getElementById('aerobotBubbleContainer');
-
-        if (headEl) headEl.textContent = headline;
-        if (quoteEl) quoteEl.textContent = `"${quote}"`;
-
-        if (pillEl) {
-          pillEl.className = 'meta-pill';
-          if (aqiInfo.catIndex === 0) pillEl.classList.add('pill-clean');
-          else if (aqiInfo.catIndex <= 2) pillEl.classList.add('pill-moderate');
-          else if (aqiInfo.catIndex <= 4) pillEl.classList.add('pill-poor');
-          else pillEl.classList.add('pill-hazard');
-          pillEl.textContent = aqiInfo.name + ' Air • AQI ' + aqiInfo.aqi;
+        const streakMins = Math.floor(this.cleanAirStreakSec / 60);
+        const streakTag = document.getElementById('aerobotStreakTag');
+        if (streakTag) {
+          streakTag.textContent = `🔥 ${streakMins}m Pure Air (+${this.cleanAirXp} XP)`;
         }
 
-        if (iconEl) {
-          iconEl.textContent = isAlert ? '⚠️' : (aqiInfo.catIndex === 0 ? '🌿' : '🌤️');
-        }
+        // Check streak milestones: 3m (180s), 10m (600s), 25m (1500s), 60m (3600s)
+        const milestones = [
+          { sec: 180, title: "🌱 Milestone: 3m Fresh Breath Novice!", desc: "Awesome habit! You have spent 3 continuous minutes in pure air. Your alveoli are loving this!", xp: 50 },
+          { sec: 600, title: "🏅 Milestone: 10m Oxygen Shield Active!", desc: "10 minutes of pristine air! Inhaling pure oxygen lowers resting cortisol and sharpens focus.", xp: 150 },
+          { sec: 1500, title: "🫁 Milestone: 25m Lung Sanctuary Master!", desc: "25 minutes of continuous clean air! Your blood oxygen saturation is optimal.", xp: 300 },
+          { sec: 3600, title: "👑 Milestone: 1 Hour Pure Atmosphere Champion!", desc: "A full hour in top-tier air quality! You have prevented billions of particulate deposits.", xp: 600 }
+        ];
 
-        if (container) {
-          if (isAlert) {
-            container.style.borderColor = aqiInfo.color;
-            container.style.background = aqiInfo.color + '15';
-          } else {
-            container.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-            container.style.background = 'rgba(255, 255, 255, 0.03)';
-          }
-        }
-      },
-
-      triggerSystemNotification(title, body) {
-        if ('Notification' in window && Notification.permission === 'granted') {
-          try {
-            new Notification(title, {
-              body: body,
-              icon: 'icon.svg'
-            });
-          } catch (e) {
-            console.warn("Notification error:", e);
+        for (const m of milestones) {
+          if (this.cleanAirStreakSec >= m.sec && this.lastStreakMilestone < m.sec) {
+            this.lastStreakMilestone = m.sec;
+            this.playAudioTone('cheer');
+            this.updateLiveCard(m.title, m.desc, aqiInfo, false);
+            this.speak(`Congratulations! ${m.title} Keep breathing that clean air!`, true);
+            this.logChatMotivation(m.title, m.desc);
+            this.triggerSystemNotification(m.title, m.desc);
+            break;
           }
         }
-      },
 
-      updateUnreadBadge() {
-        const badge = document.getElementById('aerobotUnreadBadge');
-        if (badge) {
-          if (this.unreadCount > 0) {
-            badge.textContent = this.unreadCount;
-            badge.style.display = 'flex';
-          } else {
-            badge.style.display = 'none';
-          }
+        this.botMood = aqiInfo.catIndex === 0 ? "Ecstatic & Loving Clean Air ✨" : "Fresh & Vibrant 🍃";
+        this.botFace = aqiInfo.catIndex === 0 ? "🤖✨" : "🤖🌱";
+      } else {
+        this.lastStreakSecondTick = now;
+        if (aqiInfo.catIndex === 2) {
+          this.botMood = "Vigilant & Watching Vapors 🛡️";
+          this.botFace = "🤖🌤️";
+        } else {
+          this.botMood = "Protective Shield Active 🛑";
+          this.botFace = "🤖🚨";
         }
-      },
+        const streakTag = document.getElementById('aerobotStreakTag');
+        if (streakTag && aqiInfo.catIndex >= 3) {
+          streakTag.textContent = `⚠️ Air Degraded (Purifier Needed)`;
+        }
+      }
 
-      logChatAlert(title, text, color) {
-        const container = document.getElementById('chatMessagesContainer');
-        if (!container) return;
-        const typing = document.getElementById('chatTypingIndicator');
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'chat-msg msg-bot';
-        msgDiv.innerHTML = `
+      const moodTag = document.getElementById('aerobotMoodTag');
+      if (moodTag) moodTag.textContent = `Mood: ${this.botMood}`;
+      const avatarEmoji = document.getElementById('aerobotAvatarEmoji');
+      if (avatarEmoji && !document.getElementById('aerobotAvatarBox')?.classList.contains('poked')) {
+        avatarEmoji.textContent = this.botFace;
+      }
+
+      // ==========================================
+      // Periodic Motivation & Praise Cycling (Every 45s when clean)
+      // ==========================================
+      if (aqiInfo.catIndex <= 1 && (now - this.lastMotivationTime > 45000)) {
+        this.lastMotivationTime = now;
+        const item = this.motivationalQuotes[Math.floor(Math.random() * this.motivationalQuotes.length)];
+        this.updateLiveCard("✨ AeroBot Wellness & Focus Coach", item.quote, aqiInfo);
+        const actionEl = document.getElementById('aerobotActionText');
+        if (actionEl) actionEl.textContent = "💡 Tip: " + item.action;
+      }
+    },
+
+    updateLiveCard(headline, quote, aqiInfo, isAlert = false) {
+      const headEl = document.getElementById('aerobotHeadline');
+      const quoteEl = document.getElementById('aerobotQuoteText');
+      const pillEl = document.getElementById('aerobotPillTag');
+      const iconEl = document.getElementById('aerobotBubbleIcon');
+      const container = document.getElementById('aerobotBubbleContainer');
+
+      if (headEl) headEl.textContent = headline;
+      if (quoteEl) quoteEl.textContent = `"${quote}"`;
+
+      if (pillEl) {
+        pillEl.className = 'meta-pill';
+        if (aqiInfo.catIndex === 0) pillEl.classList.add('pill-clean');
+        else if (aqiInfo.catIndex <= 2) pillEl.classList.add('pill-moderate');
+        else if (aqiInfo.catIndex <= 4) pillEl.classList.add('pill-poor');
+        else pillEl.classList.add('pill-hazard');
+        pillEl.textContent = aqiInfo.name + ' Air • AQI ' + aqiInfo.aqi;
+      }
+
+      if (iconEl) {
+        iconEl.textContent = isAlert ? '⚠️' : (aqiInfo.catIndex === 0 ? '🌿' : '🌤️');
+      }
+
+      if (container) {
+        if (isAlert) {
+          container.style.borderColor = aqiInfo.color;
+          container.style.background = aqiInfo.color + '15';
+        } else {
+          container.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+          container.style.background = 'rgba(255, 255, 255, 0.03)';
+        }
+      }
+    },
+
+    triggerSystemNotification(title, body) {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try {
+          new Notification(title, {
+            body: body,
+            icon: 'icon.svg'
+          });
+        } catch (e) {
+          console.warn("Notification error:", e);
+        }
+      }
+    },
+
+    updateUnreadBadge() {
+      const badge = document.getElementById('aerobotUnreadBadge');
+      if (badge) {
+        if (this.unreadCount > 0) {
+          badge.textContent = this.unreadCount;
+          badge.style.display = 'flex';
+        } else {
+          badge.style.display = 'none';
+        }
+      }
+    },
+
+    logChatAlert(title, text, color) {
+      const container = document.getElementById('chatMessagesContainer');
+      if (!container) return;
+      const typing = document.getElementById('chatTypingIndicator');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-msg msg-bot';
+      msgDiv.innerHTML = `
           <div class="msg-avatar" style="border-color:${color}; background:${color}22;">🚨</div>
           <div class="msg-bubble alert-highlight" style="border-color:${color}88;">
             <strong style="color:${color}; font-size:0.95rem;">${title}</strong><br>
@@ -4760,57 +5206,57 @@
             <div class="msg-card-block" style="border-color:${color}44;">
               🛑 <strong>Immediate Action:</strong> Turn on HEPA purifier, close windows, avoid aerobic exertion.
             </div>
-            <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+            <span class="msg-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
           </div>
         `;
-        if (typing && typing.parentNode === container) {
-          container.insertBefore(msgDiv, typing);
-        } else {
-          container.appendChild(msgDiv);
-        }
-        container.scrollTop = container.scrollHeight;
-      },
+      if (typing && typing.parentNode === container) {
+        container.insertBefore(msgDiv, typing);
+      } else {
+        container.appendChild(msgDiv);
+      }
+      container.scrollTop = container.scrollHeight;
+    },
 
-      logChatMotivation(title, text) {
-        const container = document.getElementById('chatMessagesContainer');
-        if (!container) return;
-        const typing = document.getElementById('chatTypingIndicator');
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'chat-msg msg-bot';
-        msgDiv.innerHTML = `
+    logChatMotivation(title, text) {
+      const container = document.getElementById('chatMessagesContainer');
+      if (!container) return;
+      const typing = document.getElementById('chatTypingIndicator');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-msg msg-bot';
+      msgDiv.innerHTML = `
           <div class="msg-avatar" style="border-color:#10b981; background:rgba(16,185,129,0.2);">✨</div>
           <div class="msg-bubble motivate-highlight">
             <strong style="color:#10b981; font-size:0.95rem;">${title}</strong><br>
             ${text}
-            <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+            <span class="msg-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
           </div>
         `;
-        if (typing && typing.parentNode === container) {
-          container.insertBefore(msgDiv, typing);
-        } else {
-          container.appendChild(msgDiv);
-        }
-        container.scrollTop = container.scrollHeight;
-      },
+      if (typing && typing.parentNode === container) {
+        container.insertBefore(msgDiv, typing);
+      } else {
+        container.appendChild(msgDiv);
+      }
+      container.scrollTop = container.scrollHeight;
+    },
 
       // ==========================================
       // Offline NLP Knowledge Engine & Gemini API
       // ==========================================
       async generateResponse(userText) {
-        const geminiKey = localStorage.getItem('aerobot_gemini_key');
-        if (geminiKey && geminiKey.trim()) {
-          try {
-            return await this.callGeminiApi(userText, geminiKey.trim());
-          } catch (err) {
-            console.warn("Gemini API call failed, falling back to local expert engine:", err);
-          }
+      const geminiKey = localStorage.getItem('aerobot_gemini_key');
+      if (geminiKey && geminiKey.trim()) {
+        try {
+          return await this.callGeminiApi(userText, geminiKey.trim());
+        } catch (err) {
+          console.warn("Gemini API call failed, falling back to local expert engine:", err);
         }
-        return this.localExpertKnowledge(userText);
-      },
+      }
+      return this.localExpertKnowledge(userText);
+    },
 
       async callGeminiApi(prompt, apiKey) {
-        const cur = this.currentReading;
-        const systemInstruction = `You are AeroBot, an empathetic, highly knowledgeable, and motivational AI air quality coach embedded in the AeroSense hardware IoT app (ESP32 with MQ-135 Gas & Sharp GP2Y PM2.5 sensors).
+      const cur = this.currentReading;
+      const systemInstruction = `You are AeroBot, an empathetic, highly knowledgeable, and motivational AI air quality coach embedded in the AeroSense hardware IoT app (ESP32 with MQ-135 Gas & Sharp GP2Y PM2.5 sensors).
 Current Live Sensor Telemetry:
 - National AQI: ${cur.aqi} (${cur.name} - 0 to 500 scale)
 - Sharp Optical PM2.5: ${Number(cur.dustUg).toFixed(1)} µg/m³ (Voltage: ${Number(cur.dustVoltage || 0).toFixed(2)}V)
@@ -4818,41 +5264,41 @@ Current Live Sensor Telemetry:
 - Continuous Uptime: ${cur.uptimeSec || 0} seconds
 Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3-4 paragraphs, formatted cleanly with emojis and bullet points. Always motivate the user and prioritize their health.`;
 
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [
-              {
-                role: 'user',
-                parts: [
-                  { text: systemInstruction + "\n\nUser Question: " + prompt }
-                ]
-              }
-            ]
-          })
-        });
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: 'user',
+              parts: [
+                { text: systemInstruction + "\n\nUser Question: " + prompt }
+              ]
+            }
+          ]
+        })
+      });
 
-        if (!response.ok) {
-          throw new Error("Gemini API HTTP " + response.status);
-        }
+      if (!response.ok) {
+        throw new Error("Gemini API HTTP " + response.status);
+      }
 
-        const data = await response.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (!text) throw new Error("Empty response from Gemini");
+      const data = await response.json();
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) throw new Error("Empty response from Gemini");
 
-        const formattedHtml = formatChatMarkdown(text);
-        return formattedHtml + `<br><div class="msg-card-block" style="font-size:0.75rem; color:#38bdf8; border-color:rgba(56,189,248,0.3); margin-top:10px;">✨ <em>Powered by Google Gemini AI Studio</em></div>`;
-      },
+      const formattedHtml = formatChatMarkdown(text);
+      return formattedHtml + `<br><div class="msg-card-block" style="font-size:0.75rem; color:#38bdf8; border-color:rgba(56,189,248,0.3); margin-top:10px;">✨ <em>Powered by Google Gemini AI Studio</em></div>`;
+    },
 
-      localExpertKnowledge(query) {
-        const q = query.toLowerCase();
-        const cur = this.currentReading;
+    localExpertKnowledge(query) {
+      const q = query.toLowerCase();
+      const cur = this.currentReading;
 
-        // 0. Greetings & Friendly Small Talk
-        if (q.match(/\b(hi|hello|hey|greetings|good morning|good afternoon|good evening|sup|yo)\b/)) {
-          return `
+      // 0. Greetings & Friendly Small Talk
+      if (q.match(/\b(hi|hello|hey|greetings|good morning|good afternoon|good evening|sup|yo)\b/)) {
+        return `
             👋 <strong>Hello there! I'm AeroBot, your environmental wellness coach.</strong><br><br>
             I'm constantly watching your air quality in real time! Currently, your indoor air is rated 
             <strong style="color:${cur.color}; font-weight:800;">${cur.aqi} (${cur.name})</strong> with PM2.5 at <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong>.<br><br>
@@ -4863,11 +5309,11 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
             <br>• 🔬 <em>"How does my MQ-135 or Sharp dust sensor work?"</em>
             <br>• 🧘 <em>"Guide me through a 4-7-8 breathing exercise"</em>
           `;
-        }
+      }
 
-        // 0.1 Who are you / Bot capabilities / Help
-        if (q.includes('who are you') || q.includes('what are you') || q.includes('what can you do') || q.includes('help') || q.includes('features')) {
-          return `
+      // 0.1 Who are you / Bot capabilities / Help
+      if (q.includes('who are you') || q.includes('what are you') || q.includes('what can you do') || q.includes('help') || q.includes('features')) {
+        return `
             🤖 <strong>About AeroBot AI:</strong><br><br>
             I am the intelligent companion built into your <strong>AeroSense ESP32</strong> air monitor!<br><br>
             <strong>What I do for you:</strong><br>
@@ -4877,47 +5323,47 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
             • <strong>Mindful Respiration:</strong> Built-in 4-7-8 breathing circle to lower stress and improve oxygen uptake.<br>
             • <strong>Optional Gemini Studio LLM:</strong> Tap the ⚙️ icon in the header to connect your free Google Gemini API key for open-ended conversational intelligence!
           `;
-        }
+      }
 
-        // 0.2 Gas, VOCs, Smoke, Fire, Toxic odors
-        if (q.includes('smoke') || q.includes('gas') || q.includes('fire') || q.includes('voc') || q.includes('smell') || q.includes('odor') || q.includes('leak') || q.includes('carbon monoxide') || q.includes('co') || q.includes('toxic')) {
-          return `
+      // 0.2 Gas, VOCs, Smoke, Fire, Toxic odors
+      if (q.includes('smoke') || q.includes('gas') || q.includes('fire') || q.includes('voc') || q.includes('smell') || q.includes('odor') || q.includes('leak') || q.includes('carbon monoxide') || q.includes('co') || q.includes('toxic')) {
+        return `
             🔥 <strong>Gas, Smoke &amp; VOC Protocol:</strong><br><br>
             Your onboard <strong>MQ-135 semiconductor sensor</strong> is currently reading raw ADC: <strong>${cur.raw}</strong> (${Number(cur.voltage).toFixed(2)}V).<br><br>
             • <strong>Target Gases:</strong> The MQ-135 is sensitive to Carbon Monoxide (CO), Ammonia (NH3), Alcohol, Smoke, and aromatic hydrocarbons (Benzene).<br>
             • <strong>If Smoke or Gas Detected:</strong> Immediately ventilate the area, check kitchen gas stoves, extinguish any smoldering materials, and evacuate if levels remain persistently elevated.<br>
             • <strong>Filtration Note:</strong> Standard particulate HEPA filters do NOT capture gases. Use an <strong>Activated Carbon filter</strong> to adsorb chemical molecules and foul odors.
           `;
-        }
+      }
 
-        // 0.3 Connectivity, Bluetooth, WiFi, Hardware setup
-        if (q.includes('connect') || q.includes('bluetooth') || q.includes('ble') || q.includes('pairing') || q.includes('serial') || q.includes('usb') || q.includes('offline')) {
-          return `
+      // 0.3 Connectivity, Bluetooth, WiFi, Hardware setup
+      if (q.includes('connect') || q.includes('bluetooth') || q.includes('ble') || q.includes('pairing') || q.includes('serial') || q.includes('usb') || q.includes('offline')) {
+        return `
             📶 <strong>AeroSense Connectivity &amp; Hardware Guide:</strong><br><br>
             • <strong>Bluetooth BLE:</strong> Tap the 🔵 <em>Connect Bluetooth</em> button in the header. Select 'AeroSense-AirMonitor' from the Web Bluetooth popup in Chrome or Edge.<br>
             • <strong>Web Serial / USB:</strong> Connect your ESP32 via micro-USB/Type-C and click <em>Connect USB Serial</em> at 115200 baud.<br>
             • <strong>100% Offline PWA:</strong> This dashboard and my expert intelligence work entirely offline without needing an active internet connection!
           `;
+      }
+
+      // 0.4 Praise & Clean Air Habit Celebration
+      if (q.includes('praise') || q.includes('compliment') || q.includes('doing well') || q.includes('good habit') || q.includes('streak') || q.includes('praise me')) {
+        const streakMins = Math.max(1, Math.floor(this.cleanAirStreakSec / 60));
+        const xp = Math.max(50, this.cleanAirXp);
+        let praiseRank = "🌱 Fresh Oxygen Novice";
+        let praiseCheer = "You're taking conscious, proactive care of your lungs and living environment!";
+        if (streakMins >= 60) {
+          praiseRank = "👑 Pure Atmosphere Legend";
+          praiseCheer = "Unbelievable environmental discipline! You've maintained over an hour of pristine air quality!";
+        } else if (streakMins >= 25) {
+          praiseRank = "🫁 Lung Sanctuary Master";
+          praiseCheer = "Magnificent dedication! 25+ minutes in clean air has deeply purified your respiratory tract!";
+        } else if (streakMins >= 10) {
+          praiseRank = "🏅 Oxygen Shield Champion";
+          praiseCheer = "Fantastic work maintaining healthy indoor air!";
         }
 
-        // 0.4 Praise & Clean Air Habit Celebration
-        if (q.includes('praise') || q.includes('compliment') || q.includes('doing well') || q.includes('good habit') || q.includes('streak') || q.includes('praise me')) {
-          const streakMins = Math.max(1, Math.floor(this.cleanAirStreakSec / 60));
-          const xp = Math.max(50, this.cleanAirXp);
-          let praiseRank = "🌱 Fresh Oxygen Novice";
-          let praiseCheer = "You're taking conscious, proactive care of your lungs and living environment!";
-          if (streakMins >= 60) {
-            praiseRank = "👑 Pure Atmosphere Legend";
-            praiseCheer = "Unbelievable environmental discipline! You've maintained over an hour of pristine air quality!";
-          } else if (streakMins >= 25) {
-            praiseRank = "🫁 Lung Sanctuary Master";
-            praiseCheer = "Magnificent dedication! 25+ minutes in clean air has deeply purified your respiratory tract!";
-          } else if (streakMins >= 10) {
-            praiseRank = "🏅 Oxygen Shield Champion";
-            praiseCheer = "Fantastic work maintaining healthy indoor air!";
-          }
-
-          return `
+        return `
             🎉 <strong>AeroBot Personal Praise &amp; Wellness Celebration!</strong><br><br>
             <div class="msg-card-block" style="border-color:#10b981; background:rgba(16,185,129,0.12);">
               🌟 <strong>Current Habit Rank:</strong> <span style="color:#10b981; font-weight:800;">${praiseRank}</span><br>
@@ -4930,20 +5376,20 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
             • ❤️ <strong>Lower Stress &amp; Pulse:</strong> Pure air lowers systemic inflammation and reduces resting blood pressure.<br><br>
             <em>"Give yourself a huge high-five! Staying in good air isn't an accident—it's your superpower!"</em> 👏✨
           `;
+      }
+
+      // 1. Current Air Status & Audit
+      if (q.includes('air right now') || q.includes('how is my air') || q.includes('audit') || q.includes('status') || q.includes('current reading') || q.includes('what is the aqi')) {
+        let advice = "";
+        if (cur.catIndex <= 1) {
+          advice = "🌿 <strong>Health Rating: Excellent.</strong> Your indoor air is fresh, clean, and free of elevated particulates. Ideal conditions for deep focus and aerobic work!";
+        } else if (cur.catIndex === 2) {
+          advice = "🌤️ <strong>Health Rating: Moderate.</strong> Mild airborne particulates or background vapors present. Sensitive individuals or asthmatics should take note.";
+        } else {
+          advice = "⚠️ <strong>Health Rating: Unhealthy.</strong> High airborne contamination detected! Close doors and windows, and turn on an air purifier with a true HEPA filter.";
         }
 
-        // 1. Current Air Status & Audit
-        if (q.includes('air right now') || q.includes('how is my air') || q.includes('audit') || q.includes('status') || q.includes('current reading') || q.includes('what is the aqi')) {
-          let advice = "";
-          if (cur.catIndex <= 1) {
-            advice = "🌿 <strong>Health Rating: Excellent.</strong> Your indoor air is fresh, clean, and free of elevated particulates. Ideal conditions for deep focus and aerobic work!";
-          } else if (cur.catIndex === 2) {
-            advice = "🌤️ <strong>Health Rating: Moderate.</strong> Mild airborne particulates or background vapors present. Sensitive individuals or asthmatics should take note.";
-          } else {
-            advice = "⚠️ <strong>Health Rating: Unhealthy.</strong> High airborne contamination detected! Close doors and windows, and turn on an air purifier with a true HEPA filter.";
-          }
-
-          return `
+        return `
             <strong>📊 Live Environmental Diagnostic Audit:</strong><br><br>
             • <strong>National AQI:</strong> <span style="color:${cur.color}; font-weight:800;">${cur.aqi} (${cur.name})</span><br>
             • <strong>Sharp GP2Y PM2.5 Dust:</strong> <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong><br>
@@ -4951,56 +5397,56 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
             • <strong>Hardware Status:</strong> <strong>${cur.status}</strong> (Monitoring Active)<br><br>
             ${advice}
           `;
-        }
+      }
 
-        // 2. Exercise / Outdoor Running Safety
-        if (q.includes('exercise') || q.includes('running') || q.includes('run') || q.includes('jog') || q.includes('jogging') || q.includes('gym') || q.includes('workout') || q.includes('cycling')) {
-          if (cur.catIndex <= 1) {
-            return `
+      // 2. Exercise / Outdoor Running Safety
+      if (q.includes('exercise') || q.includes('running') || q.includes('run') || q.includes('jog') || q.includes('jogging') || q.includes('gym') || q.includes('workout') || q.includes('cycling')) {
+        if (cur.catIndex <= 1) {
+          return `
               🏃 <strong>Yes, it is 100% safe and optimal for exercise!</strong><br><br>
               With PM2.5 at <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong> (AQI: ${cur.aqi}), your respiratory tract is completely unhindered by particle irritation. 
               <br><br>
               💡 <strong>Coach Tip:</strong> Deep breathing during clean air workouts maximizes VO₂ max efficiency and accelerates muscle recovery! Go crush that workout! 💪
             `;
-          } else if (cur.catIndex === 2) {
-            return `
+        } else if (cur.catIndex === 2) {
+          return `
               🧘 <strong>Caution for Intense Outdoor Cardio:</strong><br><br>
               The current AQI is <strong>${cur.aqi} (${cur.name})</strong>. While light walking and moderate workouts are generally safe for healthy individuals, people with asthma or allergies should avoid long-distance outdoor sprinting right now.
               <br><br>
               💡 <strong>Coach Tip:</strong> Consider exercising indoors or running an air purifier nearby.
             `;
-          } else {
-            return `
+        } else {
+          return `
               🛑 <strong>Avoid Outdoor or Intense Cardio Right Now!</strong><br><br>
               Current PM2.5 is at <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong> (Unhealthy). During intense cardio, your respiratory volume increases by up to 10x, pulling fine particulates deep into your alveoli and bloodstream.
               <br><br>
               💡 <strong>Action:</strong> Keep your workout indoors with closed windows and a HEPA air filtration system active!
             `;
-          }
         }
+      }
 
-        // 3. Motivation, Hype & Energy Boost
-        if (q.includes('hype') || q.includes('motivat') || q.includes('boost') || q.includes('inspire') || q.includes('quote') || q.includes('tired') || q.includes('energy') || q.includes('mindset') || q.includes('affirmation')) {
-          const quotes = [
-            "🚀 <strong>LETS GO!</strong> You are breathing pristine, high-octane oxygen right now! Your brain consumes 20% of your body's oxygen—turn this pure airflow into extraordinary momentum and conquer your goals!",
-            "🔥 <strong>You are unstoppable!</strong> Your lungs are clear, your environment is dialed in, and your mind is razor sharp. Stand tall, inhale deep through your nose, and crush your day!",
-            "✨ *'Every breath is a fresh start.'* When your air is clean, your brain produces more serotonin and maintains neuro-focus up to 20% longer. Today is your day to excel!",
-            "💪 *'Discipline is choosing between what you want now and what you want most.'* Your respiratory health is your ultimate superpower. Safeguard it, fuel it with clean oxygen, and reach your full potential!",
-            "🌟 *'Your energy introduces you before you even speak.'* Take a moment right now: roll your shoulders back, inhale deeply for 4 seconds, and feel the pure oxygen flooding your muscles and neurons!",
-            "🌱 *'Small habits done consistently create massive transformations.'* Monitoring your air quality is proof that you value your body, your focus, and your longevity. Keep thriving!"
-          ];
-          const selected = quotes[Math.floor(Math.random() * quotes.length)];
-          return `
+      // 3. Motivation, Hype & Energy Boost
+      if (q.includes('hype') || q.includes('motivat') || q.includes('boost') || q.includes('inspire') || q.includes('quote') || q.includes('tired') || q.includes('energy') || q.includes('mindset') || q.includes('affirmation')) {
+        const quotes = [
+          "🚀 <strong>LETS GO!</strong> You are breathing pristine, high-octane oxygen right now! Your brain consumes 20% of your body's oxygen—turn this pure airflow into extraordinary momentum and conquer your goals!",
+          "🔥 <strong>You are unstoppable!</strong> Your lungs are clear, your environment is dialed in, and your mind is razor sharp. Stand tall, inhale deep through your nose, and crush your day!",
+          "✨ *'Every breath is a fresh start.'* When your air is clean, your brain produces more serotonin and maintains neuro-focus up to 20% longer. Today is your day to excel!",
+          "💪 *'Discipline is choosing between what you want now and what you want most.'* Your respiratory health is your ultimate superpower. Safeguard it, fuel it with clean oxygen, and reach your full potential!",
+          "🌟 *'Your energy introduces you before you even speak.'* Take a moment right now: roll your shoulders back, inhale deeply for 4 seconds, and feel the pure oxygen flooding your muscles and neurons!",
+          "🌱 *'Small habits done consistently create massive transformations.'* Monitoring your air quality is proof that you value your body, your focus, and your longevity. Keep thriving!"
+        ];
+        const selected = quotes[Math.floor(Math.random() * quotes.length)];
+        return `
             ${selected}<br><br>
             <div class="msg-card-block" style="border-color:#f59e0b; background:rgba(245,158,11,0.12); color:#fbbf24;">
               ⚡ <strong>Power Affirmation:</strong> <em>"My mind is clear, my lungs are healthy, and I possess the energy to accomplish great things today."</em>
             </div>
           `;
-        }
+      }
 
-        // 4. Precautions & What to Do
-        if (q.includes('precaution') || q.includes('what to do') || q.includes('protect') || q.includes('purifier') || q.includes('mask') || q.includes('filter') || q.includes('remedy')) {
-          return `
+      // 4. Precautions & What to Do
+      if (q.includes('precaution') || q.includes('what to do') || q.includes('protect') || q.includes('purifier') || q.includes('mask') || q.includes('filter') || q.includes('remedy')) {
+        return `
             🛡️ <strong>Air Quality Safety &amp; Protection Protocol:</strong><br><br>
             1. <strong>Indoor HEPA Air Purifier:</strong> Use an H13/True HEPA purifier rated for your room volume to capture particles down to 0.3 µm.<br>
             2. <strong>Window Management:</strong> Open windows only when outdoor AQI is &lt; 50; otherwise keep them shut to block road dust and industrial smog.<br>
@@ -5008,11 +5454,11 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
             4. <strong>N95 Respirators:</strong> Wear a snug-fitting N95 or KN95 mask whenever venturing outdoors during high PM2.5 alerts.<br>
             5. <strong>Hydration &amp; Steam:</strong> Drink plenty of warm fluids to maintain the protective mucus layer in your upper airways.
           `;
-        }
+      }
 
-        // 5. Indoor Air Purifying Plants
-        if (q.includes('plant') || q.includes('flora') || q.includes('spider plant') || q.includes('snake plant') || q.includes('peace lily')) {
-          return `
+      // 5. Indoor Air Purifying Plants
+      if (q.includes('plant') || q.includes('flora') || q.includes('spider plant') || q.includes('snake plant') || q.includes('peace lily')) {
+        return `
             🌱 <strong>Top NASA Clean Air Study Indoor Plants:</strong><br><br>
             • <strong>Snake Plant (Sansevieria):</strong> Excellent bedroom plant! It releases oxygen at night (CAM photosynthesis) and absorbs benzene, formaldehyde, and xylene.<br>
             • <strong>Spider Plant (Chlorophytum):</strong> Extremely resilient, safe for pets, and filters carbon monoxide &amp; toluene.<br>
@@ -5020,22 +5466,22 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
             • <strong>Areca Palm:</strong> Natural room humidifier that transpires 1 liter of clean water vapor per day while removing airborne toxins.<br><br>
             💡 <em>Rule of thumb: Place 2 to 3 medium-sized plants for every 100 sq. ft. of indoor space!</em>
           `;
-        }
+      }
 
-        // 6. Sensor Science & Hardware
-        if (q.includes('sensor') || q.includes('mq135') || q.includes('sharp') || q.includes('gp2y') || q.includes('optical') || q.includes('hardware') || q.includes('how it works') || q.includes('adc')) {
-          return `
+      // 6. Sensor Science & Hardware
+      if (q.includes('sensor') || q.includes('mq135') || q.includes('sharp') || q.includes('gp2y') || q.includes('optical') || q.includes('hardware') || q.includes('how it works') || q.includes('adc')) {
+        return `
             🔬 <strong>How Your Dual AeroSense Sensors Work:</strong><br><br>
             1. <strong>MQ-135 Gas &amp; VOC Sensor:</strong><br>
             Uses an internal heating coil that warms a Tin Dioxide (SnO₂) sensitive layer to ~300°C. In clean air, conductivity is low; when oxidizable gas molecules (CO, NH3, Benzene, Alcohol, Smoke) collide with the hot surface, electrons are released, dropping resistance and increasing the analog voltage (0V to 3.3V / ADC 0 to 4095).<br><br>
             2. <strong>Sharp GP2Y1014AU0F Optical Dust Sensor:</strong><br>
             Contains an Infrared Emitting Diode (IRED) pulsed at 10ms intervals and a Phototransistor aligned across an optical dark chamber. When fine airborne dust (PM2.5) enters the chamber, it scatters the infrared light beam. The reflected light hits the detector, outputting a voltage $V_o$ directly proportional to particle density in $\\mu\\text{g/m}^3$.
           `;
-        }
+      }
 
-        // 7. Breathing & Relaxation
-        if (q.includes('breath') || q.includes('relax') || q.includes('stress') || q.includes('calm') || q.includes('pranayama')) {
-          return `
+      // 7. Breathing & Relaxation
+      if (q.includes('breath') || q.includes('relax') || q.includes('stress') || q.includes('calm') || q.includes('pranayama')) {
+        return `
             🧘 <strong>The 4-7-8 Deep Breathing Technique (Pranayama):</strong><br><br>
             This evidence-based technique activates your parasympathetic nervous system, slowing heart rate and oxygenating muscle tissue:<br><br>
             1. <strong>Inhale:</strong> Quietly through the nose for <strong>4 seconds</strong>.<br>
@@ -5045,10 +5491,10 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
               <span>🧘</span> Launch Interactive 4-7-8 Breathing Guide
             </button>
           `;
-        }
+      }
 
-        // General fallback
-        return `
+      // General fallback
+      return `
           Hello! I'm actively monitoring your air quality in real time. 🌿<br><br>
           Currently, your <strong>AQI is ${cur.aqi} (${cur.name})</strong> with PM2.5 at <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong> and Gas ADC at <strong>${cur.raw}</strong>.<br><br>
           You can ask me anything about:
@@ -5058,7 +5504,7 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
           <br>• 🔬 <em>"How does the MQ-135 and dust sensor work?"</em>
           <br>• ⚡ <em>"Give me a health & motivation quote!"</em>
         `;
-      }
+    }
     };
 
     // Lightweight markdown formatter for AI responses
@@ -5142,7 +5588,7 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
         <div class="msg-avatar">👤</div>
         <div class="msg-bubble">
           ${escapeHtml(text)}
-          <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+          <span class="msg-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         </div>
       `;
       if (container) {
@@ -5168,7 +5614,7 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
           <div class="msg-avatar">🤖</div>
           <div class="msg-bubble">
             ${answerHtml}
-            <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+            <span class="msg-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
           </div>
         `;
         if (container) {
@@ -5193,7 +5639,7 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
           <div class="msg-avatar">🤖</div>
           <div class="msg-bubble" style="border-color:rgba(239,68,68,0.4);">
             ⚠️ <em>I encountered a temporary issue generating a response. Please try again!</em>
-            <span class="msg-time">${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+            <span class="msg-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
           </div>
         `;
         if (container) {
@@ -5420,4 +5866,5 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
     });
   </script>
 </body>
+
 </html>
