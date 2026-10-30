@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroSense - Exhibition Poster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070b14;
+      --card-bg: rgba(15, 23, 42, 0.85);
+      --card-border: rgba(56, 189, 248, 0.22);
+      --cyan: #38bdf8;
+      --blue: #0284c7;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --purple: #a855f7;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #020617;
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 12px 60px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Controls Header (Hidden in Print) */
+    .toolbar {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 12px 20px;
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+    }
+    .toolbar-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #04101e;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--cyan);
+    }
+
+    /* Poster Frame (Standard 3:4 / A1 proportions) */
+    .poster-container {
+      width: 100%;
+      max-width: 1200px;
+      background: radial-gradient(circle at 10% 10%, #0c1933 0%, #070b16 55%, #030712 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 36px 36px 30px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background Ambient Tech Grid */
+    .poster-container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: 
+        linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .poster-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header Banner */
+    .poster-header {
+      border-bottom: 2px solid rgba(56, 189, 248, 0.25);
+      padding-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .brand-section {
+      flex: 1;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--cyan);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .poster-title {
+      font-size: 3.2rem;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      background: linear-gradient(135deg, #ffffff 30%, #38bdf8 70%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .poster-subtitle {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      max-width: 820px;
+      line-height: 1.4;
+    }
+
+    .meta-badges {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .meta-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+    }
+
+    .qr-badge-card {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 14px;
+      padding: 12px 14px;
+      text-align: center;
+      min-width: 140px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+    }
+    .qr-badge-card svg {
+      width: 84px;
+      height: 84px;
+      background: white;
+      padding: 4px;
+      border-radius: 8px;
+    }
+    .qr-caption {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Poster Grid */
+    .poster-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* Cards */
+    .p-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .p-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding-bottom: 8px;
+    }
+
+    .p-card-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(56, 189, 248, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      flex-shrink: 0;
+    }
+
+    .p-card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+
+    .p-card-subtitle {
+      font-size: 0.7rem;
+      color: var(--cyan);
+      font-family: 'JetBrains Mono', monospace;
+      margin-left: auto;
+    }
+
+    p, li {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    ul {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    li strong {
+      color: #f1f5f9;
+    }
+
+    /* Hero Metric Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .stat-box {
+      background: rgba(2, 132, 199, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-val {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--cyan);
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.1;
+    }
+    .stat-label {
+      font-size: 0.68rem;
+      color: #94a3b8;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    /* Sensor Comparison Box */
+    .sensor-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .sensor-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .sensor-item-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .sensor-spec {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
+    /* Flowchart / Pipeline diagram */
+    .pipeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pipeline-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-text {
+      font-size: 0.78rem;
+      color: #e2e8f0;
+      line-height: 1.3;
+    }
+    .step-text span {
+      color: var(--cyan);
+      font-weight: 600;
+    }
+
+    /* AQI Spectrum Bar */
+    .aqi-scale {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 6px 0;
+    }
+    .aqi-segment {
+      padding: 6px 4px;
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #000;
+    }
+    .aqi-good { background: #10b981; }
+    .aqi-sat { background: #84cc16; }
+    .aqi-mod { background: #f59e0b; }
+    .aqi-poor { background: #f97316; }
+    .aqi-vpoor { background: #ef4444; color: #fff; }
+    .aqi-sev { background: #7f1d1d; color: #fff; }
+
+    /* Highlights / Badges list */
+    .pill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .feature-pill {
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      color: #e2e8f0;
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    /* Footer Banner */
+    .poster-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-team {
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    .footer-team strong {
+      color: #fff;
+    }
+    .footer-tags {
+      display: flex;
+      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--cyan);
+    }
+
+    /* Print Stylesheet (Crisp A1/A3 Export) */
+    @media print {
+      body {
+        background: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .toolbar {
+        display: none !important;
+      }
+      .poster-container {
+        border: none !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        padding: 20mm !important;
+        background: #020617 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+
+    /* Light Mode Switch for Ink-Friendly Printing */
+    body.light-mode {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    body.light-mode .poster-container {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    body.light-mode .poster-container::before {
+      background-image: 
+        linear-gradient(rgba(2, 132, 199, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(2, 132, 199, 0.05) 1px, transparent 1px);
+    }
+    body.light-mode .poster-title {
+      background: linear-gradient(135deg, #0f172a 30%, #0284c7 70%, #4338ca 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    body.light-mode .poster-subtitle {
+      color: #334155;
+    }
+    body.light-mode .p-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    body.light-mode .p-card-title {
+      color: #0f172a;
+    }
+    body.light-mode p, body.light-mode li {
+      color: #334155;
+    }
+    body.light-mode li strong {
+      color: #0f172a;
+    }
+    body.light-mode .stat-box {
+      background: #e0f2fe;
+      border: 1px solid #7dd3fc;
+    }
+    body.light-mode .stat-val {
+      color: #0284c7;
+    }
+    body.light-mode .sensor-item {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+    }
+    body.light-mode .pipeline-step {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+    }
+    body.light-mode .step-text {
+      color: #1e293b;
+    }
+    body.light-mode .feature-pill {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+    }
+    body.light-mode .meta-tag {
+      background: #e2e8f0;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+    body.light-mode .footer-team {
+      color: #475569;
+    }
+    body.light-mode .footer-team strong {
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Exhibition Print & View Controls -->
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+      AeroSense Exhibition Poster Engine (Ready to Print / Present)
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-outline" onclick="toggleTheme()">🌓 Toggle Ink-Saver (Light/Dark)</button>
+      <button class="btn" onclick="window.print()">🖨️ Print Poster / Save as PDF</button>
+    </div>
+  </div>
+
+  <!-- Master Poster Canvas -->
+  <div class="poster-container">
+    <div class="poster-content">
+
+      <!-- Header Section -->
+      <header class="poster-header">
+        <div class="brand-section">
+          <div class="badge-pill">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            IoT Smart Environmental Telemetry &amp; AI Health Analytics
+          </div>
+          <h1 class="poster-title">AeroSense</h1>
+          <p class="poster-subtitle">
+            Next-Gen Dual-Sensor Air Quality Monitoring System with ESP32 Hardware, Web Bluetooth Low Energy &amp; Interactive 3D Real-Time Dashboard
+          </p>
+          <div class="meta-badges">
+            <span class="meta-tag">⚡ ESP32 Dual-Core</span>
+            <span class="meta-tag">🔬 Sharp GP2Y1014AU0F (PM2.5)</span>
+            <span class="meta-tag">🧪 MQ-135 (Gas &amp; VOCs)</span>
+            <span class="meta-tag">📶 Web BLE (Nordic UART)</span>
+            <span class="meta-tag">📱 Installable PWA</span>
+            <span class="meta-tag">🤖 AeroBot AI</span>
+          </div>
+        </div>
+
+        <div class="qr-badge-card">
+          <!-- Stand-in Vector QR Code pointing to live dashboard -->
+          <svg viewBox="0 0 100 100">
+            <rect x="0" y="0" width="100" height="100" fill="#ffffff"/>
+            <!-- Corner Markers -->
+            <rect x="5" y="5" width="26" height="26" fill="#000"/>
+            <rect x="9" y="9" width="18" height="18" fill="#fff"/>
+            <rect x="13" y="13" width="10" height="10" fill="#000"/>
+            <rect x="69" y="5" width="26" height="26" fill="#000"/>
+            <rect x="73" y="9" width="18" height="18" fill="#fff"/>
+            <rect x="77" y="13" width="10" height="10" fill="#000"/>
+            <rect x="5" y="69" width="26" height="26" fill="#000"/>
+            <rect x="9" y="73" width="18" height="18" fill="#fff"/>
+            <rect x="13" y="77" width="10" height="10" fill="#000"/>
+            <!-- Pixel Pattern -->
+            <rect x="36" y="8" width="6" height="6" fill="#000"/>
+            <rect x="48" y="14" width="6" height="6" fill="#000"/>
+            <rect x="36" y="24" width="12" height="6" fill="#000"/>
+            <rect x="54" y="24" width="6" height="12" fill="#000"/>
+            <rect x="8" y="38" width="6" height="12" fill="#000"/>
+            <rect x="20" y="44" width="12" height="6" fill="#000"/>
+            <rect x="38" y="38" width="8" height="8" fill="#000"/>
+            <rect x="52" y="44" width="14" height="6" fill="#000"/>
+            <rect x="72" y="38" width="18" height="6" fill="#000"/>
+            <rect x="80" y="48" width="12" height="8" fill="#000"/>
+            <rect x="38" y="60" width="8" height="8" fill="#000"/>
+            <rect x="52" y="60" width="6" height="14" fill="#000"/>
+            <rect x="66" y="68" width="14" height="6" fill="#000"/>
+            <rect x="38" y="76" width="12" height="6" fill="#000"/>
+            <rect x="56" y="80" width="14" height="12" fill="#000"/>
+            <rect x="76" y="80" width="14" height="12" fill="#000"/>
+          </svg>
+          <div class="qr-caption">Scan for Live Demo</div>
+        </div>
+      </header>
+
+      <!-- Key Quantitative Metrics Row -->
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-val">&lt; 1.5s</div>
+          <div class="stat-label">Telemetry Latency</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val">0-800 <span style="font-size: 0.9rem;">&mu;g/m&sup3;</span></div>
+          <div class="stat-label">PM2.5 Optical Range</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val">8x Outlier</div>
+          <div class="stat-label">Trimmed Median Filter</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val">100% Free</div>
+          <div class="stat-label">Zero Cloud Subscription</div>
+        </div>
+      </div>
+
+      <!-- 3-Column Exhibition Poster Grid -->
+      <div class="poster-grid">
+
+        <!-- COLUMN 1: Problem Statement & Hardware Architecture -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          
+          <!-- Abstract & Problem Card -->
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+              <h3 class="p-card-title">Problem Statement</h3>
+              <span class="p-card-subtitle">[MOTIVATION]</span>
+            </div>
+            <p>
+              Indoor and urban ambient air pollution poses severe health risks, contributing to respiratory diseases, cardiovascular stress, and cognitive fatigue.
+            </p>
+            <ul>
+              <li><strong>Market Gap:</strong> Commercial air monitors are either exorbitant ($150+) or provide siloed readings (dust-only OR gas-only).</li>
+              <li><strong>Cloud Lock-in:</strong> Most IoT solutions require proprietary clouds, high-latency subscriptions, and fail without internet.</li>
+              <li><strong>Our Solution:</strong> AeroSense combines dual-sensor physical fusion, microsecond optical timing, and zero-install Web Bluetooth into a local-first PWA.</li>
+            </ul>
+          </div>
+
+          <!-- Dual-Sensor Hardware Breakdown -->
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 17h5M17 7h5"/></svg>
+              </div>
+              <h3 class="p-card-title">Dual Hardware Fusion</h3>
+              <span class="p-card-subtitle">[SENSORS]</span>
+            </div>
+            <div class="sensor-duo">
+              <div class="sensor-item">
+                <div class="sensor-item-title">
+                  <span>🔬 Sharp GP2Y</span>
+                </div>
+                <div class="sensor-spec">
+                  <strong>Principle:</strong> Optical scattering via internal IRED + phototransistor.<br>
+                  <strong>Target:</strong> PM2.5 / PM10 airborne fine particles &amp; smoke.<br>
+                  <strong>Conditioning:</strong> 150&Omega; resistor + 220&mu;F noise buffer capacitor.
+                </div>
+              </div>
+              <div class="sensor-item">
+                <div class="sensor-item-title">
+                  <span>🧪 MQ-135 MOS</span>
+                </div>
+                <div class="sensor-spec">
+                  <strong>Principle:</strong> SnO2 semiconductor conductivity modulation.<br>
+                  <strong>Target:</strong> VOCs, Ammonia (NH3), Alcohol, Benzene, CO2.<br>
+                  <strong>Power:</strong> Regulated 5V heating coil with ADC1 analog read.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Master Pinout & Circuit Safety -->
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <h3 class="p-card-title">Circuit Architecture</h3>
+              <span class="p-card-subtitle">[GPIO / ADC1]</span>
+            </div>
+            <ul>
+              <li><strong>ADC1 Conflict Avoidance:</strong> Both sensors route strictly to <code>GPIO 34</code> and <code>GPIO 35</code>, ensuring 100% ADC reliability during active BLE transmission.</li>
+              <li><strong>Optical Pulse Drive:</strong> <code>GPIO 26</code> triggers active-low LED switching with microsecond precision.</li>
+              <li><strong>Status Indicator:</strong> Onboard <code>GPIO 2</code> blue LED pulses in beacon mode and locks solid on connection.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- COLUMN 2: Optical Physics, Algorithms & AQI Calculations -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+
+          <!-- Microsecond Optical Sensing Physics -->
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+              </div>
+              <h3 class="p-card-title">Precision Optical Sampling</h3>
+              <span class="p-card-subtitle">[280&mu;s TIMING]</span>
+            </div>
+            <p>
+              The Sharp GP2Y1014AU0F requires sub-millisecond coordination between the emitter diode and the phototransistor receiver:
+            </p>
+            <div class="pipeline">
+              <div class="pipeline-step">
+                <div class="step-num">1</div>
+                <div class="step-text"><strong>LED ON:</strong> Digital Pin 26 driven LOW for exactly <span>280 &mu;s</span>.</div>
+              </div>
+              <div class="pipeline-step">
+                <div class="step-num">2</div>
+                <div class="step-text"><strong>ADC Sample:</strong> Vo measured at pin 35 precisely at the <span>280 &mu;s mark</span>.</div>
+              </div>
+              <div class="pipeline-step">
+                <div class="step-num">3</div>
+                <div class="step-text"><strong>LED OFF:</strong> Pulse completed at <span>320 &mu;s</span>, LED turned off.</div>
+              </div>
+              <div class="pipeline-step">
+                <div class="step-num">4</div>
+                <div class="step-text"><strong>Recovery:</strong> Rest period of <span>9,640 &mu;s</span> (10 ms continuous cycle).</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Digital Signal Processing & Math Formulation -->
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <h3 class="p-card-title">DSP &amp; Outlier Elimination</h3>
+              <span class="p-card-subtitle">[ALGORITHMS]</span>
+            </div>
+            <ul>
+              <li><strong>Trimmed-Median Average:</strong> Collects 8 successive optical pulses, bubble-sorts them, and discards the top 2 and bottom 2 outliers to neutralize optical dust motes and ripple.</li>
+              <li><strong>Standard Dust Characteristic Formula:</strong>
+                <div style="font-family:'JetBrains Mono',monospace; background:rgba(0,0,0,0.3); padding:8px 10px; border-radius:6px; margin:4px 0; font-size:0.75rem; color:#38bdf8;">
+                  Density (mg/m&sup3;) = 0.17 &times; V<sub>o</sub> - 0.1<br>
+                  PM2.5 (&mu;g/m&sup3;) = Density &times; 1000
+                </div>
+              </li>
+              <li><strong>Composite Health Index:</strong> Dynamic weighted fusion between particulate dust and gas contamination.</li>
+            </ul>
+          </div>
+
+          <!-- National AQI Spectrum Standards -->
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              </div>
+              <h3 class="p-card-title">Standardized AQI Scale</h3>
+              <span class="p-card-subtitle">[CPCB / EPA]</span>
+            </div>
+            <p>Mapped directly into official international &amp; national categories:</p>
+            <div class="aqi-scale">
+              <div class="aqi-segment aqi-good">Good<br>0-50</div>
+              <div class="aqi-segment aqi-sat">Satisfy<br>51-100</div>
+              <div class="aqi-segment aqi-mod">Moderate<br>101-200</div>
+              <div class="aqi-segment aqi-poor">Poor<br>201-300</div>
+              <div class="aqi-segment aqi-vpoor">V.Poor<br>301-400</div>
+              <div class="aqi-segment aqi-sev">Severe<br>401-500</div>
+            </div>
+            <p style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">
+              Visual dashboard needle slides along the gradient scale with instant color synchronization across 3D particle clouds.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- COLUMN 3: Software, 3D Dashboard & AI Companion -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+
+          <!-- 3D Three.js Visual Atmosphere -->
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              </div>
+              <h3 class="p-card-title">Interactive 3D WebGL</h3>
+              <span class="p-card-subtitle">[THREE.JS]</span>
+            </div>
+            <p>
+              Real-time atmospheric particle simulation embedded behind a responsive glassmorphism UI:
+            </p>
+            <ul>
+              <li><strong>Dynamic Turbulence:</strong> Particle count, velocity, and jitter increase proportionally to live PM2.5 readings.</li>
+              <li><strong>Color Responsive:</strong> Transitions smoothly from pure Emerald Cyan (Clean) to Amber (Warning) to Glowing Crimson (Hazardous).</li>
+              <li><strong>60 FPS Performance:</strong> GPU-throttled shaders maintain flawless mobile responsiveness.</li>
+            </ul>
+          </div>
+
+          <!-- Progressive Web App & Local Storage -->
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+              </div>
+              <h3 class="p-card-title">PWA &amp; IndexedDB Engine</h3>
+              <span class="p-card-subtitle">[OFFLINE-FIRST]</span>
+            </div>
+            <ul>
+              <li><strong>Zero Installation:</strong> Runs instantly in Chrome, Edge, and iOS (Bluefy) with zero app store downloads.</li>
+              <li><strong>Persistent IndexedDB:</strong> Historical telemetry survives browser restarts and mobile reboots.</li>
+              <li><strong>Multi-Horizon Filter:</strong> Instant aggregation for 1-hour, 6-hour, 24-hour, 7-day, or all-time trends.</li>
+              <li><strong>1-Tap CSV Export:</strong> Exports complete time-series records for research, laboratory calibration, and analysis.</li>
+            </ul>
+          </div>
+
+          <!-- AeroBot AI Companion & Key Highlights -->
+          <div class="p-card">
+            <div class="p-card-header">
+              <div class="p-card-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+              </div>
+              <h3 class="p-card-title">AeroBot AI Companion</h3>
+              <span class="p-card-subtitle">[INTELLIGENCE]</span>
+            </div>
+            <p>
+              Dual-engine intelligence providing proactive health intervention:
+            </p>
+            <div class="pill-grid">
+              <span class="feature-pill">🌟 Clean Air Streak &amp; Praise</span>
+              <span class="feature-pill">🗣️ Spoken Voice Coaching (TTS)</span>
+              <span class="feature-pill">⚡ Gamified XP &amp; Milestones</span>
+              <span class="feature-pill">🎤 Voice Recognition (STT)</span>
+              <span class="feature-pill">🧘 4-7-8 Breathing Guide</span>
+              <span class="feature-pill">🤖 Dynamic Avatar Moods</span>
+              <span class="feature-pill">🌐 Gemini 1.5/2.0 API Support</span>
+              <span class="feature-pill">🪴 NASA Plant Purifier Advice</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Poster Footer -->
+      <footer class="poster-footer">
+        <div class="footer-team">
+          <strong>AeroSense Research &amp; Engineering Team</strong> &bull; Exhibition Showcase 2026 &bull; ESP32 IoT &amp; Ambient Intelligence
+        </div>
+        <div class="footer-tags">
+          <span>#AirQuality</span>
+          <span>#IoT</span>
+          <span>#ESP32</span>
+          <span>#WebBLE</span>
+          <span>#ThreeJS</span>
+          <span>#OpenHardware</span>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+    }
+  </script>
+</body>
+</html>

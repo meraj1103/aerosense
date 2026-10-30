@@ -1257,6 +1257,53 @@
       box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
     }
 
+    .aerobot-mood-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 10px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #c084fc;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .aerobot-streak-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
+    }
+
+    .aerobot-avatar-box {
+      cursor: pointer;
+    }
+    .aerobot-avatar-box:hover {
+      transform: scale(1.08);
+    }
+    .aerobot-avatar-box.poked {
+      animation: botBounce 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+
+    @keyframes botBounce {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.28) rotate(-12deg); }
+      50% { transform: scale(1.18) rotate(12deg); }
+      75% { transform: scale(1.06) rotate(-4deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
     .aerobot-headline {
       font-size: 1.08rem;
       font-weight: 700;
@@ -1976,19 +2023,21 @@
       <div class="aerobot-live-card" id="aerobotLiveCard">
         <div class="aerobot-card-header">
           <div class="aerobot-header-left">
-            <div class="aerobot-avatar-box" id="aerobotAvatarBox">
+            <div class="aerobot-avatar-box" id="aerobotAvatarBox" onclick="triggerAeroBotPoke()" title="Tap me to get instant praise, energy, or tips!">
               <div class="bot-status-ring"></div>
-              <span>🤖</span>
+              <span id="aerobotAvatarEmoji">🤖</span>
             </div>
             <div class="aerobot-title-group">
               <div class="aerobot-tag-row">
                 <span class="aerobot-pill-badge">AeroBot AI</span>
                 <span class="aerobot-live-mode-tag" id="aerobotLiveStatusTag">Live Air Coach</span>
+                <span class="aerobot-mood-tag" id="aerobotMoodTag">Mood: Ecstatic ✨</span>
+                <span class="aerobot-streak-tag" id="aerobotStreakTag">🔥 0m Pure Air</span>
                 <button class="aerobot-voice-toggle-btn active" id="aerobotVoiceBtn" onclick="toggleAeroVoice()" title="Toggle Voice Alerts">
                   <span id="aerobotVoiceIcon">🔊</span> <span id="aerobotVoiceText">Voice: ON</span>
                 </button>
               </div>
-              <h3 class="aerobot-headline" id="aerobotHeadline">Ready to monitor &amp; motivate your air wellness</h3>
+              <h3 class="aerobot-headline" id="aerobotHeadline">Ready to monitor, praise &amp; motivate your air wellness</h3>
             </div>
           </div>
           <button class="btn-aerobot-chat-trigger" onclick="toggleChatDrawer(true)">
@@ -2012,6 +2061,12 @@
 
         <!-- Action Strip -->
         <div class="aerobot-actions-strip">
+          <button class="ai-quick-btn" onclick="triggerPraiseMe()" style="background:rgba(16, 185, 129, 0.16); border-color:rgba(16, 185, 129, 0.45); color:#34d399; font-weight:700;">
+            <span>🌟</span> Praise Me!
+          </button>
+          <button class="ai-quick-btn" onclick="openAeroBotWithPrompt('Give me high-energy motivation and hype me up to conquer my day!')" style="background:rgba(245, 158, 11, 0.14); border-color:rgba(245, 158, 11, 0.35); color:#fbbf24; font-weight:700;">
+            <span>⚡</span> Hype Me Up!
+          </button>
           <button class="ai-quick-btn" onclick="openAeroBotWithPrompt('How is my air right now and what is the health forecast?')">
             <span>🎯</span> Air Health Audit
           </button>
@@ -2020,9 +2075,6 @@
           </button>
           <button class="ai-quick-btn" onclick="startBreathingSession()">
             <span>🧘</span> 4-7-8 Breathing Guide
-          </button>
-          <button class="ai-quick-btn" onclick="openAeroBotWithPrompt('Give me an inspiring health and focus motivation boost!')">
-            <span>⚡</span> Motivation Boost
           </button>
           <button class="ai-quick-btn" onclick="requestNotificationPermission()">
             <span>🔔</span> Enable Alerts
@@ -2578,9 +2630,10 @@
 
     <!-- Quick Suggestions Carousel -->
     <div class="chat-suggestions-bar">
+      <button class="chat-chip" onclick="handleChipClick('Praise me for staying in good air and tell me how my body benefits!')" style="border-color:rgba(16,185,129,0.5); color:#34d399; font-weight:700;">🌟 Praise My Good Air Habit!</button>
+      <button class="chat-chip" onclick="handleChipClick('Give me high-energy motivation and hype me up to conquer my day!')" style="border-color:rgba(245,158,11,0.5); color:#fbbf24; font-weight:700;">⚡ Hype Me Up!</button>
       <button class="chat-chip" onclick="handleChipClick('How is my air right now and what is the health forecast?')">🎯 Current Air Audit</button>
       <button class="chat-chip" onclick="handleChipClick('Is it safe for outdoor exercise or running right now?')">🏃 Exercise Safety</button>
-      <button class="chat-chip" onclick="handleChipClick('Give me an inspiring health and focus motivation boost!')">⚡ Motivation Affirmation</button>
       <button class="chat-chip" onclick="handleChipClick('What immediate precautions should I take for this air level?')">⚠️ Precautions Guide</button>
       <button class="chat-chip" onclick="handleChipClick('What are the best indoor air purifying plants?')">🌱 Air Purifying Plants</button>
       <button class="chat-chip" onclick="handleChipClick('Explain how MQ-135 and Sharp GP2Y dust sensors work')">🔬 Sensor Science</button>
@@ -4170,6 +4223,13 @@
       audioCtx: null,
       speechRecognizer: null,
       isListening: false,
+      cleanAirStreakSec: 0,
+      cleanAirXp: 0,
+      lastStreakMilestone: 0,
+      lastStreakSecondTick: Date.now(),
+      pokeCount: 0,
+      botMood: "Ecstatic & Loving Clean Air ✨",
+      botFace: "🤖",
       currentReading: {
         raw: 1750,
         voltage: 1.40,
@@ -4185,28 +4245,44 @@
 
       motivationalQuotes: [
         {
-          quote: "✨ Pristine air detected! Your lungs are thanking you today. Take 5 deep breaths, step outside, or crush that workout!",
-          action: "Optimal oxygenation time. High mental clarity & productivity window."
+          quote: "✨ Pristine air detected! Your lungs are throwing a party right now. Inhale deep, step outside, or crush that workout!",
+          action: "Optimal oxygenation time. Maximum mental clarity & high productivity window."
         },
         {
           quote: "🌟 Clean air score is in the top tier! Supercharge your focus and crush your goals—your environment is primed for peak performance.",
           action: "Great time for cardio, focused studying, or opening windows for fresh air."
         },
         {
-          quote: "🌱 Fresh atmospheric baseline. Remember: deep diaphragmatic breathing increases blood oxygenation by up to 15%.",
+          quote: "🌱 You're giving your body the VIP treatment! Inhaling pure air elevates cellular ATP production and deep restorative focus.",
           action: "Try a quick 4-7-8 breathing session to center your mind and energize your body."
         },
         {
-          quote: "💪 Healthy lungs build powerful stamina. Your indoor space is a sanctuary of clean breath right now.",
-          action: "Keep indoor plants hydrated to maintain natural transpiration and humidity."
+          quote: "💪 Outstanding air discipline! Keeping indoor pollutants low lowers resting cortisol and protects your cardiovascular health.",
+          action: "Stay hydrated with pure water to keep respiratory cilia gliding smoothly."
         },
         {
-          quote: "🌿 Pure air fuels clear thoughts. High air quality enhances cognitive speed and reduces mental fatigue.",
-          action: "Make the most of this high-vitality window for high-value tasks."
+          quote: "🌿 Pure oxygen fuels brilliant thoughts. Clean air increases cognitive processing speed and reduces brain fog by up to 15%.",
+          action: "Make the most of this high-vitality window for your toughest, highest-value tasks."
         },
         {
-          quote: "🌤️ Fresh oxygen fuels cellular repair. Celebrate having clean indoor air and breathe with gratitude!",
-          action: "Stay hydrated with pure water to keep respiratory mucous membranes healthy."
+          quote: "🌤️ Fresh air sanctuary active! Notice how smooth breathing feels? Celebrate having clean indoor air and breathe with gratitude!",
+          action: "Keep indoor plants hydrated to maintain natural transpiration and oxygen flow."
+        },
+        {
+          quote: "🏆 High-five! Crisp, purified air like this is a rare luxury in modern cities—you've built yourself an oasis of longevity.",
+          action: "Posture check: Roll shoulders back, uncurl your spine, and let your lungs fully expand."
+        },
+        {
+          quote: "🔥 You are taking proactive control of your wellness! Clean air is the ultimate life hack for energy and deep sleep.",
+          action: "Pair this pure atmosphere with 5 minutes of mindful stretching."
+        },
+        {
+          quote: "🌸 Fresh atmospheric baseline confirmed. Your immune system thanks you for keeping airborne particles at bay!",
+          action: "Breathe in through your nose for 4 seconds to filter and humidify the pure air naturally."
+        },
+        {
+          quote: "🚀 Peak vitality unlocked! Oxygen levels are primed to power your workout or unleash your creative genius.",
+          action: "Crush a cardio session or dive deep into your most ambitious project right now!"
         }
       ],
 
@@ -4235,12 +4311,40 @@
           if (!ctx) return;
 
           const now = ctx.currentTime;
+
+          if (type === 'cheer') {
+            // Ascending 4-note celebration fanfare (C5 -> E5 -> G5 -> C6)
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, idx) => {
+              const noteOsc = ctx.createOscillator();
+              const noteGain = ctx.createGain();
+              noteOsc.type = 'sine';
+              noteOsc.frequency.setValueAtTime(freq, now + idx * 0.09);
+              noteGain.gain.setValueAtTime(0.18, now + idx * 0.09);
+              noteGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.35);
+              noteOsc.connect(noteGain);
+              noteGain.connect(ctx.destination);
+              noteOsc.start(now + idx * 0.09);
+              noteOsc.stop(now + idx * 0.09 + 0.35);
+            });
+            return;
+          }
+
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.connect(gain);
           gain.connect(ctx.destination);
 
-          if (type === 'clean') {
+          if (type === 'chirp') {
+            // Playful two-tone high chirp
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(783.99, now);
+            osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.08);
+            gain.gain.setValueAtTime(0.2, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+            osc.start(now);
+            osc.stop(now + 0.2);
+          } else if (type === 'clean') {
             // Cheerful two-tone chime (C5 -> G5)
             osc.type = 'sine';
             osc.frequency.setValueAtTime(523.25, now);
@@ -4275,6 +4379,47 @@
             osc.start(now);
             osc.stop(now + 1.2);
           }
+        } catch (e) {
+          console.warn("Audio tone error:", e);
+        }
+      },
+
+      pokeBot() {
+        this.pokeCount++;
+        const box = document.getElementById('aerobotAvatarBox');
+        const emoji = document.getElementById('aerobotAvatarEmoji');
+        if (box) {
+          box.classList.remove('poked');
+          void box.offsetWidth;
+          box.classList.add('poked');
+          setTimeout(() => box.classList.remove('poked'), 700);
+        }
+
+        this.playAudioTone('chirp');
+
+        const cur = this.currentReading;
+        const streakMins = Math.floor(this.cleanAirStreakSec / 60);
+
+        const pokePraises = [
+          "🌟 High five! You are doing an extraordinary job keeping your air healthy and pure today!",
+          "🫁 Boop! Your lungs are throwing a party right now with all this clean oxygen! Keep breathing deep!",
+          "💪 Proud of you! Notice that mental clarity? That is the superpower of living in clean air!",
+          `✨ High-energy cheer! You have logged ${streakMins > 0 ? streakMins + ' minutes of ' : ''}pure air time. Your body is thanking you!`,
+          "🌱 Keep shining! Clean indoor air elevates dopamine, serotonin, and cognitive focus by up to 20%!",
+          "🥳 Look at you taking charge of your environmental health! AeroSense & AeroBot are in your corner!",
+          "💧 Friendly coach reminder: Pair this crisp air with a fresh sip of water to keep your airways pristine!"
+        ];
+
+        const chosenPraise = pokePraises[Math.floor(Math.random() * pokePraises.length)];
+        this.updateLiveCard("✨ AeroBot Praise & Energy Boost", chosenPraise, cur, false);
+        this.speak(chosenPraise, true);
+
+        if (emoji) {
+          const faces = ["(＾▽＾) 🌿", "(*^▽^*) ✨", "(≧◡≦) 💖", "(•̀ᴗ•́)و ̑̑", "🤖✨"];
+          emoji.textContent = faces[Math.floor(Math.random() * faces.length)];
+          setTimeout(() => { if (emoji) emoji.textContent = this.botFace; }, 2400);
+        }
+      },
         } catch (e) {
           console.warn("Audio tone error:", e);
         }
@@ -4470,9 +4615,70 @@
         this.lastAqiCategory = aqiInfo.catIndex;
 
         // ==========================================
-        // 3. Periodic Motivation Cycling (When Clean)
+        // Clean Air Streak Tracking & Praise Engine
         // ==========================================
-        if (aqiInfo.catIndex <= 1 && (now - this.lastMotivationTime > 180000)) {
+        if (aqiInfo.catIndex <= 1) {
+          const deltaSec = (now - this.lastStreakSecondTick) / 1000;
+          if (deltaSec > 0 && deltaSec < 30) {
+            this.cleanAirStreakSec += deltaSec;
+            this.cleanAirXp += Math.round(deltaSec * 0.5);
+          }
+          this.lastStreakSecondTick = now;
+
+          const streakMins = Math.floor(this.cleanAirStreakSec / 60);
+          const streakTag = document.getElementById('aerobotStreakTag');
+          if (streakTag) {
+            streakTag.textContent = `🔥 ${streakMins}m Pure Air (+${this.cleanAirXp} XP)`;
+          }
+
+          // Check streak milestones: 3m (180s), 10m (600s), 25m (1500s), 60m (3600s)
+          const milestones = [
+            { sec: 180, title: "🌱 Milestone: 3m Fresh Breath Novice!", desc: "Awesome habit! You have spent 3 continuous minutes in pure air. Your alveoli are loving this!", xp: 50 },
+            { sec: 600, title: "🏅 Milestone: 10m Oxygen Shield Active!", desc: "10 minutes of pristine air! Inhaling pure oxygen lowers resting cortisol and sharpens focus.", xp: 150 },
+            { sec: 1500, title: "🫁 Milestone: 25m Lung Sanctuary Master!", desc: "25 minutes of continuous clean air! Your blood oxygen saturation is optimal.", xp: 300 },
+            { sec: 3600, title: "👑 Milestone: 1 Hour Pure Atmosphere Champion!", desc: "A full hour in top-tier air quality! You have prevented billions of particulate deposits.", xp: 600 }
+          ];
+
+          for (const m of milestones) {
+            if (this.cleanAirStreakSec >= m.sec && this.lastStreakMilestone < m.sec) {
+              this.lastStreakMilestone = m.sec;
+              this.playAudioTone('cheer');
+              this.updateLiveCard(m.title, m.desc, aqiInfo, false);
+              this.speak(`Congratulations! ${m.title} Keep breathing that clean air!`, true);
+              this.logChatMotivation(m.title, m.desc);
+              this.triggerSystemNotification(m.title, m.desc);
+              break;
+            }
+          }
+
+          this.botMood = aqiInfo.catIndex === 0 ? "Ecstatic & Loving Clean Air ✨" : "Fresh & Vibrant 🍃";
+          this.botFace = aqiInfo.catIndex === 0 ? "🤖✨" : "🤖🌱";
+        } else {
+          this.lastStreakSecondTick = now;
+          if (aqiInfo.catIndex === 2) {
+            this.botMood = "Vigilant & Watching Vapors 🛡️";
+            this.botFace = "🤖🌤️";
+          } else {
+            this.botMood = "Protective Shield Active 🛑";
+            this.botFace = "🤖🚨";
+          }
+          const streakTag = document.getElementById('aerobotStreakTag');
+          if (streakTag && aqiInfo.catIndex >= 3) {
+            streakTag.textContent = `⚠️ Air Degraded (Purifier Needed)`;
+          }
+        }
+
+        const moodTag = document.getElementById('aerobotMoodTag');
+        if (moodTag) moodTag.textContent = `Mood: ${this.botMood}`;
+        const avatarEmoji = document.getElementById('aerobotAvatarEmoji');
+        if (avatarEmoji && !document.getElementById('aerobotAvatarBox')?.classList.contains('poked')) {
+          avatarEmoji.textContent = this.botFace;
+        }
+
+        // ==========================================
+        // Periodic Motivation & Praise Cycling (Every 45s when clean)
+        // ==========================================
+        if (aqiInfo.catIndex <= 1 && (now - this.lastMotivationTime > 45000)) {
           this.lastMotivationTime = now;
           const item = this.motivationalQuotes[Math.floor(Math.random() * this.motivationalQuotes.length)];
           this.updateLiveCard("✨ AeroBot Wellness & Focus Coach", item.quote, aqiInfo);
@@ -4694,6 +4900,38 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
           `;
         }
 
+        // 0.4 Praise & Clean Air Habit Celebration
+        if (q.includes('praise') || q.includes('compliment') || q.includes('doing well') || q.includes('good habit') || q.includes('streak') || q.includes('praise me')) {
+          const streakMins = Math.max(1, Math.floor(this.cleanAirStreakSec / 60));
+          const xp = Math.max(50, this.cleanAirXp);
+          let praiseRank = "🌱 Fresh Oxygen Novice";
+          let praiseCheer = "You're taking conscious, proactive care of your lungs and living environment!";
+          if (streakMins >= 60) {
+            praiseRank = "👑 Pure Atmosphere Legend";
+            praiseCheer = "Unbelievable environmental discipline! You've maintained over an hour of pristine air quality!";
+          } else if (streakMins >= 25) {
+            praiseRank = "🫁 Lung Sanctuary Master";
+            praiseCheer = "Magnificent dedication! 25+ minutes in clean air has deeply purified your respiratory tract!";
+          } else if (streakMins >= 10) {
+            praiseRank = "🏅 Oxygen Shield Champion";
+            praiseCheer = "Fantastic work maintaining healthy indoor air!";
+          }
+
+          return `
+            🎉 <strong>AeroBot Personal Praise &amp; Wellness Celebration!</strong><br><br>
+            <div class="msg-card-block" style="border-color:#10b981; background:rgba(16,185,129,0.12);">
+              🌟 <strong>Current Habit Rank:</strong> <span style="color:#10b981; font-weight:800;">${praiseRank}</span><br>
+              🔥 <strong>Pure Air Streak:</strong> <strong>${streakMins} Continuous Minutes</strong> &bull; 🏅 <strong>Vitality Score:</strong> <strong>+${xp} XP</strong>
+            </div><br>
+            ${praiseCheer}<br><br>
+            <strong>What your body is gaining from this air right now:</strong><br>
+            • 🫁 <strong>Clean Alveoli:</strong> With PM2.5 at <strong>${Number(cur.dustUg).toFixed(1)} µg/m³</strong>, your lungs are absorbing pure oxygen with zero micro-particle abrasion.<br>
+            • 🧠 <strong>Peak Cognitive Output:</strong> Free of VOCs and fumes (MQ-135 ADC ${cur.raw}), your brain generates up to <strong>15% more ATP</strong>, eliminating fatigue and brain fog.<br>
+            • ❤️ <strong>Lower Stress &amp; Pulse:</strong> Pure air lowers systemic inflammation and reduces resting blood pressure.<br><br>
+            <em>"Give yourself a huge high-five! Staying in good air isn't an accident—it's your superpower!"</em> 👏✨
+          `;
+        }
+
         // 1. Current Air Status & Audit
         if (q.includes('air right now') || q.includes('how is my air') || q.includes('audit') || q.includes('status') || q.includes('current reading') || q.includes('what is the aqi')) {
           let advice = "";
@@ -4741,19 +4979,21 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
           }
         }
 
-        // 3. Motivation / Energy Boost
-        if (q.includes('motivat') || q.includes('boost') || q.includes('inspire') || q.includes('quote') || q.includes('tired') || q.includes('energy') || q.includes('mindset') || q.includes('affirmation')) {
+        // 3. Motivation, Hype & Energy Boost
+        if (q.includes('hype') || q.includes('motivat') || q.includes('boost') || q.includes('inspire') || q.includes('quote') || q.includes('tired') || q.includes('energy') || q.includes('mindset') || q.includes('affirmation')) {
           const quotes = [
+            "🚀 <strong>LETS GO!</strong> You are breathing pristine, high-octane oxygen right now! Your brain consumes 20% of your body's oxygen—turn this pure airflow into extraordinary momentum and conquer your goals!",
+            "🔥 <strong>You are unstoppable!</strong> Your lungs are clear, your environment is dialed in, and your mind is razor sharp. Stand tall, inhale deep through your nose, and crush your day!",
             "✨ *'Every breath is a fresh start.'* When your air is clean, your brain produces more serotonin and maintains neuro-focus up to 20% longer. Today is your day to excel!",
-            "🔥 *'Discipline is choosing between what you want now and what you want most.'* Your respiratory health is your ultimate superpower. Safeguard it, fuel it with clean oxygen, and reach your goals!",
-            "🌟 *'Your energy introduces you before you even speak.'* Take a moment right now: roll your shoulders back, inhale deeply through your nose for 4 seconds, and feel the vitality return to your body!",
+            "💪 *'Discipline is choosing between what you want now and what you want most.'* Your respiratory health is your ultimate superpower. Safeguard it, fuel it with clean oxygen, and reach your full potential!",
+            "🌟 *'Your energy introduces you before you even speak.'* Take a moment right now: roll your shoulders back, inhale deeply for 4 seconds, and feel the pure oxygen flooding your muscles and neurons!",
             "🌱 *'Small habits done consistently create massive transformations.'* Monitoring your air quality is proof that you value your body, your focus, and your longevity. Keep thriving!"
           ];
           const selected = quotes[Math.floor(Math.random() * quotes.length)];
           return `
             ${selected}<br><br>
-            <div class="msg-card-block">
-              🎯 <strong>AeroBot Affirmation:</strong> <em>"My mind is clear, my lungs are healthy, and I possess the energy to accomplish great things today."</em>
+            <div class="msg-card-block" style="border-color:#f59e0b; background:rgba(245,158,11,0.12); color:#fbbf24;">
+              ⚡ <strong>Power Affirmation:</strong> <em>"My mind is clear, my lungs are healthy, and I possess the energy to accomplish great things today."</em>
             </div>
           `;
         }
@@ -4994,6 +5234,24 @@ Provide concise, helpful, actionable, and inspiring advice. Keep answers under 3
         container.appendChild(welcomeDiv);
       }
       container.scrollTop = 0;
+    }
+
+    function triggerAeroBotPoke() {
+      if (window.AeroBotEngine && typeof window.AeroBotEngine.pokeBot === 'function') {
+        window.AeroBotEngine.pokeBot();
+      }
+    }
+
+    function triggerPraiseMe() {
+      if (window.AeroBotEngine) {
+        window.AeroBotEngine.pokeBot();
+        toggleChatDrawer(true);
+        const input = document.getElementById('chatInput');
+        if (input) {
+          input.value = "Praise me for staying in good air and tell me how my body benefits!";
+          sendChatMessage();
+        }
+      }
     }
 
     function toggleAeroVoice() {
